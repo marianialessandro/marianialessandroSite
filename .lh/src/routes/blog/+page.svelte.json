@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1754738071561,
@@ -16,6 +16,10 @@
                 {
                     "date": 1754739114864,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,10 +22,10 @@\n               })}\n             </p>\n           {/if}\n           <!-- {#if post.description}\n-            <p class=\"mt-2\">{post.description}</p> -->\n-          {/if}\n+            <p class=\"mt-2\">{post.description}</p>\n+          {/if} -->\n           {#if post.tags?.length}\n             <div class=\"mt-3 flex gap-2 flex-wrap\">\n               {#each post.tags as t}\n                 <span class=\"text-xs px-2 py-1 bg-black/5 rounded-full\">{t}</span>\n"
+                },
+                {
+                    "date": 1754744783773,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,39 +1,41 @@\n <script>\n-  export let data;\n+\texport let data;\n </script>\n \n <svelte:head>\n-  <title>Blog</title>\n-  <meta name=\"description\" content=\"Articoli e appunti\" />\n+\t<title>Blog</title>\n+\t<meta name=\"description\" content=\"Articoli e appunti\" />\n </svelte:head>\n \n-<section class=\"max-w-3xl mx-auto py-10\">\n-  <h1 class=\"text-3xl font-bold mb-6\">Blog</h1>\n+<section class=\"mx-auto max-w-3xl py-10\">\n+\t<h1 class=\"mb-6 text-3xl font-bold\">Blog</h1>\n \n-  <ul class=\"space-y-6\">\n-    {#each data.posts as post}\n-      <li class=\"border-b border-black/10 pb-6\">\n-        <a class=\"block group\" href={`/blog/${post.slug}`} sveltekit:prefetch>\n-          <h2 class=\"text-xl font-semibold group-hover:underline\">{post.title}</h2>\n-          {#if post.date}\n-            <p class=\"text-sm opacity-70 mt-1\">\n-              {new Date(post.date).toLocaleDateString('it-IT', {\n-                day: '2-digit', month: '2-digit', year: 'numeric'\n-              })}\n-            </p>\n-          {/if}\n-          <!-- {#if post.description}\n+\t<ul class=\"space-y-6\">\n+\t\t{#each data.posts as post}\n+\t\t\t<li class=\"border-b border-black/10 pb-6\">\n+\t\t\t\t<a class=\"group block\" href={`/blog/${post.slug}`} data-sveltekit-preload-data=\"hover\">\n+\t\t\t\t\t<h2 class=\"text-xl font-semibold group-hover:underline\">{post.title}</h2>\n+\t\t\t\t\t{#if post.date}\n+\t\t\t\t\t\t<p class=\"mt-1 text-sm opacity-70\">\n+\t\t\t\t\t\t\t{new Date(post.date).toLocaleDateString('it-IT', {\n+\t\t\t\t\t\t\t\tday: '2-digit',\n+\t\t\t\t\t\t\t\tmonth: '2-digit',\n+\t\t\t\t\t\t\t\tyear: 'numeric'\n+\t\t\t\t\t\t\t})}\n+\t\t\t\t\t\t</p>\n+\t\t\t\t\t{/if}\n+\t\t\t\t\t<!-- {#if post.description}\n             <p class=\"mt-2\">{post.description}</p>\n           {/if} -->\n-          {#if post.tags?.length}\n-            <div class=\"mt-3 flex gap-2 flex-wrap\">\n-              {#each post.tags as t}\n-                <span class=\"text-xs px-2 py-1 bg-black/5 rounded-full\">{t}</span>\n-              {/each}\n-            </div>\n-          {/if}\n-        </a>\n-      </li>\n-    {/each}\n-  </ul>\n+\t\t\t\t\t{#if post.tags?.length}\n+\t\t\t\t\t\t<div class=\"mt-3 flex flex-wrap gap-2\">\n+\t\t\t\t\t\t\t{#each post.tags as t}\n+\t\t\t\t\t\t\t\t<span class=\"rounded-full bg-black/5 px-2 py-1 text-xs\">{t}</span>\n+\t\t\t\t\t\t\t{/each}\n+\t\t\t\t\t\t</div>\n+\t\t\t\t\t{/if}\n+\t\t\t\t</a>\n+\t\t\t</li>\n+\t\t{/each}\n+\t</ul>\n </section>\n"
                 }
             ],
             "date": 1754738071561,

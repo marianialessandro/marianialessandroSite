@@ -1,0 +1,34 @@
+{
+    "sourceFile": ".gitignore",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1754744923197,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1754744938698,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,10 @@\n .wrangler\n /.svelte-kit\n /build\n \n+/src/lib\n \n-\n # OS\n .DS_Store\n Thumbs.db\n \n"
+                },
+                {
+                    "date": 1754744945308,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n .wrangler\n /.svelte-kit\n /build\n \n-/src/lib\n+/src/posts\n \n # OS\n .DS_Store\n Thumbs.db\n"
+                },
+                {
+                    "date": 1754744957750,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,4 +22,5 @@\n \n # Vite\n vite.config.js.timestamp-*\n vite.config.ts.timestamp-*\n+src/posts/hello-world.md\n"
+                },
+                {
+                    "date": 1754744970952,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,10 +7,8 @@\n .wrangler\n /.svelte-kit\n /build\n \n-/src/posts\n-\n # OS\n .DS_Store\n Thumbs.db\n \n@@ -22,5 +20,5 @@\n \n # Vite\n vite.config.js.timestamp-*\n vite.config.ts.timestamp-*\n-src/posts/hello-world.md\n+src/posts/\n"
+                }
+            ],
+            "date": 1754744923197,
+            "name": "Commit-0",
+            "content": "node_modules\n\n# Output\n.output\n.vercel\n.netlify\n.wrangler\n/.svelte-kit\n/build\n\n\n\n# OS\n.DS_Store\nThumbs.db\n\n# Env\n.env\n.env.*\n!.env.example\n!.env.test\n\n# Vite\nvite.config.js.timestamp-*\nvite.config.ts.timestamp-*\n"
+        }
+    ]
+}

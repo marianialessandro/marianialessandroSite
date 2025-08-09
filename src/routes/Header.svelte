@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 </script>
 
-<header class="site-header" role="banner">
+<header class="site-header">
 	<div class="container">
 		<a class="brand" href="/" aria-label="Home">LB</a>
 
@@ -23,7 +23,9 @@
 </header>
 
 <style>
-	:root { color-scheme: light; }
+	:root {
+		color-scheme: light;
+	}
 
 	.site-header {
 		position: sticky;
@@ -36,20 +38,23 @@
 	.container {
 		max-width: var(--column-width, 44rem);
 		margin: 0 auto;
-		padding: .9rem 1.2rem;
+		padding: 0.9rem 1.2rem;
 		display: flex;
 		align-items: center;
 		gap: 1rem;
 	}
 	/* centra il nav tra brand e lato destro */
-	.container nav { margin-inline: auto; }
+	.container nav {
+		margin-inline: auto;
+	}
 
 	/* brand */
 	.brand {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 2.25rem; height: 2.25rem;
+		width: 2.25rem;
+		height: 2.25rem;
 		border: 1px solid var(--color-border, #e5e7eb);
 		border-radius: 8px;
 		font-weight: 700;
@@ -57,49 +62,62 @@
 		color: var(--color-text, #0a0a0a);
 		text-decoration: none;
 	}
-	.brand:hover { background: #f9fafb; }
+	.brand:hover {
+		background: #f9fafb;
+	}
 
 	/* NAV — box uniformi e allineamento perfetto */
-	nav ul{
-		display:flex;
-		align-items:center;
-		gap:1.1rem;
-		list-style:none;
-		margin:0; padding:0;
+	nav ul {
+		display: flex;
+		align-items: center;
+		gap: 1.1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
-	nav li{
-		display:flex;
-		height:2.25rem;          /* altezza fissa per ogni voce */
+	nav li {
+		display: flex;
+		height: 2.25rem; /* altezza fissa per ogni voce */
 	}
-	nav a{
+	nav a {
 		/* box stabile + centrato */
-		position:relative;
-		display:grid;
-		place-items:center;
-		height:100%;
-		padding:0 .5rem;
-		line-height:1;
-		font-weight:500;
-		color:var(--color-text,#0a0a0a);
-		text-decoration:none;     /* niente underline nativa */
+		position: relative;
+		display: grid;
+		place-items: center;
+		height: 100%;
+		padding: 0 0.5rem;
+		line-height: 1;
+		font-weight: 500;
+		color: var(--color-text, #0a0a0a);
+		text-decoration: none; /* niente underline nativa */
 	}
 
 	/* “underline” disegnata a mano, identica per tutti */
-	nav a::after{
-		content:"";
-		position:absolute;
-		left:.5rem; right:.5rem; bottom:0;
-		height:1px;
-		background:transparent;
+	nav a::after {
+		content: '';
+		position: absolute;
+		left: 0.5rem;
+		right: 0.5rem;
+		bottom: 0;
+		height: 1px;
+		background: transparent;
 	}
 	/* hover: mostra la linea */
-	nav a:hover::after{ background:rgba(0,0,0,.35); }
+	nav a:hover::after {
+		background: rgba(0, 0, 0, 0.35);
+	}
 
 	/* pagina corrente: bold + linea piena */
-	li[aria-current='page'] a{ font-weight:700; }
-	li[aria-current='page'] a::after{ background:currentColor; }
+	li[aria-current='page'] a {
+		font-weight: 700;
+	}
+	li[aria-current='page'] a::after {
+		background: currentColor;
+	}
 
 	@media (max-width: 640px) {
-		nav ul { gap: .75rem; }
+		nav ul {
+			gap: 0.75rem;
+		}
 	}
 </style>
