@@ -6,7 +6,7 @@
 	export let Content: any;
 	export let meta: { title?: string; description?: string; date?: string } = {};
 	export let showTitleFromMeta: boolean = true;
-    /* export let data: any; */
+	/* export let data: any; */
 
 	type H = { id: string; text: string; level: number };
 	let headings: H[] = [];
@@ -76,6 +76,11 @@
 </div>
 
 <style>
+	:root {
+		/* margine esterno sinistro della sidebar (modifica a piacere) */
+		--toc-outer-margin: clamp(16px, 2vw, 32px);
+	}
+
 	:global(:root) {
 		--post-max-width: 70ch;
 		--post-font-serif: inherit;
@@ -95,27 +100,20 @@
 
 		/* larghezza sidebar indice */
 		--toc-w: 260px;
-		--gap: 24px;
+		--gap: 32px;
 	}
 
 	/* ——— Layout a due colonne ——— */
 	.post-layout {
 		display: grid;
-		grid-template-columns: var(--toc-w) minmax(0, 1fr);
-		gap: var(--gap);
-		align-items: start;
-		max-width: calc(var(--post-max-width) + var(--toc-w) + var(--gap) + 48px);
-		margin: 0 auto;
+		grid-template-columns: minmax(0, 1fr);
+		max-width: calc(var(--post-max-width) + 48px);
+		margin: 0 auto; /* ← centro pagina */
 		padding: clamp(16px, 2.5vw, 28px) 16px 80px;
 	}
 
 	.toc-wrap {
 		display: none; /* mobile: nascosto */
-	}
-	@media (min-width: 1024px) {
-		.toc-wrap {
-			display: block;
-		}
 	}
 
 	/* ——— Contenitore ——— */
@@ -325,6 +323,46 @@
 	@media (min-width: 1100px) {
 		:global(:root) {
 			--post-max-width: 72ch;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.toc-wrap {
+			position: fixed;
+			top: 96px;
+			bottom: 24px;
+			left: max(env(safe-area-inset-left), var(--toc-outer-margin)); /* ← margine dal bordo */
+			right: auto;
+			width: var(--toc-w);
+			overflow: auto;
+			padding-right: 16px;
+			border-right: 1px solid var(--post-border);
+			display: block;
+		}
+	}
+
+	/* desktop “medio”: fallback sticky dentro al grid */
+	@media (min-width: 1024px) and (max-width: 1199.98px) {
+		.post-layout {
+			grid-template-columns: var(--toc-w) minmax(0, 1fr);
+			max-width: calc(var(--post-max-width) + var(--toc-w) + var(--gap) + 48px);
+			gap: var(--gap);
+		}
+		.toc-wrap {
+			position: sticky;
+			top: 96px;
+			max-height: calc(100vh - 96px);
+			overflow: auto;
+			display: block;
+			border-right: 1px solid var(--post-border);
+			padding-right: 16px;
+		}
+	}
+
+	/* mobile: nascondi ToC */
+	@media (max-width: 1023.98px) {
+		.toc-wrap {
+			display: none;
 		}
 	}
 </style>

@@ -35,10 +35,9 @@
 
 <style>
 	.toc {
-		position: sticky;
-		top: 96px; /* regola se hai una topbar */
-		max-height: calc(100vh - 96px);
-		overflow: auto;
+		/* via lo sticky: ci pensa l’aside */
+		max-height: none;
+		overflow: visible;
 		padding: 12px 8px;
 		font-family: var(--post-font-sans, system-ui, sans-serif);
 	}
