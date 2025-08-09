@@ -14,7 +14,7 @@
 
 	<footer>
 		<p>
-			visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to learn about SvelteKit
+			Copyright © 2025 Alessandro Mariani All rights reserved
 		</p>
 	</footer>
 </div>
