@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/routes/blog/[slug]/+page.svelte",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1754738098607,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1754741527296,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,14 @@\n+<!-- src/routes/blog/[slug]/+page.svelte -->\n+<script lang=\"ts\">\n+  export let data;\n+  import PostLayout from '$lib/components/PostLayout.svelte';\n+</script>\n+\n+<svelte:head>\n+  <title>{data.meta.title}</title>\n+  {#if data.meta.description}\n+    <meta name=\"description\" content={data.meta.description} />\n+  {/if}\n+</svelte:head>\n+\n+<PostLayout {data} Content={data.Content} meta={data.meta} />\n"
+                },
+                {
+                    "date": 1754741653152,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n <!-- src/routes/blog/[slug]/+page.svelte -->\n <script lang=\"ts\">\n   export let data;\n-  import PostLayout from '$lib/components/PostLayout.svelte';\n+  import PostLayout from '$lib/layouts/PostLayout.svelte';\n </script>\n \n <svelte:head>\n   <title>{data.meta.title}</title>\n"
+                }
+            ],
+            "date": 1754738098607,
+            "name": "Commit-0",
+            "content": ""
+        }
+    ]
+}

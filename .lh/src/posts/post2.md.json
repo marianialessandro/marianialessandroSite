@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/posts/post2.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754738894504,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754738894504,
+            "name": "Commit-0",
+            "content": "---\ntitle: \"Hello world\"\ndate: \"2025-08-01\"\ndescription: \"Il primo post del blog\"\ntags: [\"intro\", \"sveltekit\"]\ndraft: false\n---\n\nBenvenuto nel mio blog! **Questo** è un post scritto in Markdown.\n\n- Punto 1\n- Punto 2\n\n> Suggerimento: usa il front-matter `draft: true` per nascondere un post dalla lista.\n"
+        }
+    ]
+}

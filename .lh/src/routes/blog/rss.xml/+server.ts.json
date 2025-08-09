@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/routes/blog/rss.xml/+server.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754738116606,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754738116606,
+            "name": "Commit-0",
+            "content": "import type { RequestHandler } from './$types';\nimport { allPosts } from '$lib/posts';\n\nexport const prerender = true;\n\nexport const GET: RequestHandler = async () => {\n  const site = 'https://tuodominio.it'; // <-- aggiorna!\n\n  const items = allPosts.map((p) => `\n    <item>\n      <title><![CDATA[${p.meta.title}]]></title>\n      <link>${site}/blog/${p.slug}</link>\n      <guid isPermaLink=\"true\">${site}/blog/${p.slug}</guid>\n      <pubDate>${new Date(p.meta.date).toUTCString()}</pubDate>\n      <description><![CDATA[${p.meta.description ?? ''}]]></description>\n    </item>\n  `).join('');\n\n  const xml = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <rss version=\"2.0\">\n    <channel>\n      <title>Blog</title>\n      <link>${site}/blog</link>\n      <description>Ultimi articoli</description>\n      ${items}\n    </channel>\n  </rss>`;\n\n  return new Response(xml, {\n    headers: { 'Content-Type': 'application/rss+xml; charset=utf-8' }\n  });\n};\n"
+        }
+    ]
+}

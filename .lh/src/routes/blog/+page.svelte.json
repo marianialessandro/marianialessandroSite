@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/routes/blog/+page.svelte",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1754738071561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1754739105737,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,10 +21,10 @@\n                 day: '2-digit', month: '2-digit', year: 'numeric'\n               })}\n             </p>\n           {/if}\n-          {#if post.description}\n-            <p class=\"mt-2\">{post.description}</p>\n+          <!-- {#if post.description}\n+            <p class=\"mt-2\">{post.description}</p> -->\n           {/if}\n           {#if post.tags?.length}\n             <div class=\"mt-3 flex gap-2 flex-wrap\">\n               {#each post.tags as t}\n"
+                },
+                {
+                    "date": 1754739114864,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,10 +22,10 @@\n               })}\n             </p>\n           {/if}\n           <!-- {#if post.description}\n-            <p class=\"mt-2\">{post.description}</p> -->\n-          {/if}\n+            <p class=\"mt-2\">{post.description}</p>\n+          {/if} -->\n           {#if post.tags?.length}\n             <div class=\"mt-3 flex gap-2 flex-wrap\">\n               {#each post.tags as t}\n                 <span class=\"text-xs px-2 py-1 bg-black/5 rounded-full\">{t}</span>\n"
+                }
+            ],
+            "date": 1754738071561,
+            "name": "Commit-0",
+            "content": "<script>\n  export let data;\n</script>\n\n<svelte:head>\n  <title>Blog</title>\n  <meta name=\"description\" content=\"Articoli e appunti\" />\n</svelte:head>\n\n<section class=\"max-w-3xl mx-auto py-10\">\n  <h1 class=\"text-3xl font-bold mb-6\">Blog</h1>\n\n  <ul class=\"space-y-6\">\n    {#each data.posts as post}\n      <li class=\"border-b border-black/10 pb-6\">\n        <a class=\"block group\" href={`/blog/${post.slug}`} sveltekit:prefetch>\n          <h2 class=\"text-xl font-semibold group-hover:underline\">{post.title}</h2>\n          {#if post.date}\n            <p class=\"text-sm opacity-70 mt-1\">\n              {new Date(post.date).toLocaleDateString('it-IT', {\n                day: '2-digit', month: '2-digit', year: 'numeric'\n              })}\n            </p>\n          {/if}\n          {#if post.description}\n            <p class=\"mt-2\">{post.description}</p>\n          {/if}\n          {#if post.tags?.length}\n            <div class=\"mt-3 flex gap-2 flex-wrap\">\n              {#each post.tags as t}\n                <span class=\"text-xs px-2 py-1 bg-black/5 rounded-full\">{t}</span>\n              {/each}\n            </div>\n          {/if}\n        </a>\n      </li>\n    {/each}\n  </ul>\n</section>\n"
+        }
+    ]
+}
