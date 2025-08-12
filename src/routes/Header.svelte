@@ -4,8 +4,6 @@
 
 <header class="site-header">
 	<div class="container">
-		<a class="brand" href="/" aria-label="Home">LB</a>
-
 		<nav aria-label="Primary">
 			<ul>
 				<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
@@ -13,9 +11,6 @@
 				</li>
 				<li aria-current={page.url.pathname.startsWith('/blog') ? 'page' : undefined}>
 					<a href="/blog">Blog</a>
-				</li>
-				<li aria-current={page.url.pathname === '/about' ? 'page' : undefined}>
-					<a href="/about">About</a>
 				</li>
 			</ul>
 		</nav>
@@ -46,24 +41,6 @@
 	/* centra il nav tra brand e lato destro */
 	.container nav {
 		margin-inline: auto;
-	}
-
-	/* brand */
-	.brand {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.25rem;
-		height: 2.25rem;
-		border: 1px solid var(--color-border, #e5e7eb);
-		border-radius: 8px;
-		font-weight: 700;
-		letter-spacing: -0.01em;
-		color: var(--color-text, #0a0a0a);
-		text-decoration: none;
-	}
-	.brand:hover {
-		background: #f9fafb;
 	}
 
 	/* NAV — box uniformi e allineamento perfetto */
