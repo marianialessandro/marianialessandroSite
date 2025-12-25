@@ -1,46 +1,39 @@
-name: Build and Deploy Preview
+name: CD - Deploy to Production
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+  # Opzionale: permette di lanciare il deploy manualmente dalla tab Actions
+  workflow_dispatch:
 
 jobs:
-  web-deploy:
-    name: Build and Deploy
+  deploy:
+    name: Deploy to FTP
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout del codice
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      # 2. Setup dell'ambiente Node.js
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # O la versione che usi localmente
+          node-version: '20'
           cache: 'npm'
 
-      # 3. Installazione dipendenze
-      # Usa 'npm ci' invece di 'npm install' per build riproducibili (usa il lockfile)
       - name: 📦 Install dependencies
         run: npm ci
 
-      # 4. Build del progetto Svelte
       - name: 🔨 Build Project
         run: npm run build
 
-      # 5. Upload via FTP
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # La cartella locale generata dalla build (spesso 'build' per SvelteKit o 'dist' per Vite)
           local-dir: ./build/
-          # La cartella remota sul server dove caricare i file
           server-dir: ./public_html/
-          # Opzionale: Cancella i file remoti non presenti in locale (sync distruttivo)
           dangerous-clean-slate: true
