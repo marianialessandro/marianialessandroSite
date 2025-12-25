@@ -9,7 +9,6 @@ draft: false
 # Intestazione nel contenuto (H1)
 
 Questo post serve per **testare** il layout. Contiene esempi di _quasi tutto_.  
-Prova anche l’ancora interna: [vai alla sezione con accénti](#sezione-con-accenti-simboli).
 
 > Nota: il titolo sopra è un H1 nel contenuto e **deve apparire** nel ToC.
 > Il titolo preso dal front-matter (`meta.title`) viene reso con `.post-title` e **non** deve comparire nel ToC.
