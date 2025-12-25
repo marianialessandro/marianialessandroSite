@@ -4,16 +4,50 @@
 	const role = 'Computer Science Student';
 
 	const bio =
-		'I am a Computer Science student from the University of Pisa with a long-standing passion for algorithms and software engineering. I have always engaged in challenging my skills with personal projects that could potentially have a real-world impact, beyond academic theory.';
+		'After completing my B.Sc. in Computer Science at the University of Pisa, I am currently pursuing an M.Sc. in Computer Science there. I enjoy building real-world software solutions, with a strong interest in systems programming, networking, and sustainability. I like exploring how thoughtful design and optimization can improve both performance and energy efficiency. My goal is to keep learning, experimenting, and creating projects that are technically solid and have real-world impact beyond academic theory.';
 
-	// Nuovo passaggio: laurea triennale + tesi (tra hero e contact)
+	// Tesi
 	const bscThesisTitle = 'Guaranteed-latency network traffic: a declarative and sustainable approach';
 	const bscThesisPassage =
-		`I recently completed my B.Sc. in Computer Science at the University of Pisa. ` +
-		`In my thesis, “${bscThesisTitle}”, I explored how to route long-lived network flows while preserving strict end-to-end latency guarantees, using a declarative approach. ` +
+		`In my B.Sc. thesis, “${bscThesisTitle}”, I explored how to route low-latency traffic through constrained networks while providing end-to-end latency guarantees, using a declarative approach. ` +
 		`The work also considers sustainability goals, optimizing routing decisions to reduce energy costs and carbon footprint without compromising timing constraints.`;
 
-    const photo = '/images/laureaMeSquare.png';
+	// PROGETTI: modifica liberamente questa lista
+	type Project = {
+		title: string;
+		description: string;
+		tags?: string[];
+		links?: { label: string; href: string }[];
+	};
+
+	const projects: Project[] = [
+		{
+			title: 'Project One',
+			description:
+				'Short description of what it does, why you built it, and what makes it interesting (2–3 lines).',
+			tags: ['SvelteKit', 'TypeScript', 'Web'],
+			links: [
+				{ label: 'GitHub', href: 'https://github.com/marianialessandro' },
+				{ label: 'Live demo', href: 'https://example.com' }
+			]
+		},
+		{
+			title: 'Project Two',
+			description:
+				'Another project: highlight the core idea, the hardest part, or a measurable result (performance, features, etc.).',
+			tags: ['Networking', 'C', 'Linux'],
+			links: [{ label: 'GitHub', href: 'https://github.com/marianialessandro' }]
+		},
+		{
+			title: 'Project Three',
+			description:
+				'If you have a thesis-related prototype or tool, this is a great place to show it with a concise explanation.',
+			tags: ['Research', 'Sustainability'],
+			links: [{ label: 'Read more', href: 'https://example.com' }]
+		}
+	];
+
+	const photo = '/images/laureaMeSquare.png';
 	const email = 'mailto:alessandro@marianialessandro.com';
 	const github = 'https://github.com/marianialessandro';
 	const linkedin = 'https://www.linkedin.com/in/alessandro-mariani-7a53981aa/';
@@ -24,243 +58,459 @@
 	<meta name="description" content={`${name} · ${role}. Portfolio, progetti e contatti.`} />
 </svelte:head>
 
-<section class="hero">
-	<div class="copy">
-		<p class="eyebrow">Hi! 👋 I'm</p>
-		<h1>{name}</h1>
-		<p class="role">{role}</p>
-		<p class="lede">{bio}</p>
+<a class="skip" href="#content">Skip to content</a>
 
-		<nav class="social" aria-label="Social">
-			<a href={github} target="_blank" rel="noreferrer" aria-label="GitHub" class="icon">
-				<svg viewBox="0 0 24 24" aria-hidden="true"
-					><path
-						d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.24-3.23-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.31 1.23a11.5 11.5 0 0 1 6.02 0c2.3-1.55 3.31-1.23 3.31-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.92 1.24 3.23 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.69.83.57A12 12 0 0 0 12 .5z"
-					/></svg
-				>
-			</a>
-			<a href={linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" class="icon">
-				<svg viewBox="0 0 24 24" aria-hidden="true"
-					><path
-						d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM14.5 9A4.5 4.5 0 0 1 19 13.5V21h-4v-6c0-1.38-1.12-2.5-2.5-2.5S10 13.62 10 15v6H6v-12h4v1.6c.7-1 1.95-1.6 3.5-1.6z"
-					/></svg
-				>
-			</a>
-		</nav>
-	</div>
+<main id="content">
+	<section class="hero" aria-labelledby="hero-title">
+		<div class="hero-copy">
+			<p class="eyebrow">Hi! 👋 I&apos;m</p>
+			<h1 id="hero-title">{name}</h1>
+			<p class="role">{role}</p>
+			<p class="lede">{bio}</p>
 
-	<div class="portrait">
-		<img src={photo} alt={`Foto di ${name}`} width="320" height="320" />
-	</div>
-</section>
+			<nav class="social" aria-label="Social links">
+				<a href={github} target="_blank" rel="noreferrer" aria-label="GitHub" class="icon">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.74.08-.74 1.2.08 1.83 1.24 1.83 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.47 5.92.43.38.81 1.1.81 2.22v3.29c0 .32.21.69.83.57A12 12 0 0 0 12 .5z"
+						/>
+					</svg>
+				</a>
 
-<!-- Sezione tra hero e contact (senza titolo) -->
-<section class="thesis" id="thesis">
-	<p class="thesis-lede">{bscThesisPassage}</p>
-</section>
+				<a href={linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" class="icon">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21 8.65 22 10.82 22 13.62V21h-4v-6.19c0-1.47-.03-3.37-2.06-3.37-2.06 0-2.38 1.6-2.38 3.26V21H10V9z"
+						/>
+					</svg>
+				</a>
 
-<section class="contact" id="contact">
-	<h2>Get in Touch</h2>
-	<p>
-		Want to chat or collaborate? Just shoot me a message
-		<a href={linkedin} target="_blank" rel="noreferrer" class="no-arrow">on LinkedIn</a>
-		or <a href={email} class="no-arrow">via email</a>,
-		and I’ll respond whenever I can.
-	</p>
-</section>
+				<a href={email} aria-label="Email" class="icon">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+						/>
+					</svg>
+				</a>
+			</nav>
+		</div>
+
+		<figure class="portrait" aria-label="Portrait">
+			<div class="portrait-frame">
+				<img src={photo} alt={`Foto di ${name}`} width="320" height="320" loading="eager" />
+			</div>
+		</figure>
+	</section>
+
+	<section class="thesis" id="thesis" aria-labelledby="thesis-title">
+		<div class="card">
+			<p class="kicker">B.Sc. Thesis</p>
+			<h2 id="thesis-title">{bscThesisTitle}</h2>
+			<p class="thesis-lede">{bscThesisPassage}</p>
+
+			<div class="meta" aria-label="Topics">
+				<span class="chip">Networking</span>
+				<span class="chip">Declarative systems</span>
+				<span class="chip">Sustainability</span>
+			</div>
+		</div>
+	</section>
+
+	<section class="contact" id="contact" aria-labelledby="contact-title">
+		<div class="card">
+			<h2 id="contact-title">Get in touch</h2>
+			<p>
+				Want to chat or collaborate? Message me on LinkedIn or send an email.
+			</p>
+
+			<div class="cta-row contact-cta">
+				<a class="btn primary" href={email}>Email me</a>
+				<a class="btn ghost" href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+			</div>
+		</div>
+	</section>
+</main>
 
 <style>
 	:root {
 		--bg: #ffffff;
-		--fg: #000000; /* TESTO SEMPRE NERO */
-		--muted: #6b7280;
+		--fg: #0b0f14;
+		--muted: #4b5563;
 		--line: #e5e7eb;
-		--brand: #ff3e00;
+		--accent: #ff3e00;
 
-		/* più stretto: riduce lo spazio tra hero e thesis */
-		--gap-hero-thesis: clamp(0.35rem, 1.6vw, 0.9rem);
+		--radius: 16px;
+		--shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 10px 30px rgba(0, 0, 0, 0.06);
+		--container: min(1120px, calc(100% - 2rem));
 	}
 
-	section.hero {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        align-items: center;
+	/* Sfondo SEMPRE bianco */
+	:global(html),
+	:global(body) {
+		background: var(--bg);
+		color: var(--fg);
+	}
 
-        max-width: 1200px;   /* <- QUI */
-        margin: 0 auto;
+	:global(body) {
+		margin: 0;
+		font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji',
+			'Segoe UI Emoji';
+		line-height: 1.5;
+	}
 
-        padding: clamp(2rem, 6vw, 5rem) 1.25rem var(--gap-hero-thesis);
-        min-height: 60vh;
-        color: var(--fg);
-    }
-	@media (min-width: 880px) {
-		section.hero {
-			grid-template-columns: 1.1fr 0.9fr; /* testo | foto */
+	:global(*) {
+		box-sizing: border-box;
+	}
+
+	:global(::selection) {
+		background: rgba(255, 62, 0, 0.18);
+	}
+
+	:global(a) {
+		color: inherit;
+		text-decoration-color: rgba(255, 62, 0, 0.45);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+	}
+
+	:global(a:hover) {
+		color: var(--accent);
+		text-decoration-color: var(--accent);
+	}
+
+	:global(a:focus-visible) {
+		outline: 3px solid rgba(255, 62, 0, 0.35);
+		outline-offset: 3px;
+		border-radius: 10px;
+	}
+
+	.skip {
+		position: absolute;
+		left: -999px;
+		top: 0.75rem;
+		z-index: 9999;
+		padding: 0.6rem 0.9rem;
+		background: var(--bg);
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		box-shadow: var(--shadow);
+	}
+
+	.skip:focus {
+		left: 0.75rem;
+	}
+
+	main {
+		width: var(--container);
+		margin: 0 auto;
+		padding: clamp(1.25rem, 3vw, 2rem) 0 3.5rem;
+	}
+
+	.hero {
+		display: grid;
+		gap: clamp(1.5rem, 5vw, 3rem);
+		align-items: center;
+		padding: clamp(1.5rem, 5vw, 3rem) 0;
+		border-bottom: 1px solid var(--line);
+	}
+
+	@media (min-width: 900px) {
+		.hero {
+			grid-template-columns: 1.2fr 0.8fr;
 		}
 	}
 
-	.copy .eyebrow {
-		font-size: 0.9rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--muted);
+	.eyebrow {
 		margin: 0 0 0.5rem 0;
+		font-size: 0.95rem;
+		color: var(--muted);
+		letter-spacing: 0.02em;
 	}
 
 	h1 {
-		font-size: clamp(2rem, 6vw, 3.5rem);
-		line-height: 1.05;
-		margin: 0 0 0.25rem 0;
-	}
-
-	.role {
-		font-size: clamp(1.05rem, 2.2vw, 1.2rem);
-		color: var(--muted);
-		margin: 0 0 1.25rem 0;
-	}
-
-	.lede {
-		font-size: clamp(1rem, 1.6vw, 1.125rem);
-		line-height: 1.6;
-		max-width: 60ch;
-		margin: 0 0 1.25rem 0;
-	}
-
-	.social {
-		display: flex;
-		gap: 0.75rem;
-		margin-top: 0.25rem;
-	}
-	.icon {
-		width: 40px;
-		height: 40px;
-		border-radius: 999px;
-		display: grid;
-		place-items: center;
-		border: 1px solid var(--line);
-		color: var(--fg);
-		text-decoration: none;
-	}
-	.icon svg {
-		width: 20px;
-		height: 20px;
-		fill: currentColor;
-	}
-	.icon:hover {
-		transform: translateY(-1px);
-	}
-
-	.portrait {
-		display: grid;
-		place-items: center;
-	}
-	.portrait img {
-		border-radius: 50%;
-		width: clamp(160px, 28vw, 320px);
-		height: clamp(160px, 28vw, 320px);
-		object-fit: cover;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-		border: 1px solid var(--line);
-	}
-
-	/* --- Thesis (testo più largo) --- */
-	section.thesis {
-		max-width: 1200px; /* allargato */
-		margin: 0 auto;
-
-		/* top ridotto per avvicinarsi alla hero */
-		padding: var(--gap-hero-thesis) 1.25rem clamp(1.5rem, 5vw, 3.5rem);
-
-		color: var(--fg);
-	}
-
-	.thesis-lede {
-		font-size: clamp(1rem, 1.7vw, 1.125rem);
-		line-height: 1.75;
-		max-width: 90ch; /* allargato */
 		margin: 0;
-		color: var(--fg);
-	}
-
-	/* --- Get in Touch --- */
-	section.contact {
-		max-width: 900px;
-		margin: 0 auto;
-		padding: clamp(2rem, 6vw, 5rem) 1.25rem;
-		border-top: 1px solid var(--line);
-	}
-
-	section.contact h2 {
-		font-size: clamp(1.25rem, 2.4vw, 1.5rem);
-		margin: 0 0 0.75rem 0;
-		letter-spacing: 0.02em;
+		font-size: clamp(2.1rem, 4vw, 3.2rem);
+		line-height: 1.06;
+		letter-spacing: -0.04em;
 		text-wrap: balance;
 	}
 
-	section.contact p {
-		font-size: clamp(1rem, 1.7vw, 1.125rem);
-		line-height: 1.7;
-		max-width: 60ch;
-		margin: 0;
-		color: var(--fg); /* sempre nero */
+	.role {
+		margin: 0.6rem 0 0 0;
+		font-size: clamp(1.05rem, 2vw, 1.2rem);
+		color: var(--muted);
 	}
 
-	/* Link “cta” con sottolineatura accent color e freccia */
-	section.contact a {
+	.lede {
+		margin: 1rem 0 0 0;
+		font-size: clamp(1rem, 1.6vw, 1.125rem);
+		line-height: 1.75;
+		max-width: 62ch;
 		color: var(--fg);
-		font-weight: 600;
-		text-decoration: underline;
-		text-decoration-thickness: 2px;
-		text-underline-offset: 0.2em;
-		text-decoration-color: rgba(255, 62, 0, 0.45); /* var(--brand) soft */
-		transition:
-			text-decoration-color 140ms ease,
-			transform 140ms ease;
+	}
+
+	.social {
+		margin-top: 1.1rem;
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	.icon {
+		display: inline-grid;
+		place-items: center;
+		width: 42px;
+		height: 42px;
+		border-radius: 999px;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		background: #fff;
+		text-decoration: none;
+		transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+	}
+
+	.icon:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+		border-color: rgba(0, 0, 0, 0.18);
+	}
+
+	.icon svg {
+		width: 18px;
+		height: 18px;
+		fill: currentColor;
+	}
+
+	.portrait {
+		margin: 0;
+		display: grid;
+		place-items: center;
+	}
+
+	.portrait-frame {
 		position: relative;
+		width: min(320px, 72vw);
+		aspect-ratio: 1 / 1;
+		border-radius: 28px;
+		overflow: hidden;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		box-shadow: var(--shadow);
 	}
 
-	section.contact a::after {
-		content: '↗';
-		margin-left: 0.25rem;
-		opacity: 0.6;
-		transition:
-			transform 140ms ease,
-			opacity 140ms ease;
+	.portrait-frame::before {
+		content: '';
+		position: absolute;
+		inset: -40%;
+		background: radial-gradient(circle at 30% 20%, rgba(255, 62, 0, 0.22), transparent 45%),
+			radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.12), transparent 55%);
+		transform: rotate(10deg);
+		pointer-events: none;
 	}
 
-	section.contact a:focus-visible {
-		outline: 2px solid var(--brand);
-		outline-offset: 3px;
+	.portrait img {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
 
-	/* opzionale: centratura su schermi piccoli */
-	@media (max-width: 520px) {
-		section.contact {
-			text-align: center;
-		}
-		section.contact p {
-			margin-left: auto;
-			margin-right: auto;
-		}
+	section.thesis,
+	section.projects,
+	section.contact {
+		padding: clamp(1.25rem, 3vw, 2rem) 0;
+	}
 
-		section.thesis {
-			text-align: center;
-		}
-		.thesis-lede {
-			margin-left: auto;
-			margin-right: auto;
+	.card {
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+		padding: clamp(1.25rem, 3vw, 2rem);
+	}
+
+	.kicker {
+		margin: 0 0 0.5rem 0;
+		font-size: 0.9rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--muted);
+	}
+
+	h2 {
+		margin: 0;
+		font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+		line-height: 1.2;
+		letter-spacing: -0.03em;
+		text-wrap: balance;
+	}
+
+	.thesis-lede {
+		margin: 0.9rem 0 0 0;
+		font-size: clamp(1rem, 1.6vw, 1.125rem);
+		line-height: 1.75;
+		max-width: 75ch;
+		color: var(--fg);
+	}
+
+	.meta {
+		margin-top: 1.1rem;
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.6rem;
+		border-radius: 999px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		color: var(--muted);
+		font-size: 0.9rem;
+		background: rgba(0, 0, 0, 0.02);
+	}
+
+	/* Projects */
+	.section-head {
+		margin-bottom: 1rem;
+	}
+
+	.section-lede {
+		margin: 0.75rem 0 0 0;
+		font-size: clamp(1rem, 1.6vw, 1.125rem);
+		line-height: 1.75;
+		max-width: 75ch;
+		color: var(--fg);
+	}
+
+	.projects-grid {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: 1fr;
+	}
+
+	@media (min-width: 800px) {
+		.projects-grid {
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 
-	/* rispetto per chi riduce le animazioni */
+	@media (min-width: 1100px) {
+		.projects-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.project-card {
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+	}
+
+	.project-title {
+		margin: 0;
+		font-size: 1.05rem;
+		letter-spacing: -0.02em;
+	}
+
+	.project-desc {
+		margin: 0.6rem 0 0 0;
+		color: var(--fg);
+		line-height: 1.7;
+	}
+
+	.project-links {
+		margin-top: 1rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.project-link {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.45rem 0.7rem;
+		border-radius: 999px;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		text-decoration: none;
+		color: var(--fg);
+		background: #fff;
+		transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+	}
+
+	.project-link:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+		border-color: rgba(0, 0, 0, 0.18);
+		color: var(--accent);
+	}
+
+	/* Contact */
+	.contact p {
+		margin: 0.8rem 0 0 0;
+		font-size: clamp(1rem, 1.6vw, 1.125rem);
+		line-height: 1.75;
+		max-width: 65ch;
+		color: var(--fg);
+	}
+
+	.contact-cta {
+		margin-top: 1.2rem;
+	}
+
+	.cta-row {
+		margin-top: 1.35rem;
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem 1rem;
+		border-radius: 999px;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+		text-decoration: none;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		background: #fff;
+		color: var(--fg);
+		transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+	}
+
+	.btn:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+		border-color: rgba(0, 0, 0, 0.18);
+	}
+
+	.btn.primary {
+		background: var(--fg);
+		border-color: var(--fg);
+		color: #fff;
+	}
+
+	.btn.primary:hover {
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+	}
+
+	.btn.ghost {
+		background: #fff;
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		section.contact a {
+		.btn,
+		.icon,
+		.project-link {
 			transition: none;
 		}
-	}
-
-	section.contact .no-arrow::after {
-		content: none;
+		.btn:hover,
+		.icon:hover,
+		.project-link:hover {
+			transform: none;
+		}
 	}
 </style>
