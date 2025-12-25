@@ -1,0 +1,42 @@
+{
+    "sourceFile": "src/posts/hello-world.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1754738019708,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1754741820041,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,4 +11,7 @@\n - Punto 1\n - Punto 2\n \n > Suggerimento: usa il front-matter `draft: true` per nascondere un post dalla lista.\n+\n+\n+> Questo è un secondo\n"
+                },
+                {
+                    "date": 1754741867289,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,10 @@\n tags: [\"intro\", \"sveltekit\"]\n draft: false\n ---\n \n+# Prova 1\n+\n Benvenuto nel mio blog! **Questo** è un post scritto in Markdown.\n \n - Punto 1\n - Punto 2\n"
+                },
+                {
+                    "date": 1754741874885,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,9 +6,11 @@\n draft: false\n ---\n \n # Prova 1\n+## Prova 2\n \n+\n Benvenuto nel mio blog! **Questo** è un post scritto in Markdown.\n \n - Punto 1\n - Punto 2\n"
+                },
+                {
+                    "date": 1754741881452,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,12 +5,8 @@\n tags: [\"intro\", \"sveltekit\"]\n draft: false\n ---\n \n-# Prova 1\n-## Prova 2\n-\n-\n Benvenuto nel mio blog! **Questo** è un post scritto in Markdown.\n \n - Punto 1\n - Punto 2\n"
+                },
+                {
+                    "date": 1754742017204,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,19 @@\n+---\n+title: \"Hello world\"\n+date: \"2025-08-01\"\n+description: \"Il primo post del blog\"\n+tags: [\"intro\", \"sveltekit\"]\n+draft: false\n+---\n+\n+# Prova 1\n+\n+Benvenuto nel mio blog! **Questo** è un post scritto in Markdown.\n+\n+- Punto 1\n+- Punto 2\n+\n+> Suggerimento: usa il front-matter `draft: true` per nascondere un post dalla lista.\n+\n+\n+> Questo è un secondo\n"
+                },
+                {
+                    "date": 1754743387350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n ---\n \n # Prova 1\n ## Prova 2\n+### Prova 3\n \n \n Benvenuto nel mio blog! **Questo** è un post scritto in Markdown.\n \n"
+                }
+            ],
+            "date": 1754738019708,
+            "name": "Commit-0",
+            "content": "---\ntitle: \"Hello world\"\ndate: \"2025-08-01\"\ndescription: \"Il primo post del blog\"\ntags: [\"intro\", \"sveltekit\"]\ndraft: false\n---\n\nBenvenuto nel mio blog! **Questo** è un post scritto in Markdown.\n\n- Punto 1\n- Punto 2\n\n> Suggerimento: usa il front-matter `draft: true` per nascondere un post dalla lista.\n"
+        }
+    ]
+}

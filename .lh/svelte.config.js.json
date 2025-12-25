@@ -1,0 +1,18 @@
+{
+    "sourceFile": "svelte.config.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754738221116,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754738221115,
+            "name": "Commit-0",
+            "content": "// svelte.config.js\nimport adapter from '@sveltejs/adapter-auto';\nimport { vitePreprocess } from '@sveltejs/vite-plugin-svelte';\nimport { mdsvex } from 'mdsvex';\n\nconst mdsvexConfig = {\n  extensions: ['.md', '.svx'],\n  // Se vuoi wrappare tutti i post in un layout dedicato, scommenta la riga sotto\n  // e crea il file corrispondente.\n  // layout: './src/lib/layouts/PostLayout.svelte'\n};\n\n/** @type {import('@sveltejs/kit').Config} */\nconst config = {\n  // abilita .md/.svx come componenti Svelte\n  extensions: ['.svelte', ...mdsvexConfig.extensions],\n  // applichiamo sia vitePreprocess che mdsvex\n  preprocess: [vitePreprocess(), mdsvex(mdsvexConfig)],\n  kit: {\n    adapter: adapter()\n  }\n};\n\nexport default config;\n"
+        }
+    ]
+}

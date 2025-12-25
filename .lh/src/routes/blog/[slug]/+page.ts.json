@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/routes/blog/[slug]/+page.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754738079922,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754738079922,
+            "name": "Commit-0",
+            "content": "// src/routes/blog/[slug]/+page.ts\nimport { allPosts } from '$lib/posts';\nimport { error } from '@sveltejs/kit';\n\nexport const prerender = true;\n\nexport function load({ params }) {\n  const post = allPosts.find((p) => p.slug === params.slug);\n  if (!post) throw error(404, 'Articolo non trovato');\n  return {\n    meta: post.meta,\n    Content: post.component\n  };\n}\n"
+        }
+    ]
+}
