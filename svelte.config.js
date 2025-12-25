@@ -1,23 +1,25 @@
 // svelte.config.js
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 
 const mdsvexConfig = {
   extensions: ['.md', '.svx'],
-  // Se vuoi wrappare tutti i post in un layout dedicato, scommenta la riga sotto
-  // e crea il file corrispondente.
   // layout: './src/lib/layouts/PostLayout.svelte'
 };
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-  // abilita .md/.svx come componenti Svelte
   extensions: ['.svelte', ...mdsvexConfig.extensions],
-  // applichiamo sia vitePreprocess che mdsvex
   preprocess: [vitePreprocess(), mdsvex(mdsvexConfig)],
   kit: {
-    adapter: adapter()
+    adapter: adapter(),
+    /* // prerendera tutto ciò che è raggiungibile (perfetto per blog statico)
+    prerender: { entries: ['*'] },
+    // se pubblichi sotto sottocartella (es. GitHub Pages), imposta BASE_PATH
+    // es: BASE_PATH=/nome-repo
+    paths: { base: process.env.BASE_PATH ?? '' },
+    trailingSlash: 'ignore' */
   }
 };
 

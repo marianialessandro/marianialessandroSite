@@ -2,18 +2,13 @@
 	// Personalizza qui
 	const name = 'Alessandro Mariani';
 	const role = 'Computer Science Student';
+	/* const bio =
+		'Progetto interfacce semplici, veloci e accessibili. Lavoro con SvelteKit e design system leggeri.'; */
 
-	const bio =
+    const bio =
 		'I am a Computer Science student from the University of Pisa with a long-standing passion for algorithms and software engineering. I have always engaged in challenging my skills with personal projects that could potentially have a real-world impact, beyond academic theory.';
 
-	// Nuovo passaggio: laurea triennale + tesi (tra hero e contact)
-	const bscThesisTitle = 'Guaranteed-latency network traffic: a declarative and sustainable approach';
-	const bscThesisPassage =
-		`I recently completed my B.Sc. in Computer Science at the University of Pisa. ` +
-		`In my thesis, “${bscThesisTitle}”, I explored how to route long-lived network flows while preserving strict end-to-end latency guarantees, using a declarative approach. ` +
-		`The work also considers sustainability goals, optimizing routing decisions to reduce energy costs and carbon footprint without compromising timing constraints.`;
-
-    const photo = '/images/laureaMeSquare.png';
+	const photo = 'https://marianialessandro.com/static/Profile.JPG';
 	const email = 'mailto:alessandro@marianialessandro.com';
 	const github = 'https://github.com/marianialessandro';
 	const linkedin = 'https://www.linkedin.com/in/alessandro-mariani-7a53981aa/';
@@ -30,6 +25,11 @@
 		<h1>{name}</h1>
 		<p class="role">{role}</p>
 		<p class="lede">{bio}</p>
+
+		<!-- <div class="actions">
+			<a class="btn primary" href="/CV.pdf">Scarica CV</a>
+			<a class="btn" href={email}>Scrivimi</a>
+		</div> -->
 
 		<nav class="social" aria-label="Social">
 			<a href={github} target="_blank" rel="noreferrer" aria-label="GitHub" class="icon">
@@ -50,14 +50,18 @@
 	</div>
 
 	<div class="portrait">
-		<img src={photo} alt={`Foto di ${name}`} width="320" height="320" />
+		<img src={photo} alt={`Foto di ${name}`} width="320" height="320" loading="eager" />
 	</div>
 </section>
 
-<!-- Sezione tra hero e contact (senza titolo) -->
-<section class="thesis" id="thesis">
-	<p class="thesis-lede">{bscThesisPassage}</p>
-</section>
+<!-- <section class="contact" id="contact">
+	<h2>Get in Touch</h2>
+	<p>
+		Want to chat or collaborate? Just shoot me a message
+		<a href={linkedin} target="_blank" rel="noreferrer" class="no-arrow">on LinkedIn</a>
+		and I’ll respond whenever I can.
+	</p>
+</section> -->
 
 <section class="contact" id="contact">
 	<h2>Get in Touch</h2>
@@ -76,24 +80,19 @@
 		--muted: #6b7280;
 		--line: #e5e7eb;
 		--brand: #ff3e00;
-
-		/* più stretto: riduce lo spazio tra hero e thesis */
-		--gap-hero-thesis: clamp(0.35rem, 1.6vw, 0.9rem);
 	}
 
 	section.hero {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        align-items: center;
-
-        max-width: 1200px;   /* <- QUI */
-        margin: 0 auto;
-
-        padding: clamp(2rem, 6vw, 5rem) 1.25rem var(--gap-hero-thesis);
-        min-height: 60vh;
-        color: var(--fg);
-    }
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+		align-items: center;
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: clamp(2rem, 6vw, 5rem) 1.25rem;
+		min-height: 60vh;
+		color: var(--fg);
+	}
 	@media (min-width: 880px) {
 		section.hero {
 			grid-template-columns: 1.1fr 0.9fr; /* testo | foto */
@@ -164,25 +163,6 @@
 		border: 1px solid var(--line);
 	}
 
-	/* --- Thesis (testo più largo) --- */
-	section.thesis {
-		max-width: 1200px; /* allargato */
-		margin: 0 auto;
-
-		/* top ridotto per avvicinarsi alla hero */
-		padding: var(--gap-hero-thesis) 1.25rem clamp(1.5rem, 5vw, 3.5rem);
-
-		color: var(--fg);
-	}
-
-	.thesis-lede {
-		font-size: clamp(1rem, 1.7vw, 1.125rem);
-		line-height: 1.75;
-		max-width: 90ch; /* allargato */
-		margin: 0;
-		color: var(--fg);
-	}
-
 	/* --- Get in Touch --- */
 	section.contact {
 		max-width: 900px;
@@ -229,6 +209,15 @@
 			opacity 140ms ease;
 	}
 
+	/* section.contact a:hover {
+		text-decoration-color: var(--brand);
+		transform: translateY(-1px);
+	}
+	section.contact a:hover::after {
+		transform: translateY(-1px);
+		opacity: 1;
+	} */
+
 	section.contact a:focus-visible {
 		outline: 2px solid var(--brand);
 		outline-offset: 3px;
@@ -243,14 +232,6 @@
 			margin-left: auto;
 			margin-right: auto;
 		}
-
-		section.thesis {
-			text-align: center;
-		}
-		.thesis-lede {
-			margin-left: auto;
-			margin-right: auto;
-		}
 	}
 
 	/* rispetto per chi riduce le animazioni */
@@ -260,7 +241,6 @@
 		}
 	}
 
-	section.contact .no-arrow::after {
-		content: none;
-	}
+    section.contact .no-arrow::after { content: none; }
+
 </style>
