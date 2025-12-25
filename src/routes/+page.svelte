@@ -1,3 +1,4 @@
+<!-- src/routes/+page.svelte -->
 <script lang="ts">
 	// Personalizza qui
 	const name = 'Alessandro Mariani';
@@ -119,9 +120,7 @@
 	<section class="contact" id="contact" aria-labelledby="contact-title">
 		<div class="card">
 			<h2 id="contact-title">Get in touch</h2>
-			<p>
-				Want to chat or collaborate? Message me on LinkedIn or send an email.
-			</p>
+			<p>Want to chat or collaborate? Message me on LinkedIn or send an email.</p>
 
 			<div class="cta-row contact-cta">
 				<a class="btn primary" href={email}>Email me</a>
@@ -132,58 +131,6 @@
 </main>
 
 <style>
-	:root {
-		--bg: #ffffff;
-		--fg: #0b0f14;
-		--muted: #4b5563;
-		--line: #e5e7eb;
-		--accent: #ff3e00;
-
-		--radius: 16px;
-		--shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 10px 30px rgba(0, 0, 0, 0.06);
-		--container: min(1120px, calc(100% - 2rem));
-	}
-
-	/* Sfondo SEMPRE bianco */
-	:global(html),
-	:global(body) {
-		background: var(--bg);
-		color: var(--fg);
-	}
-
-	:global(body) {
-		margin: 0;
-		font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji',
-			'Segoe UI Emoji';
-		line-height: 1.5;
-	}
-
-	:global(*) {
-		box-sizing: border-box;
-	}
-
-	:global(::selection) {
-		background: rgba(255, 62, 0, 0.18);
-	}
-
-	:global(a) {
-		color: inherit;
-		text-decoration-color: rgba(255, 62, 0, 0.45);
-		text-decoration-thickness: 2px;
-		text-underline-offset: 3px;
-	}
-
-	:global(a:hover) {
-		color: var(--accent);
-		text-decoration-color: var(--accent);
-	}
-
-	:global(a:focus-visible) {
-		outline: 3px solid rgba(255, 62, 0, 0.35);
-		outline-offset: 3px;
-		border-radius: 10px;
-	}
-
 	.skip {
 		position: absolute;
 		left: -999px;
