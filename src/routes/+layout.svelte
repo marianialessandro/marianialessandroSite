@@ -14,7 +14,7 @@
 
 	<footer>
 		<p>
-			Copyright © 2025 Alessandro Mariani All rights reserved
+			Copyright © 2026 Alessandro Mariani All rights reserved
 		</p>
 	</footer>
 </div>
