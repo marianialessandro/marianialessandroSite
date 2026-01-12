@@ -5,7 +5,7 @@
 	const role = 'Computer Science Student';
 
 	const bio =
-		'Currently an M.Sc. student in Computer Science at the University of Pisa, following my undergraduate studies there. I specialize in systems programming and networking, and sustainable computing. I am deeply interested in exploring how thoughtful design and optimization can drive both performance and energy efficiency. I enjoy the technical challenge of engineering efficient, working code.';
+		'Currently an M.Sc. student in Computer Science at the University of Pisa, following my undergraduate studies there. I specialize in systems programming, networking, sustainable computing, and algorithmics. I am deeply interested in exploring how thoughtful design and optimization can drive both performance and energy efficiency. I enjoy the technical challenge of engineering efficient, working code.';
 
 	// Tesi
 	const bscThesisTitle = 'Guaranteed-latency network traffic: a declarative and sustainable approach';
