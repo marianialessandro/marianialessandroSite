@@ -19,8 +19,8 @@ jobs:
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: 📦 Install dependencies
         run: npm ci
@@ -29,11 +29,24 @@ jobs:
         run: npm run build
 
       - name: 📂 Sync files via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./build/
-          server-dir: ./public_html/
-          dangerous-clean-slate: true
+
+          protocol: ftp
+          port: 21
+
+          local-dir: build/
+          server-dir: public_html/
+
+          # Importante: evita wipe totale e mantiene il file di stato,
+          # così i deploy successivi caricano solo le differenze.
+          dangerous-clean-slate: false
+
+          # Per vedere quale comando riceve "502 Command not implemented"
+          log-level: verbose
+
+          # Un po' più tollerante su server lenti
+          timeout: 60000
