@@ -5,13 +5,12 @@
 	const role = 'Computer Science Student';
 
 	const bio =
-		'After completing my B.Sc. in Computer Science at the University of Pisa, I am currently pursuing an M.Sc. in Computer Science there. I enjoy building real-world software solutions, with a strong interest in systems programming, networking, and sustainability. I like exploring how thoughtful design and optimization can improve both performance and energy efficiency. My goal is to keep learning, experimenting, and creating projects that are technically solid and have real-world impact beyond academic theory.';
+		'Currently an M.Sc. student in Computer Science at the University of Pisa, following my undergraduate studies there. I specialize in systems programming and networking, and sustainable computing. I am deeply interested in exploring how thoughtful design and optimization can drive both performance and energy efficiency. I enjoy the technical challenge of engineering efficient, working code.';
 
 	// Tesi
 	const bscThesisTitle = 'Guaranteed-latency network traffic: a declarative and sustainable approach';
 	const bscThesisPassage =
-		`In my B.Sc. thesis, “${bscThesisTitle}”, I explored how to route low-latency traffic through constrained networks while providing end-to-end latency guarantees, using a declarative approach. ` +
-		`The work also considers sustainability goals, optimizing routing decisions to reduce energy costs and carbon footprint without compromising timing constraints.`;
+		`For my B.Sc. thesis, I investigated a declarative approach to network routing that secures timing guarantees while simultaneously minimizing energy costs and carbon footprint.`;
 
 	// PROGETTI: modifica liberamente questa lista
 	type Project = {
