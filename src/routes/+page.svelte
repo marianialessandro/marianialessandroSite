@@ -1,51 +1,15 @@
 <script lang="ts">
-	// Personalizza qui
 	const name = 'Alessandro Mariani';
 	const role = 'Computer Science Student';
 
 	const bio =
 		'After completing my B.Sc. in Computer Science at the University of Pisa, I am currently pursuing an M.Sc. in Computer Science there. I enjoy building real-world software solutions, with a strong interest in systems programming, networking, and sustainability. I like exploring how thoughtful design and optimization can improve both performance and energy efficiency. My goal is to keep learning, experimenting, and creating projects that are technically solid and have real-world impact beyond academic theory.';
 
-	// Tesi
-	const bscThesisTitle = 'Guaranteed-latency network traffic: a declarative and sustainable approach';
+	const bscThesisTitle =
+		'Guaranteed-latency network traffic: a declarative and sustainable approach';
 	const bscThesisPassage =
 		`In my B.Sc. thesis, “${bscThesisTitle}”, I explored how to route low-latency traffic through constrained networks while providing end-to-end latency guarantees, using a declarative approach. ` +
 		`The work also considers sustainability goals, optimizing routing decisions to reduce energy costs and carbon footprint without compromising timing constraints.`;
-
-	// PROGETTI: modifica liberamente questa lista
-	type Project = {
-		title: string;
-		description: string;
-		tags?: string[];
-		links?: { label: string; href: string }[];
-	};
-
-	const projects: Project[] = [
-		{
-			title: 'Project One',
-			description:
-				'Short description of what it does, why you built it, and what makes it interesting (2–3 lines).',
-			tags: ['SvelteKit', 'TypeScript', 'Web'],
-			links: [
-				{ label: 'GitHub', href: 'https://github.com/marianialessandro' },
-				{ label: 'Live demo', href: 'https://example.com' }
-			]
-		},
-		{
-			title: 'Project Two',
-			description:
-				'Another project: highlight the core idea, the hardest part, or a measurable result (performance, features, etc.).',
-			tags: ['Networking', 'C', 'Linux'],
-			links: [{ label: 'GitHub', href: 'https://github.com/marianialessandro' }]
-		},
-		{
-			title: 'Project Three',
-			description:
-				'If you have a thesis-related prototype or tool, this is a great place to show it with a concise explanation.',
-			tags: ['Research', 'Sustainability'],
-			links: [{ label: 'Read more', href: 'https://example.com' }]
-		}
-	];
 
 	const photo = '/images/laureaMeSquare.png';
 	const email = 'mailto:alessandro@marianialessandro.com';
@@ -60,7 +24,7 @@
 
 <a class="skip" href="#content">Skip to content</a>
 
-<main id="content">
+<div class="page">
 	<section class="hero" aria-labelledby="hero-title">
 		<div class="hero-copy">
 			<p class="eyebrow">Hi! 👋 I&apos;m</p>
@@ -119,9 +83,7 @@
 	<section class="contact" id="contact" aria-labelledby="contact-title">
 		<div class="card">
 			<h2 id="contact-title">Get in touch</h2>
-			<p>
-				Want to chat or collaborate? Message me on LinkedIn or send an email.
-			</p>
+			<p>Want to chat or collaborate? Message me on LinkedIn or send an email.</p>
 
 			<div class="cta-row contact-cta">
 				<a class="btn primary" href={email}>Email me</a>
@@ -129,7 +91,7 @@
 			</div>
 		</div>
 	</section>
-</main>
+</div>
 
 <style>
 	:root {
@@ -144,7 +106,6 @@
 		--container: min(1120px, calc(100% - 2rem));
 	}
 
-	/* Sfondo SEMPRE bianco */
 	:global(html),
 	:global(body) {
 		background: var(--bg);
@@ -153,7 +114,15 @@
 
 	:global(body) {
 		margin: 0;
-		font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji',
+		font-family:
+			ui-sans-serif,
+			system-ui,
+			-apple-system,
+			Segoe UI,
+			Roboto,
+			Helvetica,
+			Arial,
+			'Apple Color Emoji',
 			'Segoe UI Emoji';
 		line-height: 1.5;
 	}
@@ -200,7 +169,7 @@
 		left: 0.75rem;
 	}
 
-	main {
+	.page {
 		width: var(--container);
 		margin: 0 auto;
 		padding: clamp(1.25rem, 3vw, 2rem) 0 3.5rem;
@@ -265,7 +234,10 @@
 		border: 1px solid rgba(0, 0, 0, 0.12);
 		background: #fff;
 		text-decoration: none;
-		transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+		transition:
+			transform 140ms ease,
+			box-shadow 140ms ease,
+			border-color 140ms ease;
 	}
 
 	.icon:hover {
@@ -300,7 +272,8 @@
 		content: '';
 		position: absolute;
 		inset: -40%;
-		background: radial-gradient(circle at 30% 20%, rgba(255, 62, 0, 0.22), transparent 45%),
+		background:
+			radial-gradient(circle at 30% 20%, rgba(255, 62, 0, 0.22), transparent 45%),
 			radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.12), transparent 55%);
 		transform: rotate(10deg);
 		pointer-events: none;
@@ -315,7 +288,6 @@
 	}
 
 	section.thesis,
-	section.projects,
 	section.contact {
 		padding: clamp(1.25rem, 3vw, 2rem) 0;
 	}
@@ -371,82 +343,6 @@
 		background: rgba(0, 0, 0, 0.02);
 	}
 
-	/* Projects */
-	.section-head {
-		margin-bottom: 1rem;
-	}
-
-	.section-lede {
-		margin: 0.75rem 0 0 0;
-		font-size: clamp(1rem, 1.6vw, 1.125rem);
-		line-height: 1.75;
-		max-width: 75ch;
-		color: var(--fg);
-	}
-
-	.projects-grid {
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: 1fr;
-	}
-
-	@media (min-width: 800px) {
-		.projects-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (min-width: 1100px) {
-		.projects-grid {
-			grid-template-columns: repeat(3, 1fr);
-		}
-	}
-
-	.project-card {
-		display: flex;
-		flex-direction: column;
-		min-height: 100%;
-	}
-
-	.project-title {
-		margin: 0;
-		font-size: 1.05rem;
-		letter-spacing: -0.02em;
-	}
-
-	.project-desc {
-		margin: 0.6rem 0 0 0;
-		color: var(--fg);
-		line-height: 1.7;
-	}
-
-	.project-links {
-		margin-top: 1rem;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-	}
-
-	.project-link {
-		display: inline-flex;
-		align-items: center;
-		padding: 0.45rem 0.7rem;
-		border-radius: 999px;
-		border: 1px solid rgba(0, 0, 0, 0.12);
-		text-decoration: none;
-		color: var(--fg);
-		background: #fff;
-		transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
-	}
-
-	.project-link:hover {
-		transform: translateY(-1px);
-		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
-		border-color: rgba(0, 0, 0, 0.18);
-		color: var(--accent);
-	}
-
-	/* Contact */
 	.contact p {
 		margin: 0.8rem 0 0 0;
 		font-size: clamp(1rem, 1.6vw, 1.125rem);
@@ -478,7 +374,10 @@
 		border: 1px solid rgba(0, 0, 0, 0.12);
 		background: #fff;
 		color: var(--fg);
-		transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+		transition:
+			transform 140ms ease,
+			box-shadow 140ms ease,
+			border-color 140ms ease;
 	}
 
 	.btn:hover {
@@ -503,13 +402,12 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		.btn,
-		.icon,
-		.project-link {
+		.icon {
 			transition: none;
 		}
+
 		.btn:hover,
-		.icon:hover,
-		.project-link:hover {
+		.icon:hover {
 			transform: none;
 		}
 	}

@@ -1,7 +1,9 @@
 <!-- src/routes/blog/[slug]/+page.svelte -->
 <script lang="ts">
-	export let data;
 	import PostLayout from '$lib/layouts/PostLayout.svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
 <svelte:head>

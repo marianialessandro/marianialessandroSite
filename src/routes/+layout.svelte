@@ -1,21 +1,18 @@
 <script lang="ts">
-	import Header from './Header.svelte';
 	import '../app.css';
 
 	let { children } = $props();
+
+	const currentYear = new Date().getFullYear();
 </script>
 
 <div class="app">
-	<!-- <Header /> -->
-
-	<main>
+	<main id="content">
 		{@render children()}
 	</main>
 
-	<footer>
-		<p>
-			Copyright © 2025 Alessandro Mariani All rights reserved
-		</p>
+	<footer aria-label="Footer">
+		<p>Copyright © {currentYear} Alessandro Mariani. All rights reserved.</p>
 	</footer>
 </div>
 

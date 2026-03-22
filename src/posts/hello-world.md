@@ -70,7 +70,7 @@ npm run dev -- --open
 
 #### Esempio con riga lunga (H4)
 
-```js
+```
 const url = "https://example.com/path/super-lungo/con/tanti/segmenti/che/mettono/alla/prova/l'overflow/del/blocco/di/codice?query=con-parametri&ancora=#hash";
 ```
 

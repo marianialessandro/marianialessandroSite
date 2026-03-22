@@ -4,7 +4,7 @@ import { allPosts } from '$lib/posts';
 export const prerender = true;
 
 export function load() {
-  return {
-    posts: allPosts.map(({ slug, meta }) => ({ slug, ...meta }))
-  };
+	return {
+		posts: allPosts.map(({ slug, meta }) => ({ slug, ...meta }))
+	};
 }

@@ -1,31 +1,38 @@
 <script lang="ts">
-  export let data: { posts?: Array<{ title: string; slug: string; date?: string; description?: string; tags?: string[] }> };
-  const posts = data?.posts ?? [];
+	export let data: {
+		posts?: Array<{
+			title: string;
+			slug: string;
+			date?: string;
+			description?: string;
+			tags?: string[];
+		}>;
+	};
+	const posts = data?.posts ?? [];
 
-  function fmtDate(s: string | number | Date | null | undefined): string | null {
-    if (!s) return null;
-    const d = new Date(s);
-    return Number.isNaN(d.getTime())
-      ? null
-      : d.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  }
+	function fmtDate(s: string | number | Date | null | undefined): string | null {
+		if (!s) return null;
+		const d = new Date(s);
+		return Number.isNaN(d.getTime())
+			? null
+			: d.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+	}
 
-  const sortedByDate = posts
-    .filter((p) => p?.date && !Number.isNaN(new Date(p.date!).getTime()))
-    .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+	const sortedByDate = posts
+		.filter((p) => p?.date && !Number.isNaN(new Date(p.date!).getTime()))
+		.sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
 
-  const featured = sortedByDate.slice(0, 3);
-  const featuredSlugs = new Set(featured.map((p) => p.slug));
-  const remaining = posts.filter((p) => !featuredSlugs.has(p.slug));
+	const featured = sortedByDate.slice(0, 3);
+	const featuredSlugs = new Set(featured.map((p) => p.slug));
+	const remaining = posts.filter((p) => !featuredSlugs.has(p.slug));
 </script>
-
 
 <svelte:head>
 	<title>Blog</title>
 	<meta name="description" content="Articoli e appunti" />
 </svelte:head>
 
-<section class="mx-auto max-w-3xl md:max-w-4xl lg:max-w-5xl px-4 sm:px-6 lg:px-0 py-12">
+<section class="mx-auto max-w-3xl px-4 py-12 sm:px-6 md:max-w-4xl lg:max-w-5xl lg:px-0">
 	<header class="mb-8">
 		<p class="mt-2 text-sm opacity-70">Articoli e appunti</p>
 	</header>
@@ -35,22 +42,24 @@
 	{:else}
 		{#if featured.length}
 			<div class="mb-10">
-				<h2 class="text-sm uppercase tracking-wide opacity-60 mb-3">Ultimi articoli</h2>
+				<h2 class="mb-3 text-sm tracking-wide uppercase opacity-60">Ultimi articoli</h2>
 
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{#each featured as post (post.slug)}
 						<a
-							class="group block rounded-2xl border border-[var(--border)] p-4 md:p-5 transition-all motion-safe:duration-200 hover:bg-[var(--card-hover)] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] no-underline hover:no-underline"
+							class="group block rounded-2xl border border-[var(--border)] p-4 no-underline transition-all hover:bg-[var(--card-hover)] hover:no-underline hover:shadow-sm focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none motion-safe:duration-200 md:p-5"
 							href={`/blog/${post.slug}`}
 							data-sveltekit-preload-data="hover"
 						>
 							<div class="flex items-start justify-between gap-4">
-								<h3 class="text-base font-medium leading-snug">
-									<span class="transition-colors group-hover:text-[var(--accent)]">{post.title}</span>
+								<h3 class="text-base leading-snug font-medium">
+									<span class="transition-colors group-hover:text-[var(--accent)]"
+										>{post.title}</span
+									>
 								</h3>
 								{#if post.date}
 									<time
-										class="text-xs opacity-60 tabular-nums shrink-0 self-center"
+										class="shrink-0 self-center text-xs tabular-nums opacity-60"
 										datetime={new Date(post.date).toISOString()}
 									>
 										{fmtDate(post.date)}
@@ -59,13 +68,16 @@
 							</div>
 
 							{#if post.description}
-								<p class="mt-2 text-sm opacity-80 line-clamp-3">{post.description}</p>
+								<p class="mt-2 line-clamp-3 text-sm opacity-80">{post.description}</p>
 							{/if}
 
 							{#if post.tags?.length}
 								<div class="mt-3 flex flex-wrap gap-2">
-									{#each post.tags as t}
-										<span class="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] uppercase tracking-wide opacity-80 transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]">{t}</span>
+									{#each post.tags as t (t)}
+										<span
+											class="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] tracking-wide uppercase opacity-80 transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+											>{t}</span
+										>
 									{/each}
 								</div>
 							{/if}
@@ -79,18 +91,18 @@
 			{#each remaining as post (post.slug)}
 				<li>
 					<a
-						class="group block rounded-xl border border-[var(--border)] p-4 transition-all motion-safe:duration-200 hover:bg-[var(--card-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] no-underline hover:no-underline"
+						class="group block rounded-xl border border-[var(--border)] p-4 no-underline transition-all hover:bg-[var(--card-hover)] hover:no-underline focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none motion-safe:duration-200"
 						href={`/blog/${post.slug}`}
 						data-sveltekit-preload-data="hover"
 					>
 						<div class="flex items-start justify-between gap-4">
-							<h2 class="text-lg font-medium leading-snug">
+							<h2 class="text-lg leading-snug font-medium">
 								<span class="transition-colors group-hover:text-[var(--accent)]">{post.title}</span>
 							</h2>
-							<div class="flex items-center gap-2 shrink-0 self-center">
+							<div class="flex shrink-0 items-center gap-2 self-center">
 								{#if post.date}
 									<time
-										class="text-xs opacity-60 tabular-nums"
+										class="text-xs tabular-nums opacity-60"
 										datetime={new Date(post.date).toISOString()}
 									>
 										{fmtDate(post.date)}
@@ -100,13 +112,16 @@
 						</div>
 
 						{#if post.description}
-							<p class="mt-2 text-sm opacity-80 line-clamp-2">{post.description}</p>
+							<p class="mt-2 line-clamp-2 text-sm opacity-80">{post.description}</p>
 						{/if}
 
 						{#if post.tags?.length}
 							<div class="mt-3 flex flex-wrap gap-2">
-								{#each post.tags as t}
-									<span class="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] uppercase tracking-wide opacity-80 transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]">{t}</span>
+								{#each post.tags as t (t)}
+									<span
+										class="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] tracking-wide uppercase opacity-80 transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+										>{t}</span
+									>
 								{/each}
 							</div>
 						{/if}
@@ -118,25 +133,42 @@
 </section>
 
 <style>
-	:global(:root){
-		--accent:#0ea5a0;
-		--border: rgba(0,0,0,0.10);
-		--card-hover: rgba(14,165,160,0.06);
+	:global(:root) {
+		--accent: #0ea5a0;
+		--border: rgba(0, 0, 0, 0.1);
+		--card-hover: rgba(14, 165, 160, 0.06);
 	}
-	:global(html.dark){
-		--border: rgba(255,255,255,0.15);
-		--card-hover: rgba(14,165,160,0.10);
+	:global(html.dark) {
+		--border: rgba(255, 255, 255, 0.15);
+		--card-hover: rgba(14, 165, 160, 0.1);
 	}
 
 	/* Link neutri */
-	:global(a){ color: inherit; text-decoration: none; }
-	:global(a:visited){ color: inherit; text-decoration: none; }
-	:global(a:hover){ text-decoration: none; }
+	:global(a) {
+		color: inherit;
+		text-decoration: none;
+	}
+	:global(a:visited) {
+		color: inherit;
+		text-decoration: none;
+	}
+	:global(a:hover) {
+		text-decoration: none;
+	}
 
 	/* Underline accessibile su focus tastiera */
-	:global(a:focus-visible){ text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+	:global(a:focus-visible) {
+		text-decoration: underline;
+		text-decoration-color: var(--accent);
+		text-underline-offset: 4px;
+	}
 
 	/* Selezione con accento leggero */
-	:global(::selection){ background: rgba(14,165,160,0.18); color: inherit; }
-	:global(html.dark ::selection){ background: rgba(14,165,160,0.22); }
+	:global(::selection) {
+		background: rgba(14, 165, 160, 0.18);
+		color: inherit;
+	}
+	:global(html.dark ::selection) {
+		background: rgba(14, 165, 160, 0.22);
+	}
 </style>

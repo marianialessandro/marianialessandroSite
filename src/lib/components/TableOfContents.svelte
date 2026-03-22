@@ -1,12 +1,19 @@
 <script lang="ts">
-	export let headings: { id: string; text: string; level: number }[] = [];
-	export let activeId: string = '';
+	import { goto } from '$app/navigation';
 
-	const go = (id: string) => {
-		const el = document.getElementById(id);
-		if (!el) return;
-		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-		history.replaceState(null, '', `#${id}`);
+	export let headings: { id: string; text: string; level: number }[] = [];
+	export let activeId = '';
+
+	const go = async (id: string) => {
+		const element = document.getElementById(id);
+		if (!element) return;
+
+		element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		await goto(`#${id}`, {
+			replaceState: true,
+			noScroll: true,
+			keepFocus: true
+		});
 	};
 </script>
 
@@ -17,16 +24,16 @@
 		<p class="toc-empty">Nessun titolo trovato.</p>
 	{:else}
 		<ul class="toc-list">
-			{#each headings as h}
+			{#each headings as h (h.id)}
 				<li class={`item lvl-${h.level} ${activeId === h.id ? 'active' : ''}`}>
-					<button
-						type="button"
+					<a
 						class="link"
-						aria-current={activeId === h.id ? 'true' : undefined}
-						on:click={() => go(h.id)}
+						href={`#${h.id}`}
+						aria-current={activeId === h.id ? 'location' : undefined}
+						on:click|preventDefault={() => go(h.id)}
 					>
 						{h.text}
-					</button>
+					</a>
 				</li>
 			{/each}
 		</ul>
@@ -35,7 +42,6 @@
 
 <style>
 	.toc {
-		/* via lo sticky: ci pensa l’aside */
 		max-height: none;
 		overflow: visible;
 		padding: 12px 8px;
@@ -60,35 +66,35 @@
 		padding: 0;
 		margin: 0;
 	}
+
 	.item {
 		margin: 0.2rem 0;
 	}
 
-	/* indentazione per livello (ora con H1) */
 	.lvl-1 {
 		padding-left: 0;
 	}
+
 	.lvl-2 {
 		padding-left: 0.8rem;
 	}
+
 	.lvl-3 {
 		padding-left: 1.6rem;
 	}
+
 	.lvl-4 {
 		padding-left: 2.4rem;
 	}
 
 	.link {
-		background: none;
-		border: 0;
-		padding: 0.2rem 0.2rem;
-		cursor: pointer;
-		text-align: left;
-		width: 100%;
-		font: inherit;
+		display: block;
+		padding: 0.2rem;
 		color: var(--post-text);
+		text-decoration: none;
 		opacity: 0.9;
 	}
+
 	.link:hover {
 		opacity: 1;
 		text-decoration: underline;

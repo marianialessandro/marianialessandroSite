@@ -5,7 +5,7 @@
 	/* const bio =
 		'Progetto interfacce semplici, veloci e accessibili. Lavoro con SvelteKit e design system leggeri.'; */
 
-    const bio =
+	const bio =
 		'I am a Computer Science student from the University of Pisa with a long-standing passion for algorithms and software engineering. I have always engaged in challenging my skills with personal projects that could potentially have a real-world impact, beyond academic theory.';
 
 	const photo = 'https://marianialessandro.com/static/Profile.JPG';
@@ -68,8 +68,7 @@
 	<p>
 		Want to chat or collaborate? Just shoot me a message
 		<a href={linkedin} target="_blank" rel="noreferrer" class="no-arrow">on LinkedIn</a>
-		or <a href={email} class="no-arrow">via email</a>,
-		and I’ll respond whenever I can.
+		or <a href={email} class="no-arrow">via email</a>, and I’ll respond whenever I can.
 	</p>
 </section>
 
@@ -241,6 +240,7 @@
 		}
 	}
 
-    section.contact .no-arrow::after { content: none; }
-
+	section.contact .no-arrow::after {
+		content: none;
+	}
 </style>
