@@ -1,38 +1,94 @@
-# sv
+# marianialessandro Monorepo
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This repository is now an `npm` workspace monorepo with two SvelteKit apps and one shared package.
 
-## Creating a project
+## Structure
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+```text
+.
+├── apps
+│   ├── files.marianialessandro.com
+│   └── marianialessandro.com
+├── packages
+│   └── shared
+├── package.json
+└── package-lock.json
 ```
 
-## Developing
+- `apps/marianialessandro.com`: the main personal website.
+- `apps/files.marianialessandro.com`: the secondary SvelteKit app.
+- `packages/shared`: shared Svelte components, shared assets, and the global stylesheet.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## MacOS Commands
 
-```sh
+Install all workspace dependencies from the repo root:
+
+```bash
+cd /Users/marianialessandro/repository/marianialessandroSite
+npm install
+```
+
+Run both development servers concurrently:
+
+```bash
+npm run dev
+```
+
+Run each app individually from the repo root:
+
+```bash
+npm run dev:site
+npm run dev:files
+```
+
+Run each app directly from its own directory:
+
+```bash
+cd /Users/marianialessandro/repository/marianialessandroSite/apps/marianialessandro.com
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+cd /Users/marianialessandro/repository/marianialessandroSite/apps/files.marianialessandro.com
+npm run dev
 ```
 
-## Building
+Build all projects for production:
 
-To create a production version of your app:
-
-```sh
+```bash
+cd /Users/marianialessandro/repository/marianialessandroSite
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+Build each app individually:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```bash
+npm run build:site
+npm run build:files
+```
+
+Run workspace checks:
+
+```bash
+npm run check
+```
+
+## Shared Package Usage
+
+The shared workspace package is `@marianialessandro/shared`.
+
+```ts
+import { Footer, Header, TableOfContents } from '@marianialessandro/shared';
+import '@marianialessandro/shared/styles.css';
+```
+
+Assets can be imported through the shared package exports:
+
+```ts
+import githubIcon from '@marianialessandro/shared/images/github.svg';
+```
+
+## Notes
+
+- The footer used across apps lives in `packages/shared/src/lib/components/Footer.svelte`.
+- The shared global stylesheet lives in `packages/shared/src/styles/app.css`.
+- The `CD - Deploy marianialessandro.com` workflow publishes `apps/marianialessandro.com/build/` to `public_html/`.
+- The `CD - Deploy files.marianialessandro.com` workflow publishes `apps/files.marianialessandro.com/build/` to `files.marianialessandro.com/`.
