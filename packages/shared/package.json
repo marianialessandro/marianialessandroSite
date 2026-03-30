@@ -24,6 +24,6 @@
 	},
 	"peerDependencies": {
 		"@sveltejs/kit": "^2.22.0",
-		"svelte": "^5.25.0"
+		"svelte": "^5.55.1"
 	}
 }
