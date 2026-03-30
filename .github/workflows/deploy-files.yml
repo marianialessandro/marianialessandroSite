@@ -1,15 +1,14 @@
-name: CD - Deploy marianialessandro.com
+name: CD - Deploy files.marianialessandro.com
 
 on:
   push:
     branches:
       - main
-  # Opzionale: permette di lanciare il deploy manualmente dalla tab Actions
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Deploy marianialessandro.com
+    name: Deploy files.marianialessandro.com
     runs-on: ubuntu-latest
 
     steps:
@@ -25,8 +24,8 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🔨 Build marianialessandro.com
-        run: npm run build:site
+      - name: 🔨 Build files.marianialessandro.com
+        run: npm run build:files
 
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
@@ -38,15 +37,9 @@ jobs:
           protocol: ftp
           port: 21
 
-          local-dir: apps/marianialessandro.com/build/
-          server-dir: public_html/
+          local-dir: apps/files.marianialessandro.com/build/
+          server-dir: files.marianialessandro.com/
 
-          # Importante: evita wipe totale e mantiene il file di stato,
-          # così i deploy successivi caricano solo le differenze.
           dangerous-clean-slate: false
-
-          # Per vedere quale comando riceve "502 Command not implemented"
           log-level: verbose
-
-          # Un po' più tollerante su server lenti
           timeout: 60000
