@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { GithubSolid, LinkedinSolid } from 'flowbite-svelte-icons';
+
 	// Personalizza qui
 	const name = 'Alessandro Mariani';
 	const role = 'Computer Science Student';
@@ -33,18 +35,10 @@
 
 		<nav class="social" aria-label="Social">
 			<a href={github} target="_blank" rel="noreferrer" aria-label="GitHub" class="icon">
-				<svg viewBox="0 0 24 24" aria-hidden="true"
-					><path
-						d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.24-3.23-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.31 1.23a11.5 11.5 0 0 1 6.02 0c2.3-1.55 3.31-1.23 3.31-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.92 1.24 3.23 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.69.83.57A12 12 0 0 0 12 .5z"
-					/></svg
-				>
+				<GithubSolid width={20} height={20} ariaLabel="GitHub" />
 			</a>
 			<a href={linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" class="icon">
-				<svg viewBox="0 0 24 24" aria-hidden="true"
-					><path
-						d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM14.5 9A4.5 4.5 0 0 1 19 13.5V21h-4v-6c0-1.38-1.12-2.5-2.5-2.5S10 13.62 10 15v6H6v-12h4v1.6c.7-1 1.95-1.6 3.5-1.6z"
-					/></svg
-				>
+				<LinkedinSolid width={20} height={20} ariaLabel="LinkedIn" />
 			</a>
 		</nav>
 	</div>
@@ -139,11 +133,6 @@
 		border: 1px solid var(--line);
 		color: var(--fg);
 		text-decoration: none;
-	}
-	.icon svg {
-		width: 20px;
-		height: 20px;
-		fill: currentColor;
 	}
 	.icon:hover {
 		transform: translateY(-1px);
