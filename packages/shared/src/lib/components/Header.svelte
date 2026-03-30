@@ -85,10 +85,10 @@
 	}
 
 	/* pagina corrente: bold + linea piena */
-	li[aria-current='page'] a {
+	li[aria-current="page"] a {
 		font-weight: 700;
 	}
-	li[aria-current='page'] a::after {
+	li[aria-current="page"] a::after {
 		background: currentColor;
 	}
 

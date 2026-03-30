@@ -2,7 +2,11 @@
 	import { Footer } from '@marianialessandro/shared';
 	import '@marianialessandro/shared/styles.css';
 
-	let { children } = $props();
+	type Props = {
+		children: import('svelte').Snippet;
+	};
+
+	let { children }: Props = $props();
 </script>
 
 <div class="app">
@@ -10,7 +14,7 @@
 		{@render children()}
 	</main>
 
-	<Footer name="Alessandro Mariani" />
+	<Footer name="Alessandro Mariani"></Footer>
 </div>
 
 <style>

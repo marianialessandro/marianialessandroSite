@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let name = 'Alessandro Mariani';
-	export let year = new Date().getFullYear();
+	type Props = {
+		name?: string;
+		year?: number;
+	};
+
+	let { name = 'Alessandro Mariani', year = new Date().getFullYear() }: Props = $props();
 </script>
 
 <footer class="site-footer">

@@ -1,6 +1,11 @@
 <script lang="ts">
-	export let headings: { id: string; text: string; level: number }[] = [];
-	export let activeId: string = '';
+	type Heading = { id: string; text: string; level: number };
+	type Props = {
+		headings?: Heading[];
+		activeId?: string;
+	};
+
+	let { headings = [], activeId = '' }: Props = $props();
 
 	const go = (id: string) => {
 		const el = document.getElementById(id);
@@ -23,7 +28,7 @@
 						type="button"
 						class="link"
 						aria-current={activeId === h.id ? 'true' : undefined}
-						on:click={() => go(h.id)}
+						onclick={() => go(h.id)}
 					>
 						{h.text}
 					</button>
