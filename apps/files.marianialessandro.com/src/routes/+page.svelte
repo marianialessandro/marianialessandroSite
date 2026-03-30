@@ -120,5 +120,10 @@
 		.hero {
 			border-radius: 1.5rem;
 		}
+
+		h1 {
+			font-size: clamp(1.55rem, 7vw, 2rem);
+			letter-spacing: -0.035em;
+		}
 	}
 </style>

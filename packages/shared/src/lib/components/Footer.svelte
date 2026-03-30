@@ -20,6 +20,12 @@
 		padding: 12px;
 	}
 
+	p {
+		margin: 0;
+		text-align: center;
+		text-wrap: balance;
+	}
+
 	@media (min-width: 480px) {
 		.site-footer {
 			padding: 12px 0;
