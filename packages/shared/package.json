@@ -1,0 +1,29 @@
+{
+	"name": "@marianialessandro/shared",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"svelte": "./src/index.ts",
+	"exports": {
+		".": {
+			"types": "./src/index.ts",
+			"svelte": "./src/index.ts",
+			"default": "./src/index.ts"
+		},
+		"./styles.css": "./src/styles/app.css",
+		"./images/*": "./src/lib/images/*"
+	},
+	"files": [
+		"src"
+	],
+	"dependencies": {
+		"@fontsource/fira-mono": "^5.0.0",
+		"@tailwindcss/forms": "^0.5.9",
+		"@tailwindcss/typography": "^0.5.15",
+		"flowbite-svelte-icons": "^3.1.0"
+	},
+	"peerDependencies": {
+		"@sveltejs/kit": "^2.22.0",
+		"svelte": "^5.25.0"
+	}
+}
