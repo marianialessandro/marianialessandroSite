@@ -69,30 +69,7 @@
 
 <section class="page">
 	<header class="hero">
-		<div class="hero-grid">
-			<div class="hero-copy">
-				<p class="eyebrow">
-					<span class="eyebrow-dot"></span>
-					Notes Archive
-				</p>
-				<h1>files.marianialessandro.com</h1>
-				<p class="lede">
-					Una versione SvelteKit dell’archivio file, costruita sul backend PHP gi&agrave;
-					esistente e allineata allo stile del progetto principale.
-				</p>
-			</div>
-
-			<div class="hero-meta">
-				<div class="stat-card">
-					<span class="stat-label">File trovati</span>
-					<strong>{files.length}</strong>
-				</div>
-				<div class="stat-card">
-					<span class="stat-label">Sorgente dati</span>
-					<strong>/api/</strong>
-				</div>
-			</div>
-		</div>
+		<h1>marianialessandro.com</h1>
 	</header>
 
 	<FileArchive {files} {errorMessage} {isLoading} />
@@ -129,38 +106,9 @@
 		pointer-events: none;
 	}
 
-	.hero-grid {
+	h1 {
 		position: relative;
 		z-index: 1;
-		display: grid;
-		gap: 1.25rem;
-	}
-
-	.eyebrow {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		margin: 0 0 0.9rem;
-		padding: 0.45rem 0.8rem;
-		border: 1px solid var(--line);
-		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.8);
-		font-size: 0.76rem;
-		font-weight: 700;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--muted);
-	}
-
-	.eyebrow-dot {
-		width: 0.45rem;
-		height: 0.45rem;
-		border-radius: 999px;
-		background: var(--accent);
-		display: inline-block;
-	}
-
-	h1 {
 		margin: 0;
 		font-size: clamp(2.1rem, 5vw, 3.5rem);
 		line-height: 0.96;
@@ -168,52 +116,9 @@
 		word-break: break-word;
 	}
 
-	.lede {
-		max-width: 60ch;
-		margin: 0.9rem 0 0;
-		font-size: clamp(1rem, 1.7vw, 1.12rem);
-		color: var(--muted);
-	}
-
-	.hero-meta {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.85rem;
-	}
-
-	.stat-card {
-		display: grid;
-		gap: 0.25rem;
-		padding: 0.95rem 1rem;
-		border: 1px solid var(--line);
-		border-radius: 1.25rem;
-		background: rgba(255, 255, 255, 0.82);
-	}
-
-	.stat-label {
-		font-size: 0.82rem;
-		color: var(--muted);
-	}
-
-	.stat-card strong {
-		font-size: clamp(1.1rem, 2.2vw, 1.4rem);
-		letter-spacing: -0.03em;
-	}
-
-	@media (min-width: 900px) {
-		.hero-grid {
-			grid-template-columns: 1.4fr 0.6fr;
-			align-items: end;
-		}
-	}
-
 	@media (max-width: 640px) {
 		.hero {
 			border-radius: 1.5rem;
-		}
-
-		.hero-meta {
-			grid-template-columns: 1fr;
 		}
 	}
 </style>
