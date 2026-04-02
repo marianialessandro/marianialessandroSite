@@ -8,12 +8,14 @@
 		"packages/*"
 	],
 	"scripts": {
-		"dev": "concurrently -n site,files -c blue,green \"npm run dev:site\" \"npm run dev:files\"",
+		"dev": "concurrently -n site,files,apps -c blue,green,magenta \"npm run dev:site\" \"npm run dev:files\" \"npm run dev:apps\"",
 		"dev:site": "npm run dev --workspace @marianialessandro/marianialessandro.com",
 		"dev:files": "npm run dev --workspace @marianialessandro/files.marianialessandro.com",
+		"dev:apps": "npm run dev --workspace @marianialessandro/apps.marianialessandro.com",
 		"build": "npm run build --workspaces --if-present",
 		"build:site": "npm run build --workspace @marianialessandro/marianialessandro.com",
 		"build:files": "npm run build --workspace @marianialessandro/files.marianialessandro.com",
+		"build:apps": "npm run build --workspace @marianialessandro/apps.marianialessandro.com",
 		"check": "npm run check --workspaces --if-present",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."

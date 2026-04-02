@@ -1,6 +1,6 @@
 # marianialessandro Monorepo
 
-This repository is now an `npm` workspace monorepo with two SvelteKit apps and one shared package.
+This repository is now an `npm` workspace monorepo with three SvelteKit apps and one shared package.
 
 ## Structure
 
@@ -8,6 +8,7 @@ This repository is now an `npm` workspace monorepo with two SvelteKit apps and o
 .
 ├── apps
 │   ├── files.marianialessandro.com
+│   ├── apps.marianialessandro.com
 │   └── marianialessandro.com
 ├── packages
 │   └── shared
@@ -17,6 +18,7 @@ This repository is now an `npm` workspace monorepo with two SvelteKit apps and o
 
 - `apps/marianialessandro.com`: the main personal website.
 - `apps/files.marianialessandro.com`: the secondary SvelteKit app.
+- `apps/apps.marianialessandro.com`: the applications hub, bootstrapped to reuse shared components.
 - `packages/shared`: shared Svelte components, shared assets, and the global stylesheet.
 
 ## MacOS Commands
@@ -28,7 +30,7 @@ cd /Users/marianialessandro/repository/marianialessandroSite
 npm install
 ```
 
-Run both development servers concurrently:
+Run all development servers concurrently:
 
 ```bash
 npm run dev
@@ -39,6 +41,7 @@ Run each app individually from the repo root:
 ```bash
 npm run dev:site
 npm run dev:files
+npm run dev:apps
 ```
 
 Run each app directly from its own directory:
@@ -48,6 +51,9 @@ cd /Users/marianialessandro/repository/marianialessandroSite/apps/marianialessan
 npm run dev
 
 cd /Users/marianialessandro/repository/marianialessandroSite/apps/files.marianialessandro.com
+npm run dev
+
+cd /Users/marianialessandro/repository/marianialessandroSite/apps/apps.marianialessandro.com
 npm run dev
 ```
 
@@ -63,6 +69,7 @@ Build each app individually:
 ```bash
 npm run build:site
 npm run build:files
+npm run build:apps
 ```
 
 Run workspace checks:
