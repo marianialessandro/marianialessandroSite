@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { Footer } from '@marianialessandro/shared';
 	import '@marianialessandro/shared/styles.css';
 
@@ -6,7 +7,7 @@
 </script>
 
 <div class="app-shell">
-	<main>
+	<main class:wide={page.url.pathname.startsWith('/promptmanager')}>
 		{@render children()}
 	</main>
 
@@ -29,5 +30,9 @@
 		max-width: 64rem;
 		margin: 0 auto;
 		box-sizing: border-box;
+	}
+
+	main.wide {
+		max-width: min(96rem, 100%);
 	}
 </style>
