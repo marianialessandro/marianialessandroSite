@@ -21,6 +21,7 @@ export type FileKind = 'image' | 'pdf' | 'text' | 'archive' | 'default';
 export const FILES_SITE_ORIGIN = 'https://files.marianialessandro.com';
 
 const DISPLAY_NAME_MAP: Record<string, string> = {
+	'advancedProgrammingNotes.pdf': 'Advanced Programming',
 	'programAnalysisNotes.pdf': 'Program Analysis',
 	'compilationTechniqueNotes.pdf': 'Compilation Techniques',
 	'algorithmDesignNotes.pdf': 'Algorithm Design',
