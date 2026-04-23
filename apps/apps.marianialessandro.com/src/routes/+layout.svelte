@@ -4,14 +4,17 @@
 	import '@marianialessandro/shared/styles.css';
 
 	let { children } = $props();
+	const isPromptManager = $derived(page.url.pathname.startsWith('/promptmanager'));
 </script>
 
-<div class="app-shell">
-	<main class:wide={page.url.pathname.startsWith('/promptmanager')}>
+<div class:fullscreen={isPromptManager} class="app-shell">
+	<main class:wide={isPromptManager} class:fullscreen={isPromptManager}>
 		{@render children()}
 	</main>
 
-	<Footer name="Alessandro Mariani" />
+	{#if !isPromptManager}
+		<Footer name="Alessandro Mariani" />
+	{/if}
 </div>
 
 <style>
@@ -19,6 +22,11 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+	}
+
+	.app-shell.fullscreen {
+		height: 100vh;
+		overflow: hidden;
 	}
 
 	main {
@@ -33,6 +41,13 @@
 	}
 
 	main.wide {
-		max-width: min(96rem, 100%);
+		max-width: none;
+		padding: 0;
+	}
+
+	main.fullscreen {
+		height: 100vh;
+		min-height: 0;
+		overflow: hidden;
 	}
 </style>

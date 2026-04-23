@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import { loadPromptManagerState, savePromptManagerState } from '$lib/promptmanager/storage';
-	import type { PromptDocument, PromptFolder } from '$lib/promptmanager/types';
+	import type {
+		PromptDocument,
+		PromptFolder,
+		PromptManagerState
+	} from '$lib/promptmanager/types';
 
 	type NameModalState =
 		| {
@@ -90,6 +94,13 @@
 				depth: number;
 		  };
 
+	type PromptManagerExportPayload = {
+		app: 'apps.marianialessandro.com/promptmanager';
+		version: 1;
+		exportedAt: string;
+		data: PromptManagerState;
+	};
+
 	const AUTOSAVE_DELAY_MS = 700;
 
 	let folders = $state<PromptFolder[]>([]);
@@ -113,6 +124,10 @@
 	let copiedPromptId = $state<string | null>(null);
 	let isReady = $state(false);
 	let didLoadFail = $state(false);
+	let importExportMessage = $state<string | null>(null);
+	let importExportError = $state<string | null>(null);
+	let isImporting = $state(false);
+	let importFileInput = $state<HTMLInputElement | null>(null);
 
 	let nameInput = $state<HTMLInputElement | null>(null);
 	let topbarTitleInput = $state<HTMLInputElement | null>(null);
@@ -416,6 +431,249 @@
 			});
 
 		return persistQueue;
+	}
+
+	function isRecord(value: unknown): value is Record<string, unknown> {
+		return typeof value === 'object' && value !== null;
+	}
+
+	function isFolderShape(value: unknown): value is PromptFolder {
+		return (
+			isRecord(value) &&
+			typeof value.id === 'string' &&
+			typeof value.name === 'string' &&
+			(typeof value.parentId === 'string' || value.parentId === null) &&
+			typeof value.createdAt === 'string'
+		);
+	}
+
+	function isPromptShape(value: unknown): value is PromptDocument {
+		return (
+			isRecord(value) &&
+			typeof value.id === 'string' &&
+			typeof value.title === 'string' &&
+			typeof value.content === 'string' &&
+			typeof value.folderId === 'string' &&
+			typeof value.createdAt === 'string' &&
+			typeof value.updatedAt === 'string'
+		);
+	}
+
+	function getRawImportedState(payload: unknown): unknown {
+		if (
+			isRecord(payload) &&
+			payload.app === 'apps.marianialessandro.com/promptmanager' &&
+			payload.version === 1 &&
+			'data' in payload
+		) {
+			return payload.data;
+		}
+
+		return payload;
+	}
+
+	function validateImportedState(payload: unknown): PromptManagerState {
+		const rawState = getRawImportedState(payload);
+
+		if (!isRecord(rawState) || !Array.isArray(rawState.folders) || !Array.isArray(rawState.prompts)) {
+			throw new Error('Il file non contiene un archivio valido del prompt manager.');
+		}
+
+		const nextFolders = rawState.folders.map((folder) => {
+			if (!isFolderShape(folder)) {
+				throw new Error('Il file contiene una cartella con struttura non valida.');
+			}
+
+			const name = normalizeLabel(folder.name);
+
+			if (!name) {
+				throw new Error('Il file contiene una cartella senza nome valido.');
+			}
+
+			return {
+				...folder,
+				name
+			};
+		});
+
+		const nextPrompts = rawState.prompts.map((prompt) => {
+			if (!isPromptShape(prompt)) {
+				throw new Error('Il file contiene un prompt con struttura non valida.');
+			}
+
+			const title = normalizeLabel(prompt.title);
+
+			if (!title) {
+				throw new Error('Il file contiene un prompt senza titolo valido.');
+			}
+
+			return {
+				...prompt,
+				title
+			};
+		});
+
+		const folderIds = new Set<string>();
+
+		for (const folder of nextFolders) {
+			if (folderIds.has(folder.id)) {
+				throw new Error(`ID cartella duplicato rilevato: ${folder.id}.`);
+			}
+
+			folderIds.add(folder.id);
+		}
+
+		const promptIds = new Set<string>();
+
+		for (const prompt of nextPrompts) {
+			if (promptIds.has(prompt.id)) {
+				throw new Error(`ID prompt duplicato rilevato: ${prompt.id}.`);
+			}
+
+			promptIds.add(prompt.id);
+		}
+
+		for (const folder of nextFolders) {
+			if (folder.parentId === folder.id) {
+				throw new Error(`La cartella "${folder.name}" non può avere se stessa come parent.`);
+			}
+
+			if (folder.parentId && !folderIds.has(folder.parentId)) {
+				throw new Error(`La cartella "${folder.name}" punta a un parent inesistente.`);
+			}
+		}
+
+		const folderMap = new Map(nextFolders.map((folder) => [folder.id, folder]));
+
+		for (const folder of nextFolders) {
+			const visited = new Set<string>([folder.id]);
+			let currentParentId = folder.parentId;
+
+			while (currentParentId) {
+				if (visited.has(currentParentId)) {
+					throw new Error(`La gerarchia delle cartelle contiene un ciclo che coinvolge "${folder.name}".`);
+				}
+
+				visited.add(currentParentId);
+				currentParentId = folderMap.get(currentParentId)?.parentId ?? null;
+			}
+		}
+
+		for (const prompt of nextPrompts) {
+			if (!folderIds.has(prompt.folderId)) {
+				throw new Error(`Il prompt "${prompt.title}" punta a una cartella inesistente.`);
+			}
+		}
+
+		return {
+			folders: nextFolders,
+			prompts: nextPrompts
+		};
+	}
+
+	function buildExportPayload(): PromptManagerExportPayload {
+		return {
+			app: 'apps.marianialessandro.com/promptmanager',
+			version: 1,
+			exportedAt: new Date().toISOString(),
+			data: {
+				folders: folders.map((folder) => ({ ...folder })),
+				prompts: prompts.map((prompt) => ({ ...prompt }))
+			}
+		};
+	}
+
+	function formatExportFilename(): string {
+		const now = new Date();
+		const isoDate = [
+			now.getFullYear(),
+			String(now.getMonth() + 1).padStart(2, '0'),
+			String(now.getDate()).padStart(2, '0')
+		].join('-');
+
+		return `prompt-manager-export-${isoDate}.json`;
+	}
+
+	function clearImportExportFeedback(): void {
+		importExportMessage = null;
+		importExportError = null;
+	}
+
+	function resetWorkspaceState(nextState: PromptManagerState): void {
+		folders = nextState.folders;
+		prompts = nextState.prompts;
+		expandedFolderIds = getInitialExpandedFolderIds(nextState.folders, nextState.prompts);
+		selectedFolderId = nextState.folders[0]?.id ?? null;
+		selectedPromptId = null;
+		editingPromptId = null;
+		editingTitle = '';
+		editingContent = '';
+		editSessionSnapshot = null;
+		contextMenu = null;
+		infoDialog = null;
+		deleteDialog = null;
+		nameModal = null;
+		newPromptModal = null;
+	}
+
+	function exportArchive(): void {
+		clearImportExportFeedback();
+
+		const payload = buildExportPayload();
+		const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+		const downloadUrl = URL.createObjectURL(blob);
+		const link = document.createElement('a');
+
+		link.href = downloadUrl;
+		link.download = formatExportFilename();
+		document.body.append(link);
+		link.click();
+		link.remove();
+		URL.revokeObjectURL(downloadUrl);
+
+		importExportMessage = `Export completato: ${payload.data.folders.length} cartelle e ${payload.data.prompts.length} prompt.`;
+	}
+
+	function openImportPicker(): void {
+		clearImportExportFeedback();
+		importFileInput?.click();
+	}
+
+	async function importArchiveFromFile(event: Event): Promise<void> {
+		const input = event.currentTarget as HTMLInputElement;
+		const file = input.files?.[0];
+
+		if (!file) {
+			return;
+		}
+
+		clearImportExportFeedback();
+		isImporting = true;
+
+		try {
+			const text = await file.text();
+			const payload = JSON.parse(text) as unknown;
+			const nextState = validateImportedState(payload);
+
+			if (
+				!window.confirm(
+					`Importando "${file.name}" sostituirai l'archivio locale corrente con ${nextState.folders.length} cartelle e ${nextState.prompts.length} prompt. Procedere?`
+				)
+			) {
+				return;
+			}
+
+			clearAutosaveTimer();
+			await queuePersist(nextState.folders, nextState.prompts);
+			resetWorkspaceState(nextState);
+			importExportMessage = `Import completato da "${file.name}": ${nextState.folders.length} cartelle e ${nextState.prompts.length} prompt caricati.`;
+		} catch (error) {
+			importExportError =
+				error instanceof Error ? error.message : 'Import fallito: file non leggibile.';
+		} finally {
+			isImporting = false;
+			input.value = '';
+		}
 	}
 
 	async function openNameModal(state: NameModalState): Promise<void> {
@@ -1192,18 +1450,6 @@
 </svelte:head>
 
 <section class="prompt-manager-page">
-	<div class="hero">
-		<div>
-			<p class="eyebrow">Apps</p>
-			<h1>Prompt manager</h1>
-			<p class="copy">
-				Gestore locale di prompt organizzati in cartelle annidate, salvati nel browser con
-				IndexedDB e disegnati con lo stesso linguaggio visivo degli altri progetti del monorepo.
-			</p>
-		</div>
-		<a class="hero-link" href="/">Torna alla home</a>
-	</div>
-
 	<div class="workspace">
 		<aside class="sidebar">
 			<div class="sidebar-dragbar"></div>
@@ -1213,19 +1459,52 @@
 					type="button"
 					class="activity-button"
 					title="Nuovo prompt"
+					aria-label="Nuovo prompt"
 					disabled={!selectedFolderId}
 					onclick={openNewPromptCreationModal}
 				>
-					<span>+P</span>
+					<svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							d="M7 4.75h6.25L18.25 9.75V19a1.25 1.25 0 0 1-1.25 1.25H7A1.25 1.25 0 0 1 5.75 19V6A1.25 1.25 0 0 1 7 4.75Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-linejoin="round"
+							stroke-width="1.7"
+						/>
+						<path
+							d="M13 4.75v4.5h4.5M12 10.75v6.5M8.75 14h6.5"
+							fill="none"
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="1.7"
+						/>
+					</svg>
 				</button>
 
 				<button
 					type="button"
 					class="activity-button"
 					title="Nuova cartella"
+					aria-label="Nuova cartella"
 					onclick={startNewRootFolder}
 				>
-					<span>+F</span>
+					<svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							d="M3.75 8.25A1.5 1.5 0 0 1 5.25 6.75h4.1l1.4 1.5h8A1.5 1.5 0 0 1 20.25 9.75v8.5a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-10Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-linejoin="round"
+							stroke-width="1.7"
+						/>
+						<path
+							d="M12 11.25v5.5M9.25 14h5.5"
+							fill="none"
+							stroke="currentColor"
+							stroke-linecap="round"
+							stroke-width="1.7"
+						/>
+					</svg>
 				</button>
 
 				<div class="activity-spacer"></div>
@@ -1234,12 +1513,21 @@
 					type="button"
 					class="activity-button"
 					title="Impostazioni"
+					aria-label="Impostazioni"
 					onclick={() => {
 						closeTransientPanels();
 						settingsOpen = true;
 					}}
 				>
-					<span>SET</span>
+					<svg class="action-icon" viewBox="0 0 24 24" aria-hidden="true">
+						<path
+							d="M12 8.75a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 0 0 0-6.5Zm7.25 3.25l-1.78.64c-.08.27-.18.53-.31.78l.81 1.72l-1.9 1.9l-1.72-.81c-.25.13-.51.23-.78.31l-.64 1.78H10.12l-.64-1.78a6.9 6.9 0 0 1-.78-.31l-1.72.81l-1.9-1.9l.81-1.72a6.9 6.9 0 0 1-.31-.78L3.75 12l.64-1.88c.08-.27.18-.53.31-.78l-.81-1.72l1.9-1.9l1.72.81c.25-.13.51-.23.78-.31l.64-1.78h2.76l.64 1.78c.27.08.53.18.78.31l1.72-.81l1.9 1.9l-.81 1.72c.13.25.23.51.31.78L19.25 12Z"
+							fill="none"
+							stroke="currentColor"
+							stroke-linejoin="round"
+							stroke-width="1.55"
+						/>
+					</svg>
 				</button>
 			</div>
 
@@ -1304,7 +1592,17 @@
 												&gt;
 											</button>
 
-											<span class="tree-icon folder">DIR</span>
+											<span class="tree-icon folder" aria-hidden="true">
+												<svg viewBox="0 0 24 24">
+													<path
+														d="M3.75 8.25A1.5 1.5 0 0 1 5.25 6.75h4.1l1.4 1.5h8A1.5 1.5 0 0 1 20.25 9.75v8.5a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-10Z"
+														fill="none"
+														stroke="currentColor"
+														stroke-linejoin="round"
+														stroke-width="1.65"
+													/>
+												</svg>
+											</span>
 											<span class="tree-label">{row.folder.name}</span>
 										</div>
 									{:else}
@@ -1324,7 +1622,24 @@
 											style={`padding-left: ${0.75 + row.depth * 1.05}rem;`}
 										>
 											<span class="tree-arrow spacer"></span>
-											<span class="tree-icon prompt">TXT</span>
+											<span class="tree-icon prompt" aria-hidden="true">
+												<svg viewBox="0 0 24 24">
+													<path
+														d="M7 4.75h6.25L18.25 9.75V19A1.25 1.25 0 0 1 17 20.25H7A1.25 1.25 0 0 1 5.75 19V6A1.25 1.25 0 0 1 7 4.75Z"
+														fill="none"
+														stroke="currentColor"
+														stroke-linejoin="round"
+														stroke-width="1.65"
+													/>
+													<path
+														d="M13 4.75v4.5h4.5M8.5 13h7M8.5 16h5.25"
+														fill="none"
+														stroke="currentColor"
+														stroke-linecap="round"
+														stroke-width="1.65"
+													/>
+												</svg>
+											</span>
 											<span class="tree-label">{row.prompt.title}</span>
 										</div>
 									{/if}
@@ -1414,10 +1729,6 @@
 					{@const activePrompt = getPromptById(selectedPromptId)!}
 					<div class="reader-shell">
 						<div class="reader-toolbar">
-							<div>
-								<p class="panel-kicker">Prompt</p>
-								<p class="reader-meta">{getPromptFolderPath(activePrompt.folderId)}</p>
-							</div>
 							<button
 								type="button"
 								class="text-button"
@@ -1691,6 +2002,47 @@
 						automatico alla sessione successiva.
 					</p>
 				</section>
+
+				<section class="settings-card">
+					<h4>Backup dati</h4>
+					<p>
+						Esporta l'intero archivio locale in JSON oppure reimporta un backup per
+						sostituire il contenuto corrente del prompt manager.
+					</p>
+
+					<div class="settings-actions">
+						<button type="button" class="primary-button" onclick={exportArchive}>
+							Esporta JSON
+						</button>
+						<button
+							type="button"
+							class="text-button"
+							onclick={openImportPicker}
+							disabled={isImporting}
+						>
+							{isImporting ? 'Import in corso...' : 'Importa JSON'}
+						</button>
+						<input
+							bind:this={importFileInput}
+							class="visually-hidden-input"
+							type="file"
+							accept="application/json,.json"
+							onchange={importArchiveFromFile}
+						/>
+					</div>
+
+					<p class="settings-meta">
+						Archivio corrente: {folders.length} cartelle, {prompts.length} prompt.
+					</p>
+
+					{#if importExportMessage}
+						<p class="settings-feedback success">{importExportMessage}</p>
+					{/if}
+
+					{#if importExportError}
+						<p class="settings-feedback error">{importExportError}</p>
+					{/if}
+				</section>
 			</div>
 		</aside>
 	</div>
@@ -1698,13 +2050,14 @@
 
 <style>
 	.prompt-manager-page {
-		display: grid;
-		gap: 1.5rem;
+		display: flex;
+		flex: 1;
+		min-height: 0;
+		height: 100%;
 		width: 100%;
+		background: linear-gradient(180deg, rgba(247, 247, 246, 0.92) 0%, rgba(255, 255, 255, 0.98) 100%);
 	}
 
-	.hero,
-	.workspace,
 	.sidebar,
 	.explorer,
 	.content-topbar,
@@ -1719,7 +2072,6 @@
 		box-shadow: var(--shadow);
 	}
 
-	.hero,
 	.explorer,
 	.content-topbar,
 	.content-panel,
@@ -1730,7 +2082,6 @@
 		overflow: hidden;
 	}
 
-	.hero::before,
 	.explorer::before,
 	.content-topbar::before,
 	.content-panel::before,
@@ -1748,30 +2099,19 @@
 		pointer-events: none;
 	}
 
-	.hero,
 	.modal-card,
 	.info-card,
 	.settings-panel {
 		padding: clamp(1.25rem, 2vw, 1.75rem);
 	}
 
-	.hero {
-		display: flex;
-		align-items: end;
-		justify-content: space-between;
-		gap: 1.5rem;
-	}
-
-	.eyebrow,
 	.panel-kicker,
 	.topbar-meta,
-	.reader-meta,
 	.explorer-count,
 	.info-subtitle {
 		color: var(--muted);
 	}
 
-	.eyebrow,
 	.panel-kicker {
 		margin: 0 0 0.75rem;
 		font-size: 0.82rem;
@@ -1780,7 +2120,6 @@
 		text-transform: uppercase;
 	}
 
-	h1,
 	h2,
 	h3,
 	h4,
@@ -1790,16 +2129,11 @@
 		margin: 0;
 	}
 
-	h1,
 	h2,
 	h3 {
 		line-height: 0.96;
 		letter-spacing: -0.05em;
 		word-break: break-word;
-	}
-
-	h1 {
-		font-size: clamp(2.1rem, 5vw, 3.4rem);
 	}
 
 	h2 {
@@ -1815,40 +2149,26 @@
 		letter-spacing: 0.01em;
 	}
 
-	.copy {
-		max-width: 50rem;
-		margin-top: 1rem;
-		font-size: 1.02rem;
-		line-height: 1.7;
-		color: var(--muted);
-	}
-
-	.hero-link {
-		position: relative;
-		z-index: 1;
-		align-self: start;
-		padding: 0.85rem 1rem;
-		border-radius: 999px;
-		border: 1px solid var(--line);
-		text-decoration: none;
-		font-weight: 600;
-		background: rgba(255, 255, 255, 0.8);
-	}
-
 	.workspace {
+		flex: 1;
 		display: grid;
 		grid-template-columns: minmax(18rem, 23rem) minmax(0, 1fr);
 		gap: 1rem;
+		align-items: stretch;
 		padding: 1rem;
-		min-height: clamp(42rem, 80vh, 56rem);
-		background: linear-gradient(180deg, rgba(247, 247, 246, 0.92) 0%, rgba(255, 255, 255, 0.98) 100%);
+		min-height: 100%;
+		height: 100%;
+		box-sizing: border-box;
 	}
 
 	.sidebar {
 		display: grid;
 		grid-template-columns: 4.2rem minmax(0, 1fr);
-		gap: 0.85rem;
-		padding: 0.85rem;
+		gap: 1rem;
+		padding: 0;
+		height: 100%;
+		min-height: 0;
+		align-items: stretch;
 		background: transparent;
 		border: none;
 		box-shadow: none;
@@ -1882,6 +2202,7 @@
 		align-items: center;
 		gap: 0.65rem;
 		padding: 0.6rem 0.45rem;
+		height: 100%;
 		border: 1px solid var(--line);
 		border-radius: 1.6rem;
 		background: rgba(255, 255, 255, 0.75);
@@ -1920,9 +2241,12 @@
 		place-items: center;
 		width: 2.8rem;
 		height: 2.8rem;
-		font-size: 0.72rem;
-		font-weight: 700;
-		letter-spacing: 0.08em;
+		padding: 0;
+	}
+
+	.action-icon {
+		width: 1.1rem;
+		height: 1.1rem;
 	}
 
 	.activity-button:hover:enabled,
@@ -1941,6 +2265,7 @@
 	.explorer {
 		display: grid;
 		grid-template-rows: auto minmax(0, 1fr);
+		height: 100%;
 		padding: 1rem;
 	}
 
@@ -2060,11 +2385,13 @@
 		width: 2rem;
 		height: 1.5rem;
 		border-radius: 999px;
-		font-size: 0.68rem;
-		font-weight: 700;
-		letter-spacing: 0.08em;
 		border: 1px solid rgba(11, 15, 20, 0.08);
 		background: rgba(255, 255, 255, 0.88);
+	}
+
+	.tree-icon svg {
+		width: 1rem;
+		height: 1rem;
 	}
 
 	.tree-icon.folder {
@@ -2128,7 +2455,6 @@
 	}
 
 	.topbar-meta,
-	.reader-meta,
 	.explorer-count,
 	.info-subtitle {
 		font-size: 0.95rem;
@@ -2149,11 +2475,12 @@
 
 	.reader-shell {
 		grid-template-rows: auto minmax(0, 1fr);
-		gap: 1rem;
+		gap: 0.75rem;
 	}
 
 	.reader-toolbar {
-		padding: 0.35rem 0.2rem 0;
+		justify-content: end;
+		padding: 0;
 	}
 
 	.reader-code,
@@ -2347,6 +2674,43 @@
 		background: rgba(255, 255, 255, 0.72);
 	}
 
+	.settings-actions {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 1rem;
+	}
+
+	.settings-meta,
+	.settings-feedback {
+		position: relative;
+		z-index: 1;
+		margin-top: 0.9rem;
+		font-size: 0.95rem;
+	}
+
+	.settings-feedback.success {
+		color: #1f7a3d;
+	}
+
+	.settings-feedback.error {
+		color: #b42318;
+	}
+
+	.visually-hidden-input {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
 	.info-sections dl {
 		display: grid;
 		gap: 0.8rem;
@@ -2405,11 +2769,6 @@
 	}
 
 	@media (max-width: 720px) {
-		.hero {
-			flex-direction: column;
-			align-items: start;
-		}
-
 		.content-topbar {
 			flex-direction: column;
 		}
@@ -2427,7 +2786,6 @@
 	}
 
 	@media (max-width: 640px) {
-		.hero,
 		.workspace,
 		.modal-card,
 		.info-card,
