@@ -3,9 +3,10 @@
 	import type { Component } from 'svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import { TableOfContents } from '@marianialessandro/shared';
+	import ArticleHeader from '$lib/components/ArticleHeader.svelte';
 
 	export let Content: unknown;
-	export let meta: { title?: string; description?: string; date?: string } = {};
+	export let meta: { title?: string; description?: string; date?: string; tags?: string[] } = {};
 	export let showTitleFromMeta: boolean = true;
 	/* export let data: any; */
 
@@ -28,7 +29,7 @@
 			.replace(/\s+/g, '-');
 
 	onMount(() => {
-		const article = document.querySelector('article.post');
+		const article = document.querySelector('.post');
 		if (!article) return;
 
 		const nodes = Array.from(article.querySelectorAll('h1, h2, h3, h4')) as HTMLElement[];
@@ -45,7 +46,7 @@
 			return { id: el.id, text: el.textContent ?? '', level: parseInt(el.tagName.slice(1), 10) };
 		});
 
-		// Se non ci sono titoli, esci: niente observer, niente ToC
+		// No headings means no observer and no ToC.
 		if (headings.length === 0) return;
 
 		observer = new IntersectionObserver(
@@ -65,22 +66,30 @@
 
 <div class={`post-layout ${hasTOC ? '' : 'no-toc'}`}>
 	{#if hasTOC}
-		<aside class="toc-wrap" aria-label="Indice laterale">
+		<aside class="toc-wrap" aria-label="Side table of contents">
 			<TableOfContents {headings} {activeId} />
 		</aside>
 	{/if}
 
-	<article class="post" aria-label="Articolo">
+	<article class="post-shell" aria-label="Post">
 		{#if showTitleFromMeta && meta.title}
-			<h1 class="post-title">{meta.title}</h1>
+			<ArticleHeader
+				title={meta.title}
+				description={meta.description}
+				date={meta.date}
+				tags={meta.tags}
+			/>
 		{/if}
-		<svelte:component this={ResolvedContent} />
+
+		<div class="post">
+			<svelte:component this={ResolvedContent} />
+		</div>
 	</article>
 </div>
 
 <style>
 	:root {
-		/* margine esterno sinistro della sidebar (modifica a piacere) */
+		/* Outer left margin for the sidebar. */
 		--toc-outer-margin: clamp(16px, 2vw, 32px);
 	}
 
@@ -101,7 +110,7 @@
 		--post-figcap: #777;
 		--post-mark: #fff6a8;
 
-		/* larghezza sidebar indice */
+		/* ToC sidebar width. */
 		--toc-w: 260px;
 		--gap: 32px;
 	}
@@ -116,18 +125,21 @@
 	}
 
 	.toc-wrap {
-		display: none; /* mobile: nascosto */
+		display: none; /* hidden on mobile */
 	}
 
 	/* ——— Contenitore ——— */
+	.post-shell {
+		max-width: var(--post-max-width);
+		margin: 0 auto;
+	}
+
 	.post {
 		color: var(--post-text);
 		font-family: var(--post-font-serif);
 		font-size: clamp(1.02rem, 0.9rem + 0.5vw, 1.18rem);
 		line-height: 1.65;
-		max-width: var(--post-max-width);
-		margin: 0 auto;
-		/* padding rimosso perché lo gestisce .post-layout */
+		/* Padding is handled by .post-layout. */
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
 		font-kerning: normal;
@@ -171,12 +183,6 @@
 		font-size: 1.1rem;
 	}
 
-	/* Titolo pagina (da meta.title) centrato */
-	.post h1.post-title {
-		text-align: center;
-		margin: 0 0 0.6em 0;
-	}
-
 	/* Paragrafi e testo */
 	.post :global(p) {
 		color: var(--post-text);
@@ -206,7 +212,7 @@
 		opacity: 0.9;
 	}
 
-	/* Liste */
+	/* Lists */
 	.post :global(ul),
 	.post :global(ol) {
 		padding-left: 1.25em;
@@ -230,7 +236,7 @@
 		margin: 1.4em 0;
 	}
 
-	/* Codice */
+	/* Code */
 	.post :global(code) {
 		font-family: var(--post-font-mono);
 		font-size: 0.92em;
@@ -249,7 +255,7 @@
 		padding: 0;
 	}
 
-	/* Immagini / figure */
+	/* Images / figures */
 	.post :global(img) {
 		display: block;
 		max-width: 100%;
@@ -267,7 +273,7 @@
 		margin-top: 0.4em;
 	}
 
-	/* Tabelle */
+	/* Tables */
 	.post :global(table) {
 		width: 100%;
 		border-collapse: collapse;
@@ -308,7 +314,7 @@
 		font-size: 0.95em;
 	}
 
-	/* Migliora il salto su anchor (se hai una navbar fissa, aumenta il valore) */
+	/* Improve anchor jumps when a fixed navbar is present. */
 	/* Svelte: niente liste dentro :global() */
 	.post :global(h1[id]),
 	.post :global(h2[id]),
@@ -334,7 +340,7 @@
 			position: fixed;
 			top: 96px;
 			bottom: 24px;
-			left: max(env(safe-area-inset-left), var(--toc-outer-margin)); /* ← margine dal bordo */
+			left: max(env(safe-area-inset-left), var(--toc-outer-margin)); /* edge margin */
 			right: auto;
 			width: var(--toc-w);
 			overflow: auto;

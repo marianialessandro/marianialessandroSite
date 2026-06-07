@@ -1,12 +1,13 @@
 # marianialessandro Monorepo
 
-This repository is now an `npm` workspace monorepo with two SvelteKit apps and one shared package.
+This repository is now an `npm` workspace monorepo with three SvelteKit apps and one shared package.
 
 ## Structure
 
 ```text
 .
 ├── apps
+│   ├── blog.marianialessandro.com
 │   ├── files.marianialessandro.com
 │   └── marianialessandro.com
 ├── packages
@@ -15,6 +16,7 @@ This repository is now an `npm` workspace monorepo with two SvelteKit apps and o
 └── package-lock.json
 ```
 
+- `apps/blog.marianialessandro.com`: the standalone blog website.
 - `apps/marianialessandro.com`: the main personal website.
 - `apps/files.marianialessandro.com`: the secondary SvelteKit app.
 - `packages/shared`: shared Svelte components, shared assets, and the global stylesheet.
@@ -28,7 +30,7 @@ cd /Users/marianialessandro/repository/marianialessandroSite
 npm install
 ```
 
-Run both development servers concurrently:
+Run all development servers concurrently:
 
 ```bash
 npm run dev
@@ -39,6 +41,7 @@ Run each app individually from the repo root:
 ```bash
 npm run dev:site
 npm run dev:files
+npm run dev:blog
 ```
 
 Run each app directly from its own directory:
@@ -48,6 +51,9 @@ cd /Users/marianialessandro/repository/marianialessandroSite/apps/marianialessan
 npm run dev
 
 cd /Users/marianialessandro/repository/marianialessandroSite/apps/files.marianialessandro.com
+npm run dev
+
+cd /Users/marianialessandro/repository/marianialessandroSite/apps/blog.marianialessandro.com
 npm run dev
 ```
 
@@ -63,6 +69,7 @@ Build each app individually:
 ```bash
 npm run build:site
 npm run build:files
+npm run build:blog
 ```
 
 Run workspace checks:
@@ -92,3 +99,4 @@ import githubIcon from '@marianialessandro/shared/images/github.svg';
 - The shared global stylesheet lives in `packages/shared/src/styles/app.css`.
 - The `CD - Deploy marianialessandro.com` workflow publishes `apps/marianialessandro.com/build/` to `public_html/`.
 - The `CD - Deploy files.marianialessandro.com` workflow publishes `apps/files.marianialessandro.com/build/` to `files.marianialessandro.com/`.
+- The `CD - Deploy blog.marianialessandro.com` workflow publishes `apps/blog.marianialessandro.com/build/` to `blog.marianialessandro.com/`.
