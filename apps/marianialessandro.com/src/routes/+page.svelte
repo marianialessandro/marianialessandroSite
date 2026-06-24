@@ -1,6 +1,11 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-	import { EnvelopeSolid, GithubSolid, LinkedinSolid } from 'flowbite-svelte-icons';
+	import {
+		ArrowUpRightFromSquareOutline,
+		EnvelopeSolid,
+		GithubSolid,
+		LinkedinSolid
+	} from 'flowbite-svelte-icons';
 
 	// Personalizza qui
 	const name = 'Alessandro Mariani';
@@ -15,6 +20,8 @@
 	const bscThesisPassage = `For my B.Sc. thesis, I investigated a declarative approach to network routing that secures timing guarantees while simultaneously minimizing energy costs and carbon footprint.`;
 
 	const photo = '/images/laureaMeSquare.png';
+	const cvIt = '/documents/cvita.pdf';
+	const cvEn = '/documents/cveng.pdf';
 	const email = 'mailto:alessandro@marianialessandro.com';
 	const github = 'https://github.com/marianialessandro';
 	const linkedin = 'https://www.linkedin.com/in/alessandro-mariani-7a53981aa/';
@@ -79,6 +86,27 @@
 			<div class="cta-row contact-cta">
 				<a class="btn primary" href={email}>Email me</a>
 				<a class="btn ghost" href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="cv" id="cv" aria-labelledby="cv-title">
+		<div class="card cv-card">
+			<div>
+				<h2 id="cv-title">Curriculum vitae</h2>
+				<p>Available as PDF in Italian and English.</p>
+			</div>
+
+			<div class="cta-row cv-cta">
+				<a class="btn ghost cv-link" href={cvIt} target="_blank" rel="noreferrer">
+					<ArrowUpRightFromSquareOutline width={18} height={18} ariaLabel="Open" />
+					<span>Open CV (IT)</span>
+				</a>
+
+				<a class="btn ghost cv-link" href={cvEn} target="_blank" rel="noreferrer">
+					<ArrowUpRightFromSquareOutline width={18} height={18} ariaLabel="Open" />
+					<span>Open CV (EN)</span>
+				</a>
 			</div>
 		</div>
 	</section>
@@ -213,6 +241,7 @@
 		display: block;
 	}
 
+	section.cv,
 	section.thesis,
 	section.contact {
 		padding: clamp(1.25rem, 3vw, 2rem) 0;
@@ -251,6 +280,18 @@
 		color: var(--fg);
 	}
 
+	.cv-card {
+		display: grid;
+		gap: 1.25rem;
+		align-items: center;
+	}
+
+	@media (min-width: 720px) {
+		.cv-card {
+			grid-template-columns: 1fr auto;
+		}
+	}
+
 	.meta {
 		margin-top: 1.1rem;
 		display: flex;
@@ -270,7 +311,8 @@
 	}
 
 	/* Contact */
-	.contact p {
+	.contact p,
+	.cv p {
 		margin: 0.8rem 0 0 0;
 		font-size: clamp(1rem, 1.6vw, 1.125rem);
 		line-height: 1.75;
@@ -289,10 +331,17 @@
 		flex-wrap: wrap;
 	}
 
+	.cta-row.cv-cta {
+		margin-top: 0;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
 	.btn {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		gap: 0.45rem;
 		padding: 0.75rem 1rem;
 		border-radius: 999px;
 		font-weight: 700;
@@ -325,6 +374,11 @@
 
 	.btn.ghost {
 		background: #fff;
+	}
+
+	.cv-link {
+		width: 100%;
+		white-space: nowrap;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
