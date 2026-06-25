@@ -8,7 +8,8 @@ This repository is now an `npm` workspace monorepo with two SvelteKit apps and o
 .
 ├── apps
 │   ├── files.marianialessandro.com
-│   └── marianialessandro.com
+│   ├── marianialessandro.com
+│   └── api.marianialessandro.com
 ├── packages
 │   └── shared
 ├── package.json
@@ -17,6 +18,7 @@ This repository is now an `npm` workspace monorepo with two SvelteKit apps and o
 
 - `apps/marianialessandro.com`: the main personal website.
 - `apps/files.marianialessandro.com`: the secondary SvelteKit app.
+- `apps/api.marianialessandro.com`: the Laravel API app for `api.marianialessandro.com`.
 - `packages/shared`: shared Svelte components, shared assets, and the global stylesheet.
 
 ## MacOS Commands
@@ -39,6 +41,7 @@ Run each app individually from the repo root:
 ```bash
 npm run dev:site
 npm run dev:files
+npm run dev:api
 ```
 
 Run each app directly from its own directory:
@@ -63,6 +66,13 @@ Build each app individually:
 ```bash
 npm run build:site
 npm run build:files
+npm run build:api
+```
+
+Run Laravel API tests:
+
+```bash
+npm run test:api
 ```
 
 Run workspace checks:
