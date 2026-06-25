@@ -3,7 +3,7 @@ export type PostMeta = {
 	title: string;
 	date: string; // ISO string
 	description?: string;
-	tags?: string[];
+	tags: string[];
 	draft?: boolean;
 	cover?: string;
 	featured?: boolean;
@@ -30,6 +30,50 @@ export type PostSummary = PostMeta & {
 
 export function toPostSummary({ slug, meta }: Post): PostSummary {
 	return { slug, ...meta };
+}
+
+export function normalizeTag(tag: string) {
+	return tag.trim().toLocaleLowerCase();
+}
+
+export function getPostYear(post: Pick<PostSummary, 'date'>) {
+	return new Date(post.date).getFullYear().toString();
+}
+
+export function groupPostsByYear(posts: PostSummary[]) {
+	return posts.reduce<Array<{ year: string; posts: PostSummary[] }>>((groups, post) => {
+		const year = getPostYear(post);
+		const group = groups.find((item) => item.year === year);
+
+		if (group) {
+			group.posts.push(post);
+		} else {
+			groups.push({ year, posts: [post] });
+		}
+
+		return groups;
+	}, []);
+}
+
+export function getAvailableYears(posts: PostSummary[]) {
+	return Array.from(new Set(posts.map(getPostYear))).sort((a, b) => Number(b) - Number(a));
+}
+
+export function getAvailableTags(posts: PostSummary[]) {
+	const tagsByKey = new Map<string, string>();
+
+	for (const post of posts) {
+		for (const tag of post.tags) {
+			const key = normalizeTag(tag);
+			if (key && !tagsByKey.has(key)) {
+				tagsByKey.set(key, tag);
+			}
+		}
+	}
+
+	return Array.from(tagsByKey.entries())
+		.sort(([tagA], [tagB]) => tagA.localeCompare(tagB))
+		.map(([value, label]) => ({ value, label }));
 }
 
 export function selectHomePosts(posts: PostSummary[]) {
@@ -61,7 +105,8 @@ export function selectHomePosts(posts: PostSummary[]) {
 export const allPosts: Post[] = Object.entries(modules)
 	.map(([path, mod]) => {
 		const slug = path.split('/').pop()!.replace(/\.md$/, '');
-		return { slug, meta: mod.metadata, component: mod.default, path };
+		const meta = { ...mod.metadata, tags: mod.metadata.tags ?? [] };
+		return { slug, meta, component: mod.default, path };
 	})
 	.filter((p) => !p.meta.draft)
 	.sort((a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime());

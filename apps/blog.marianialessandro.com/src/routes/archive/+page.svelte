@@ -1,18 +1,65 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import PostMeta from '$lib/components/PostMeta.svelte';
 	import TagList from '$lib/components/TagList.svelte';
-	import type { PostSummary } from '$lib/posts';
+	import { getPostYear, groupPostsByYear, normalizeTag, type PostSummary } from '$lib/posts';
 
 	export let data: {
-		groupedPosts?: Array<{
-			year: string;
-			posts: PostSummary[];
-		}>;
+		posts?: PostSummary[];
+		availableYears?: string[];
+		availableTags?: Array<{ value: string; label: string }>;
 		postCount?: number;
 	};
 
-	const groupedPosts = data?.groupedPosts ?? [];
+	const posts = data?.posts ?? [];
+	const availableYears = data?.availableYears ?? [];
+	const availableTags = data?.availableTags ?? [];
 	const postCount = data?.postCount ?? 0;
+
+	$: selectedTag = browser ? normalizeTag($page.url.searchParams.get('tag') ?? '') : '';
+	$: selectedYear = browser ? ($page.url.searchParams.get('year') ?? '') : '';
+	$: filteredPosts = posts.filter((post) => {
+		const matchesYear = !selectedYear || getPostYear(post) === selectedYear;
+		const matchesTag =
+			!selectedTag || post.tags.some((tag) => normalizeTag(tag) === selectedTag);
+
+		return matchesYear && matchesTag;
+	});
+	$: groupedPosts = groupPostsByYear(filteredPosts);
+	$: hasActiveFilters = Boolean(selectedTag || selectedYear);
+	$: resultCount = filteredPosts.length;
+
+	function updateArchiveFilter(filter: 'tag' | 'year', value: string) {
+		const url = new URL($page.url);
+
+		if (value) {
+			url.searchParams.set(filter, value);
+		} else {
+			url.searchParams.delete(filter);
+		}
+
+		void goto(`${url.pathname}${url.search}`, {
+			keepFocus: true,
+			noScroll: true
+		});
+	}
+
+	function handleYearChange(event: Event) {
+		updateArchiveFilter('year', (event.currentTarget as HTMLSelectElement).value);
+	}
+
+	function handleTagChange(event: Event) {
+		updateArchiveFilter('tag', (event.currentTarget as HTMLSelectElement).value);
+	}
+
+	function clearFilters() {
+		void goto($page.url.pathname, {
+			keepFocus: true,
+			noScroll: true
+		});
+	}
 </script>
 
 <svelte:head>
@@ -24,13 +71,52 @@
 	<header class="archive-header">
 		<p>Archive</p>
 		<h1 id="archive-title">All posts</h1>
-		<span>{postCount} {postCount === 1 ? 'article' : 'articles'}</span>
+		<span>
+			{#if hasActiveFilters}
+				{resultCount} of {postCount} {postCount === 1 ? 'article' : 'articles'}
+			{:else}
+				{postCount} {postCount === 1 ? 'article' : 'articles'}
+			{/if}
+		</span>
 	</header>
 
-	{#if groupedPosts.length === 0}
+	{#if postCount > 0}
+		<form class="filter-bar" aria-label="Archive filters" on:submit|preventDefault>
+			<label>
+				<span>Year</span>
+				<select value={selectedYear} on:change={handleYearChange}>
+					<option value="">All years</option>
+					{#each availableYears as year (year)}
+						<option value={year}>{year}</option>
+					{/each}
+				</select>
+			</label>
+
+			<label>
+				<span>Tag</span>
+				<select value={selectedTag} on:change={handleTagChange}>
+					<option value="">All tags</option>
+					{#each availableTags as tag (tag.value)}
+						<option value={tag.value}>{tag.label}</option>
+					{/each}
+				</select>
+			</label>
+
+			{#if hasActiveFilters}
+				<button type="button" on:click={clearFilters}>Clear filters</button>
+			{/if}
+		</form>
+	{/if}
+
+	{#if postCount === 0}
 		<div class="empty-state">
 			<h2>No posts yet</h2>
 			<p>Check back soon for new notes.</p>
+		</div>
+	{:else if groupedPosts.length === 0}
+		<div class="empty-state">
+			<h2>No matching posts</h2>
+			<p>Try clearing filters or choosing a different tag or year.</p>
 		</div>
 	{:else}
 		<div class="year-groups">
@@ -77,6 +163,8 @@
 	.archive-header p,
 	.archive-header h1,
 	.archive-header span,
+	.filter-bar label,
+	.filter-bar span,
 	.empty-state h2,
 	.empty-state p {
 		margin: 0;
@@ -100,6 +188,64 @@
 	.archive-header span {
 		color: var(--muted);
 		font-size: 0.98rem;
+	}
+
+	.filter-bar {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+		padding: clamp(1rem, 3vw, 1.25rem) 0 0;
+	}
+
+	.filter-bar label {
+		display: grid;
+		gap: 0.35rem;
+		min-width: 0;
+	}
+
+	.filter-bar span {
+		color: var(--muted);
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.filter-bar select,
+	.filter-bar button {
+		width: 100%;
+		min-height: 2.65rem;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+		border-radius: var(--radius);
+		background: #fff;
+		color: var(--fg);
+		font: inherit;
+	}
+
+	.filter-bar select {
+		padding: 0 0.75rem;
+	}
+
+	.filter-bar button {
+		align-self: end;
+		min-height: 2.15rem;
+		padding: 0 0.2rem;
+		border-color: transparent;
+		background: transparent;
+		color: var(--muted);
+		font-size: 0.88rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition:
+			color 140ms ease,
+			border-color 140ms ease,
+			box-shadow 140ms ease;
+	}
+
+	.filter-bar button:hover {
+		border-color: transparent;
+		color: var(--accent);
+		box-shadow: none;
 	}
 
 	.year-groups {
@@ -190,6 +336,17 @@
 	}
 
 	@media (min-width: 760px) {
+		.filter-bar {
+			grid-template-columns: minmax(9rem, 12rem) minmax(12rem, 18rem) max-content;
+			align-items: end;
+			justify-content: end;
+		}
+
+		.filter-bar button {
+			width: auto;
+			justify-self: start;
+		}
+
 		.year-group {
 			grid-template-columns: 7rem minmax(0, 1fr);
 			align-items: start;
