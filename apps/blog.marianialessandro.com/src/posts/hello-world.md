@@ -50,7 +50,7 @@ External link: <https://kit.svelte.dev>
 
 TypeScript example:
 
-```ts
+```text
 export function greet(name: string): string {
 	const msg = `Hello, ${name}!`;
 	return msg;
@@ -69,7 +69,7 @@ npm run dev -- --open
 
 #### Long line example (H4)
 
-```js
+```text
 const url =
 	'https://example.com/path/very-long/with/many/segments/that/test/code-block-overflow?query=with-parameters&anchor=#hash';
 ```
