@@ -8,7 +8,7 @@
 </script>
 
 <footer class="site-footer">
-	<p>Copyright © {year} {name} All rights reserved</p>
+	<p>© {year} {name}. All rights reserved.</p>
 </footer>
 
 <style>

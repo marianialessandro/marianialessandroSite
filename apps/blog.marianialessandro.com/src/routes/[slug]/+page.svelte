@@ -1,4 +1,4 @@
-<!-- src/routes/blog/[slug]/+page.svelte -->
+<!-- src/routes/[slug]/+page.svelte -->
 <script lang="ts">
 	export let data;
 	import PostLayout from '$lib/layouts/PostLayout.svelte';

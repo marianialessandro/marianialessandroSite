@@ -8,7 +8,7 @@
 		"packages/*"
 	],
 	"scripts": {
-		"dev": "concurrently -n site,files -c blue,green \"npm run dev:site\" \"npm run dev:files\"",
+		"dev": "concurrently -n site,files,blog -c blue,green,magenta \"npm run dev:site\" \"npm run dev:files\" \"npm run dev:blog\"",
 		"dev:site": "npm run dev --workspace @marianialessandro/marianialessandro.com",
 		"dev:files": "npm run dev --workspace @marianialessandro/files.marianialessandro.com",
 		"dev:api": "composer dev --working-dir apps/api.marianialessandro.com",
@@ -16,6 +16,11 @@
 		"build:site": "npm run build --workspace @marianialessandro/marianialessandro.com",
 		"build:files": "npm run build --workspace @marianialessandro/files.marianialessandro.com",
 		"build:api": "npm run build --workspace @marianialessandro/api.marianialessandro.com",
+		"dev:blog": "npm run dev --workspace @marianialessandro/blog.marianialessandro.com",
+		"build": "npm run build --workspaces --if-present",
+		"build:site": "npm run build --workspace @marianialessandro/marianialessandro.com",
+		"build:files": "npm run build --workspace @marianialessandro/files.marianialessandro.com",
+		"build:blog": "npm run build --workspace @marianialessandro/blog.marianialessandro.com",
 		"check": "npm run check --workspaces --if-present",
 		"test:api": "composer test --working-dir apps/api.marianialessandro.com",
 		"lint": "prettier --check . && eslint .",
