@@ -1,0 +1,69 @@
+name: CD - Deploy api.marianialessandro.com
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy api.marianialessandro.com
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, sqlite, pdo_sqlite
+          coverage: none
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install Node dependencies
+        run: npm ci
+
+      - name: 📦 Install PHP dependencies
+        run: composer install --working-dir apps/api.marianialessandro.com --no-dev --prefer-dist --no-progress --optimize-autoloader
+
+      - name: 🔨 Build api.marianialessandro.com
+        run: npm run build:api
+
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+          protocol: ftp
+          port: 21
+
+          local-dir: apps/api.marianialessandro.com/
+          server-dir: api.marianialessandro.com/
+
+          dangerous-clean-slate: false
+          log-level: verbose
+          timeout: 60000
+
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .env
+            .phpunit.result.cache
+            node_modules/**
+            tests/**
+            storage/app/private/**
+            storage/framework/cache/**
+            storage/framework/sessions/**
+            storage/framework/testing/**
+            storage/framework/views/**
+            storage/logs/**

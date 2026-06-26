@@ -7,3 +7,9 @@ bun.lockb
 
 # Miscellaneous
 /static/
+vendor/
+**/vendor/
+node_modules/
+**/node_modules/
+public/build/
+**/public/build/

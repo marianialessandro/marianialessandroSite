@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+node_modules
+vendor
+storage/logs/*.log
+.phpunit.result.cache
+.phpunit.cache
+public/build
