@@ -1,0 +1,40 @@
+services:
+  api:
+    build:
+      context: ./apps/api.marianialessandro.com
+      dockerfile: Dockerfile
+    env_file:
+      - ./apps/api.marianialessandro.com/.env.local
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./apps/api.marianialessandro.com:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "composer install --no-interaction --prefer-dist
+      && php artisan migrate --env=local --force
+      && php artisan serve --env=local --host=0.0.0.0 --port=8000"
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: marianialessandro_api
+      MYSQL_USER: marianialessandro
+      MYSQL_PASSWORD: marianialessandro
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '3306:3306'
+    volumes:
+      - api_mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} --silent']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  api_mysql_data:

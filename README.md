@@ -75,6 +75,19 @@ Run Laravel API tests:
 npm run test:api
 ```
 
+Run the Laravel API with MySQL through Docker:
+
+```bash
+docker compose up -d
+curl http://localhost:8000/api/health
+```
+
+Stop the Docker services:
+
+```bash
+docker compose down
+```
+
 Run workspace checks:
 
 ```bash
