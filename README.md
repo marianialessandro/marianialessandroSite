@@ -8,6 +8,7 @@ This repository is now an `npm` workspace monorepo with three SvelteKit apps and
 .
 ├── apps
 │   ├── blog.marianialessandro.com
+│   ├── api.marianialessandro.com
 │   ├── files.marianialessandro.com
 │   ├── marianialessandro.com
 │   └── api.marianialessandro.com
@@ -18,6 +19,7 @@ This repository is now an `npm` workspace monorepo with three SvelteKit apps and
 ```
 
 - `apps/blog.marianialessandro.com`: the standalone blog website.
+- `apps/api.marianialessandro.com`: the Laravel API service.
 - `apps/marianialessandro.com`: the main personal website.
 - `apps/files.marianialessandro.com`: the secondary SvelteKit app.
 - `apps/api.marianialessandro.com`: the Laravel API app for `api.marianialessandro.com`.
@@ -100,6 +102,15 @@ Run workspace checks:
 ```bash
 npm run check
 ```
+
+Run the Laravel API with Docker:
+
+```bash
+cd /Users/marianialessandro/repository/marianialessandroSite
+docker compose up -d --build
+```
+
+The API is exposed at `http://localhost:8000/`; the database-backed health check is at `http://localhost:8000/api/health`.
 
 ## Shared Package Usage
 
