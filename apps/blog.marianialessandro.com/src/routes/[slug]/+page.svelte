@@ -11,4 +11,4 @@
 	{/if}
 </svelte:head>
 
-<PostLayout Content={data.Content} meta={data.meta} />
+<PostLayout contentHtml={data.contentHtml} meta={data.meta} />

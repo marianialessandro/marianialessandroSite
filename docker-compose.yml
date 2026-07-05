@@ -6,6 +6,7 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./apps/api.marianialessandro.com:/var/www/html
+      - ./apps/blog.marianialessandro.com/src/posts:/var/www/blog-posts:ro
     environment:
       APP_ENV: docker
       APP_DEBUG: "true"

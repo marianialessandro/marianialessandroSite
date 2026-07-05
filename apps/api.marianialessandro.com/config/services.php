@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'blog' => [
+        'api_token' => env('BLOG_API_TOKEN'),
+    ],
+
 ];

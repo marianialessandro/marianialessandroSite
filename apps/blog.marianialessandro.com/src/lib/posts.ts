@@ -1,4 +1,6 @@
 // src/lib/posts.ts
+import { PUBLIC_API_BASE_URL } from '$env/static/public';
+
 export type PostMeta = {
 	title: string;
 	date: string; // ISO string
@@ -10,26 +12,71 @@ export type PostMeta = {
 	featuredRank?: number;
 };
 
-type Module = {
-	metadata: PostMeta;
-	default: unknown; // componente svelte mdsvex
-};
-
-const modules = import.meta.glob<Module>('/src/posts/**/*.md', { eager: true });
-
-export type Post = {
-	slug: string;
-	meta: PostMeta;
-	component: unknown;
-	path: string;
-};
-
 export type PostSummary = PostMeta & {
+	id: number;
 	slug: string;
 };
 
-export function toPostSummary({ slug, meta }: Post): PostSummary {
-	return { slug, ...meta };
+export type Post = PostSummary & {
+	content: string;
+};
+
+type ApiPostSummary = {
+	id: number;
+	slug: string;
+	title: string;
+	description: string | null;
+	date: string;
+	tags: string[];
+	draft: boolean;
+	cover: string | null;
+	featured: boolean;
+	featured_rank: number | null;
+};
+
+type ApiPost = ApiPostSummary & { content: string };
+
+function fromApiSummary(api: ApiPostSummary): PostSummary {
+	return {
+		id: api.id,
+		slug: api.slug,
+		title: api.title,
+		date: api.date,
+		description: api.description ?? undefined,
+		tags: api.tags ?? [],
+		draft: api.draft,
+		cover: api.cover ?? undefined,
+		featured: api.featured,
+		featuredRank: api.featured_rank ?? undefined
+	};
+}
+
+let summariesCache: Promise<PostSummary[]> | null = null;
+const postCache = new Map<number, Promise<Post>>();
+
+export function getAllPostSummaries(fetchFn: typeof fetch): Promise<PostSummary[]> {
+	if (!summariesCache) {
+		summariesCache = fetchFn(`${PUBLIC_API_BASE_URL}/posts`).then(async (res) => {
+			if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
+			const { data }: { data: ApiPostSummary[] } = await res.json();
+			return data.map(fromApiSummary);
+		});
+	}
+	return summariesCache;
+}
+
+export function getPostById(fetchFn: typeof fetch, id: number): Promise<Post> {
+	if (!postCache.has(id)) {
+		postCache.set(
+			id,
+			fetchFn(`${PUBLIC_API_BASE_URL}/posts/${id}`).then(async (res) => {
+				if (!res.ok) throw new Error(`Failed to load post ${id} (${res.status})`);
+				const { data: api }: { data: ApiPost } = await res.json();
+				return { ...fromApiSummary(api), content: api.content };
+			})
+		);
+	}
+	return postCache.get(id)!;
 }
 
 export function normalizeTag(tag: string) {
@@ -101,12 +148,3 @@ export function selectHomePosts(posts: PostSummary[]) {
 		latestPosts
 	};
 }
-
-export const allPosts: Post[] = Object.entries(modules)
-	.map(([path, mod]) => {
-		const slug = path.split('/').pop()!.replace(/\.md$/, '');
-		const meta = { ...mod.metadata, tags: mod.metadata.tags ?? [] };
-		return { slug, meta, component: mod.default, path };
-	})
-	.filter((p) => !p.meta.draft)
-	.sort((a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime());

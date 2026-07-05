@@ -1,9 +1,10 @@
-import { allPosts, getAvailableTags, getAvailableYears, toPostSummary } from '$lib/posts';
+import { getAllPostSummaries, getAvailableTags, getAvailableYears } from '$lib/posts';
+import type { PageLoad } from './$types';
 
 export const prerender = true;
 
-export function load() {
-	const posts = allPosts.map(toPostSummary);
+export const load: PageLoad = async ({ fetch }) => {
+	const posts = await getAllPostSummaries(fetch);
 
 	return {
 		posts,
@@ -11,4 +12,4 @@ export function load() {
 		availableTags: getAvailableTags(posts),
 		postCount: posts.length
 	};
-}
+};

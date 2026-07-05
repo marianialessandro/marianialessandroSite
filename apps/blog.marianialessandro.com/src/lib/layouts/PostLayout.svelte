@@ -1,23 +1,19 @@
 <!-- src/lib/components/PostLayout.svelte -->
 <script lang="ts">
-	import type { Component } from 'svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import { TableOfContents } from '@marianialessandro/shared';
 	import ArticleHeader from '$lib/components/ArticleHeader.svelte';
 
-	export let Content: unknown;
+	export let contentHtml: string;
 	export let meta: { title?: string; description?: string; date?: string; tags?: string[] } = {};
 	export let showTitleFromMeta: boolean = true;
-	/* export let data: any; */
 
 	type H = { id: string; text: string; level: number };
 	let headings: H[] = [];
 	let activeId = '';
 	let observer: IntersectionObserver | null = null;
-	let ResolvedContent: Component;
 
 	$: hasTOC = headings.length > 0;
-	$: ResolvedContent = Content as Component;
 
 	const slugify = (str: string) =>
 		str
@@ -82,7 +78,7 @@
 		{/if}
 
 		<div class="post">
-			<svelte:component this={ResolvedContent} />
+			{@html contentHtml}
 		</div>
 	</article>
 </div>

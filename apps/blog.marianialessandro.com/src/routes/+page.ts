@@ -1,10 +1,11 @@
 // src/routes/+page.ts
-import { allPosts, selectHomePosts, toPostSummary } from '$lib/posts';
+import { getAllPostSummaries, selectHomePosts } from '$lib/posts';
+import type { PageLoad } from './$types';
 
 export const prerender = true;
 
-export function load() {
-	const posts = allPosts.map(toPostSummary);
+export const load: PageLoad = async ({ fetch }) => {
+	const posts = await getAllPostSummaries(fetch);
 	const { heroPost, featuredPosts, latestPosts } = selectHomePosts(posts);
 
 	return {
@@ -13,4 +14,4 @@ export function load() {
 		latestPosts,
 		postCount: posts.length
 	};
-}
+};
