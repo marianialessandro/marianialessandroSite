@@ -45,15 +45,19 @@ jobs:
 
       - name: 🔨 Build against temporary API
         run: |
+          bash apps/api.marianialessandro.com/deploy/shared-hosting/build.sh \
+            apps/api.marianialessandro.com \
+            "$RUNNER_TEMP/api-deploy"
+
           touch "$DB_DATABASE"
           php apps/api.marianialessandro.com/artisan migrate --force --no-interaction
           php apps/api.marianialessandro.com/artisan posts:import-markdown \
             --path="$GITHUB_WORKSPACE/apps/blog.marianialessandro.com/src/posts"
 
           (
-            cd apps/api.marianialessandro.com/public
+            cd "$RUNNER_TEMP/api-deploy"
             php -S 127.0.0.1:8000 \
-              "$GITHUB_WORKSPACE/apps/api.marianialessandro.com/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
+              "$RUNNER_TEMP/api-deploy/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
           ) > "$RUNNER_TEMP/blog-build-api.log" 2>&1 &
           api_pid=$!
           trap 'kill "$api_pid"' EXIT

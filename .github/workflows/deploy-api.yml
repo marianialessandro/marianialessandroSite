@@ -38,6 +38,12 @@ jobs:
       - name: 📦 Remove development dependencies
         run: composer install --working-dir apps/api.marianialessandro.com --no-dev --prefer-dist --no-progress --optimize-autoloader
 
+      - name: 🏗️ Prepare shared-hosting artifact
+        run: |
+          bash apps/api.marianialessandro.com/deploy/shared-hosting/build.sh \
+            apps/api.marianialessandro.com \
+            "$RUNNER_TEMP/api-deploy"
+
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
@@ -48,7 +54,7 @@ jobs:
           protocol: ftp
           port: 21
 
-          local-dir: apps/api.marianialessandro.com/
+          local-dir: ${{ runner.temp }}/api-deploy/
           server-dir: api.marianialessandro.com/
 
           dangerous-clean-slate: false
@@ -59,10 +65,12 @@ jobs:
             **/.git*
             **/.git*/**
             .env
+            .well-known/**
             .phpunit.result.cache
             node_modules/**
             tests/**
             storage/app/private/**
+            storage/app/public/**
             storage/framework/cache/**
             storage/framework/sessions/**
             storage/framework/testing/**

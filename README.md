@@ -123,13 +123,22 @@ import githubIcon from '@marianialessandro/shared/images/github.svg';
 - `CD - Deploy marianialessandro.com` publishes `apps/marianialessandro.com/build/` to `public_html/`.
 - `CD - Deploy files.marianialessandro.com` publishes `apps/files.marianialessandro.com/build/` to `files.marianialessandro.com/`.
 - `CD - Deploy blog.marianialessandro.com` publishes `apps/blog.marianialessandro.com/build/` to `blog.marianialessandro.com/`.
-- `CD - Deploy api.marianialessandro.com` publishes `apps/api.marianialessandro.com/` to `api.marianialessandro.com/`.
+- `CD - Deploy api.marianialessandro.com` builds a hardened shared-hosting
+  artifact and publishes it to `api.marianialessandro.com/`.
 
 ### API production configuration
 
-The web server document root for `api.marianialessandro.com` must point to
-`apps/api.marianialessandro.com/public`; the Laravel project root must never be
-served directly.
+The hosting provider fixes the document root for `api.marianialessandro.com` to
+`/public/api.marianialessandro.com`. The deploy artifact therefore places
+Laravel's public `index.php`, `.htaccess`, favicon, and `robots.txt` directly in
+that directory. Application directories are present in the same provider-owned
+webroot but are blocked both by the root rewrite rules and by a deny-all
+`.htaccess` inside every private top-level directory.
+
+Put the non-versioned production `.env` at
+`/public/api.marianialessandro.com/.env`, beside the deployed `index.php`. The
+deployment never uploads or deletes this file, and Apache explicitly denies
+HTTP access to it.
 
 Configure the API’s non-versioned production `.env` with at least:
 
