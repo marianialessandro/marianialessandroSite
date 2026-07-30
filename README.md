@@ -1,92 +1,69 @@
 # marianialessandro Monorepo
 
-This repository is now an `npm` workspace monorepo with three SvelteKit apps and one shared package.
+This repository is an `npm` workspace monorepo for the public site, related SvelteKit apps, a Laravel API, and shared frontend code.
 
 ## Structure
 
 ```text
 .
 ├── apps
-│   ├── blog.marianialessandro.com
 │   ├── api.marianialessandro.com
+│   ├── blog.marianialessandro.com
 │   ├── files.marianialessandro.com
-│   ├── marianialessandro.com
-│   └── api.marianialessandro.com
+│   └── marianialessandro.com
 ├── packages
 │   └── shared
+├── docker-compose.yml
 ├── package.json
 └── package-lock.json
 ```
 
-- `apps/blog.marianialessandro.com`: the standalone blog website.
-- `apps/api.marianialessandro.com`: the Laravel API service.
-- `apps/marianialessandro.com`: the main personal website.
-- `apps/files.marianialessandro.com`: the secondary SvelteKit app.
-- `apps/api.marianialessandro.com`: the Laravel API app for `api.marianialessandro.com`.
+- `apps/marianialessandro.com`: the main SvelteKit personal website.
+- `apps/files.marianialessandro.com`: the SvelteKit files subdomain.
+- `apps/blog.marianialessandro.com`: the SvelteKit blog frontend.
+- `apps/api.marianialessandro.com`: the Laravel API service — JSON endpoints only, no frontend/UI.
 - `packages/shared`: shared Svelte components, shared assets, and the global stylesheet.
 
-## MacOS Commands
+## Setup
 
-Install all workspace dependencies from the repo root:
+Install workspace dependencies from the repository root:
 
 ```bash
-cd /Users/marianialessandro/repository/marianialessandroSite
 npm install
 ```
 
-Run all development servers concurrently:
+The Laravel API also needs Composer dependencies inside its app directory:
+
+```bash
+composer install --working-dir apps/api.marianialessandro.com
+```
+
+## Development
+
+Run the SvelteKit development servers for the main site, files app, and blog:
 
 ```bash
 npm run dev
 ```
 
-Run each app individually from the repo root:
+Run individual frontend apps:
 
 ```bash
 npm run dev:site
 npm run dev:files
-npm run dev:api
 npm run dev:blog
 ```
 
-Run each app directly from its own directory:
+Run the Laravel API locally:
 
 ```bash
-cd /Users/marianialessandro/repository/marianialessandroSite/apps/marianialessandro.com
-npm run dev
-
-cd /Users/marianialessandro/repository/marianialessandroSite/apps/files.marianialessandro.com
-npm run dev
-
-cd /Users/marianialessandro/repository/marianialessandroSite/apps/blog.marianialessandro.com
-npm run dev
-```
-
-Build all projects for production:
-
-```bash
-cd /Users/marianialessandro/repository/marianialessandroSite
-npm run build
-```
-
-Build each app individually:
-
-```bash
-npm run build:site
-npm run build:files
-npm run build:api
-```
-
-Run Laravel API tests:
-
-```bash
-npm run test:api
+npm run dev:api
 ```
 
 Run the Laravel API with MySQL through Docker:
 
 ```bash
-docker compose up -d
+docker compose up -d --build
 curl http://localhost:8000/api/health
 ```
 
@@ -94,8 +71,25 @@ Stop the Docker services:
 
 ```bash
 docker compose down
+```
+
+## Build And Check
+
+Build all workspace projects:
+
+```bash
+npm run build
+```
+
+Build individual projects:
+
+```bash
+npm run build:site
+npm run build:files
 npm run build:blog
 ```
+
+The API is a JSON-only Laravel application and has no frontend build step.
 
 Run workspace checks:
 
@@ -103,14 +97,11 @@ Run workspace checks:
 npm run check
 ```
 
-Run the Laravel API with Docker:
+Run Laravel API tests:
 
 ```bash
-cd /Users/marianialessandro/repository/marianialessandroSite
-docker compose up -d --build
+npm run test:api
 ```
-
-The API is exposed at `http://localhost:8000/`; the database-backed health check is at `http://localhost:8000/api/health`.
 
 ## Shared Package Usage
 
@@ -127,10 +118,74 @@ Assets can be imported through the shared package exports:
 import githubIcon from '@marianialessandro/shared/images/github.svg';
 ```
 
-## Notes
+## Deployment
 
-- The footer used across apps lives in `packages/shared/src/lib/components/Footer.svelte`.
-- The shared global stylesheet lives in `packages/shared/src/styles/app.css`.
-- The `CD - Deploy marianialessandro.com` workflow publishes `apps/marianialessandro.com/build/` to `public_html/`.
-- The `CD - Deploy files.marianialessandro.com` workflow publishes `apps/files.marianialessandro.com/build/` to `files.marianialessandro.com/`.
-- The `CD - Deploy blog.marianialessandro.com` workflow publishes `apps/blog.marianialessandro.com/build/` to `blog.marianialessandro.com/`.
+- `CD - Deploy marianialessandro.com` publishes `apps/marianialessandro.com/build/` to `public_html/`.
+- `CD - Deploy files.marianialessandro.com` publishes `apps/files.marianialessandro.com/build/` to `files.marianialessandro.com/`.
+- `CD - Deploy blog.marianialessandro.com` publishes `apps/blog.marianialessandro.com/build/` to `blog.marianialessandro.com/`.
+- `CD - Deploy api.marianialessandro.com` publishes `apps/api.marianialessandro.com/` to `api.marianialessandro.com/`.
+
+### API production configuration
+
+The web server document root for `api.marianialessandro.com` must point to
+`apps/api.marianialessandro.com/public`; the Laravel project root must never be
+served directly.
+
+Configure the API’s non-versioned production `.env` with at least:
+
+```dotenv
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://api.marianialessandro.com
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=nome_database
+DB_USERNAME=utente_database
+DB_PASSWORD=password_database
+
+SESSION_DRIVER=database
+SESSION_DOMAIN=.marianialessandro.com
+SESSION_SECURE_COOKIE=true
+SESSION_HTTP_ONLY=true
+SESSION_SAME_SITE=lax
+SESSION_ENCRYPT=true
+SESSION_EXPIRE_ON_CLOSE=true
+
+CORS_ALLOWED_ORIGINS=https://blog.marianialessandro.com
+SANCTUM_STATEFUL_DOMAINS=blog.marianialessandro.com
+```
+
+The FTP workflow uploads the application but cannot execute database migrations.
+For the first installation on hosting without a server console:
+
+1. Create an empty MySQL/MariaDB database from the hosting panel.
+2. Open that database in phpMyAdmin.
+3. Select **Import**, choose
+   `apps/api.marianialessandro.com/database/phpmyadmin/000-initial-schema.sql`,
+   and run the import once.
+4. Put the database credentials in the server-side `.env`.
+5. Create the first administrator from phpMyAdmin with an `INSERT` into
+   `users`, setting `is_admin` to `1` and using a BCrypt password hash
+   (`$2y$...`). MySQL `MD5()`, `SHA1()`, and `PASSWORD()` are not compatible
+   with Laravel authentication. Change the temporary credentials immediately
+   from **Admin → Account** after the first login.
+
+The SQL file creates the complete schema and registers every current migration
+in Laravel’s `migrations` table. It must not be imported again over an existing
+database. Future schema changes require a numbered upgrade SQL file imported
+through phpMyAdmin; uploading files via FTP alone never changes the database.
+
+If server console access becomes available later, use Laravel normally after
+each API deployment:
+
+```bash
+php artisan migrate --force
+php artisan optimize:clear
+php artisan optimize
+```
+
+The `is_admin` migration preserves all existing accounts as administrators;
+new accounts are unprivileged by default unless created through the protected
+admin account interface or `php artisan users:create-admin`.

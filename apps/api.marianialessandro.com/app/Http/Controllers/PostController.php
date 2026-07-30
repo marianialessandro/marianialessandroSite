@@ -5,18 +5,32 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostSummaryResource;
 use App\Models\Post;
+use App\Services\BlogDeployTrigger;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct(private readonly BlogDeployTrigger $deployTrigger) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $posts = Post::where('draft', false)
+            ->where('date', '<=', now())
             ->orderByDesc('date')
             ->get();
+
+        return PostSummaryResource::collection($posts);
+    }
+
+    /**
+     * Display a listing of all posts, including drafts and scheduled posts, for the admin panel.
+     */
+    public function adminIndex()
+    {
+        $posts = Post::orderByDesc('date')->get();
 
         return PostSummaryResource::collection($posts);
     }
@@ -30,6 +44,10 @@ class PostController extends Controller
 
         $post = Post::create($validated)->fresh();
 
+        if (! $post->draft) {
+            $this->deployTrigger->trigger();
+        }
+
         return (new PostResource($post))->response()->setStatusCode(201);
     }
 
@@ -37,6 +55,16 @@ class PostController extends Controller
      * Display the specified resource.
      */
     public function show(Post $post)
+    {
+        abort_if($post->draft || $post->date->isFuture(), 404);
+
+        return new PostResource($post);
+    }
+
+    /**
+     * Display any post, including drafts and scheduled posts, to administrators.
+     */
+    public function adminShow(Post $post)
     {
         return new PostResource($post);
     }
@@ -46,9 +74,15 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $wasPublic = ! $post->draft;
+
         $validated = $this->validated($request, $post);
 
         $post->update($validated);
+
+        if ($wasPublic || ! $post->draft) {
+            $this->deployTrigger->trigger();
+        }
 
         return new PostResource($post);
     }
@@ -58,7 +92,13 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $wasPublic = ! $post->draft;
+
         $post->delete();
+
+        if ($wasPublic) {
+            $this->deployTrigger->trigger();
+        }
 
         return response()->json(null, 204);
     }

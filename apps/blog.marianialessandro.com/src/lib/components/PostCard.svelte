@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { ArrowRightAltOutline } from 'flowbite-svelte-icons';
 	import PostMeta from './PostMeta.svelte';
 	import TagList from './TagList.svelte';
@@ -19,7 +20,12 @@
 	let { post, featured = false }: Props = $props();
 </script>
 
-<a class:featured class="post-card" href={`/${post.slug}`} data-sveltekit-preload-data="hover">
+<a
+	class:featured
+	class="post-card"
+	href={resolve('/[slug]', { slug: post.slug })}
+	data-sveltekit-preload-data="hover"
+>
 	<div class="content">
 		<PostMeta date={post.date} compact={!featured} />
 		<h2>{post.title}</h2>

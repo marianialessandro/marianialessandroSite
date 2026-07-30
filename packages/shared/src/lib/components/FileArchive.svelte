@@ -89,15 +89,17 @@
 		border-radius: 1.75rem;
 		text-align: center;
 		border: 1px solid var(--line);
-		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(252, 252, 251, 0.98) 100%);
+		background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.96) 0%,
+			rgba(252, 252, 251, 0.98) 100%
+		);
 		box-shadow: var(--shadow);
 	}
 
 	.state-error {
 		border-color: color-mix(in srgb, #d44 28%, var(--line));
-		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 247, 247, 0.98) 100%);
+		background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 247, 247, 0.98) 100%);
 	}
 
 	.state-loading {

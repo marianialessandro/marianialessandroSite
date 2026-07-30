@@ -11,4 +11,4 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 EXPOSE 8000
 
-CMD ["sh", "-lc", "composer install --no-interaction --prefer-dist && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-lc", "composer install --no-interaction --prefer-dist && php artisan migrate --force && cd public && php -S 0.0.0.0:8000 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"]

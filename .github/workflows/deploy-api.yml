@@ -22,20 +22,21 @@ jobs:
           extensions: mbstring, dom, fileinfo, sqlite, pdo_sqlite
           coverage: none
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: 📦 Install Node dependencies
-        run: npm ci
-
       - name: 📦 Install PHP dependencies
-        run: composer install --working-dir apps/api.marianialessandro.com --no-dev --prefer-dist --no-progress --optimize-autoloader
+        run: composer install --working-dir apps/api.marianialessandro.com --prefer-dist --no-progress --optimize-autoloader
 
-      - name: 🔨 Build api.marianialessandro.com
-        run: npm run build:api
+      - name: 🧪 Test API
+        working-directory: apps/api.marianialessandro.com
+        env:
+          APP_KEY: base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+        run: php artisan test
+
+      - name: 🔎 Audit production dependencies
+        working-directory: apps/api.marianialessandro.com
+        run: composer audit --locked --no-dev
+
+      - name: 📦 Remove development dependencies
+        run: composer install --working-dir apps/api.marianialessandro.com --no-dev --prefer-dist --no-progress --optimize-autoloader
 
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6

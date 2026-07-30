@@ -6,7 +6,13 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	preprocess: [vitePreprocess()],
 	kit: {
-		adapter: adapter()
+		adapter: adapter({
+			// Lets a direct/refreshed request to a non-prerendered admin route
+			// (e.g. /admin/posts/123) resolve client-side if the static host
+			// rewrites unmatched paths here; navigating from within the admin
+			// panel itself always works via client-side routing regardless.
+			fallback: '200.html'
+		})
 	}
 };
 

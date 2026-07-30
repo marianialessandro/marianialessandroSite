@@ -35,8 +35,9 @@ return [
         ],
     ],
 
-    'blog' => [
-        'api_token' => env('BLOG_API_TOKEN'),
+    'github' => [
+        'deploy_token' => env('GITHUB_DEPLOY_TOKEN'),
+        'repository' => env('GITHUB_REPOSITORY'),
     ],
 
 ];

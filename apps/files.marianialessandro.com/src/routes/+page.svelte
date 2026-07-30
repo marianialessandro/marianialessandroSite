@@ -36,8 +36,7 @@
 					}))
 				: [];
 		} catch (error) {
-			errorMessage =
-				error instanceof Error ? error.message : 'Impossibile contattare l’API.';
+			errorMessage = error instanceof Error ? error.message : 'Impossibile contattare l’API.';
 		} finally {
 			isLoading = false;
 		}
@@ -48,10 +47,7 @@
 			return '/api/';
 		}
 
-		if (
-			window.location.hostname === 'localhost' ||
-			window.location.hostname === '127.0.0.1'
-		) {
+		if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
 			return 'https://files.marianialessandro.com/api/';
 		}
 
@@ -89,8 +85,11 @@
 		margin-bottom: 1.5rem;
 		border: 1px solid var(--line);
 		border-radius: 2rem;
-		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(252, 252, 251, 0.98) 100%);
+		background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.95) 0%,
+			rgba(252, 252, 251, 0.98) 100%
+		);
 		box-shadow: var(--shadow);
 	}
 

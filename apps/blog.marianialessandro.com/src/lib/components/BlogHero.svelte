@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { ArrowRightAltOutline } from 'flowbite-svelte-icons';
 
 	type Props = {
@@ -21,7 +22,7 @@
 	<div class="summary" aria-label="Blog information">
 		<p class="count">{postCount}</p>
 		<p class="label">{postCount === 1 ? 'published post' : 'published posts'}</p>
-		<a href="/archive/">
+		<a href={resolve('/archive')}>
 			Archive
 			<ArrowRightAltOutline width="1rem" height="1rem" ariaLabel="Open archive" />
 		</a>

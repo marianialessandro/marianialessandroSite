@@ -1,4 +1,5 @@
 // src/lib/posts.ts
+import { browser } from '$app/environment';
 import { PUBLIC_API_BASE_URL } from '$env/static/public';
 
 export type PostMeta = {
@@ -21,7 +22,7 @@ export type Post = PostSummary & {
 	content: string;
 };
 
-type ApiPostSummary = {
+export type ApiPostSummary = {
 	id: number;
 	slug: string;
 	title: string;
@@ -34,9 +35,37 @@ type ApiPostSummary = {
 	featured_rank: number | null;
 };
 
-type ApiPost = ApiPostSummary & { content: string };
+export type ApiPost = ApiPostSummary & { content: string };
 
-function fromApiSummary(api: ApiPostSummary): PostSummary {
+export type PostInput = {
+	slug: string;
+	title: string;
+	description?: string;
+	content: string;
+	date: string;
+	tags: string[];
+	draft: boolean;
+	cover?: string;
+	featured: boolean;
+	featuredRank?: number;
+};
+
+export function toApiPayload(input: PostInput) {
+	return {
+		slug: input.slug,
+		title: input.title,
+		description: input.description || null,
+		content: input.content,
+		date: input.date,
+		tags: input.tags,
+		draft: input.draft,
+		cover: input.cover || null,
+		featured: input.featured,
+		featured_rank: input.featuredRank ?? null
+	};
+}
+
+export function fromApiSummary(api: ApiPostSummary): PostSummary {
 	return {
 		id: api.id,
 		slug: api.slug,
@@ -54,9 +83,16 @@ function fromApiSummary(api: ApiPostSummary): PostSummary {
 let summariesCache: Promise<PostSummary[]> | null = null;
 const postCache = new Map<number, Promise<Post>>();
 
+function publicApiFetch(fetchFn: typeof fetch, url: string) {
+	// SvelteKit's universal fetch emulates browser CORS during prerendering.
+	// Server-side builds are not browser requests, so use Node's native fetch;
+	// real visitors still use the framework fetch and the API's CORS policy.
+	return (browser ? fetchFn : globalThis.fetch)(url);
+}
+
 export function getAllPostSummaries(fetchFn: typeof fetch): Promise<PostSummary[]> {
 	if (!summariesCache) {
-		summariesCache = fetchFn(`${PUBLIC_API_BASE_URL}/posts`).then(async (res) => {
+		summariesCache = publicApiFetch(fetchFn, `${PUBLIC_API_BASE_URL}/posts`).then(async (res) => {
 			if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
 			const { data }: { data: ApiPostSummary[] } = await res.json();
 			return data.map(fromApiSummary);
@@ -69,7 +105,7 @@ export function getPostById(fetchFn: typeof fetch, id: number): Promise<Post> {
 	if (!postCache.has(id)) {
 		postCache.set(
 			id,
-			fetchFn(`${PUBLIC_API_BASE_URL}/posts/${id}`).then(async (res) => {
+			publicApiFetch(fetchFn, `${PUBLIC_API_BASE_URL}/posts/${id}`).then(async (res) => {
 				if (!res.ok) throw new Error(`Failed to load post ${id} (${res.status})`);
 				const { data: api }: { data: ApiPost } = await res.json();
 				return { ...fromApiSummary(api), content: api.content };

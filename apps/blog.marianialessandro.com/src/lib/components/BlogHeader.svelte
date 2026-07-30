@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import {
 		ArchiveOutline,
@@ -12,7 +13,7 @@
 
 <header class="blog-header">
 	<div class="inner">
-		<a class="brand" href="/" aria-label="Home blog marianialessandro.com">
+		<a class="brand" href={resolve('/')} aria-label="Home blog marianialessandro.com">
 			<span class="brand-mark" aria-hidden="true">
 				<NewspaperOutline width="1rem" height="1rem" ariaLabel="marianialessandro.com" />
 			</span>
@@ -20,11 +21,11 @@
 		</a>
 
 		<nav aria-label="Blog navigation">
-			<a class:active={page.url.pathname === '/'} href="/">
+			<a class:active={page.url.pathname === '/'} href={resolve('/')}>
 				<HomeOutline width="0.95rem" height="0.95rem" ariaLabel="Blog home" />
 				Home
 			</a>
-			<a class:active={page.url.pathname.startsWith('/archive')} href="/archive/">
+			<a class:active={page.url.pathname.startsWith('/archive')} href={resolve('/archive')}>
 				<ArchiveOutline width="0.95rem" height="0.95rem" ariaLabel="Archive" />
 				Archive
 			</a>

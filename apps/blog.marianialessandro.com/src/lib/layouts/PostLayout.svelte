@@ -78,6 +78,7 @@
 		{/if}
 
 		<div class="post">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -- renderMarkdown sanitizes contentHtml -->
 			{@html contentHtml}
 		</div>
 	</article>

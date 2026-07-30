@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 
 	const blogUrl = 'https://blog.marianialessandro.com';
@@ -11,7 +12,7 @@
 		<nav aria-label="Primary">
 			<ul>
 				<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
-					<a href="/">Home</a>
+					<a href={resolve('/')}>Home</a>
 				</li>
 				<li aria-current={isBlog ? 'page' : undefined}>
 					<a href={blogUrl}>Blog</a>

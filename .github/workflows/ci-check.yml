@@ -9,6 +9,8 @@ jobs:
   build-check:
     name: Build Check
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_API_BASE_URL: https://api.marianialessandro.com/api
 
     steps:
       - name: 🚚 Get latest code
@@ -22,6 +24,17 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci
+
+      - name: 🧪 Test API
+        working-directory: apps/api.marianialessandro.com
+        env:
+          APP_KEY: base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+        run: |
+          composer install --no-interaction --prefer-dist --no-progress
+          php artisan test
+
+      - name: 🧪 Test blog
+        run: npm test --workspace @marianialessandro/blog.marianialessandro.com
 
       - name: 🔨 Try to Build
         run: npm run build

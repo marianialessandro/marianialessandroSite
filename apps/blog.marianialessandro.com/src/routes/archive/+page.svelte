@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/stores';
 	import PostMeta from '$lib/components/PostMeta.svelte';
 	import TagList from '$lib/components/TagList.svelte';
@@ -22,8 +23,7 @@
 	$: selectedYear = browser ? ($page.url.searchParams.get('year') ?? '') : '';
 	$: filteredPosts = posts.filter((post) => {
 		const matchesYear = !selectedYear || getPostYear(post) === selectedYear;
-		const matchesTag =
-			!selectedTag || post.tags.some((tag) => normalizeTag(tag) === selectedTag);
+		const matchesTag = !selectedTag || post.tags.some((tag) => normalizeTag(tag) === selectedTag);
 
 		return matchesYear && matchesTag;
 	});
@@ -40,7 +40,8 @@
 			url.searchParams.delete(filter);
 		}
 
-		void goto(`${url.pathname}${url.search}`, {
+		// eslint-disable-next-line svelte/no-navigation-without-resolve -- pathname is resolved before query parameters are appended
+		void goto(`${resolve('/archive')}${url.search}`, {
 			keepFocus: true,
 			noScroll: true
 		});
@@ -55,7 +56,7 @@
 	}
 
 	function clearFilters() {
-		void goto($page.url.pathname, {
+		void goto(resolve('/archive'), {
 			keepFocus: true,
 			noScroll: true
 		});
@@ -126,7 +127,11 @@
 
 					<div class="post-list">
 						{#each group.posts as post (post.slug)}
-							<a class="post-row" href={`/${post.slug}`} data-sveltekit-preload-data="hover">
+							<a
+								class="post-row"
+								href={resolve('/[slug]', { slug: post.slug })}
+								data-sveltekit-preload-data="hover"
+							>
 								<div class="post-main">
 									<PostMeta date={post.date} compact />
 									<h3>{post.title}</h3>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { ArrowRightAltOutline } from 'flowbite-svelte-icons';
 	import PostCard from '$lib/components/PostCard.svelte';
 	import PostMeta from '$lib/components/PostMeta.svelte';
@@ -39,7 +40,11 @@
 				</header>
 
 				<div class="spotlight-grid">
-					<a class="lead-post" href={`/${heroPost.slug}`} data-sveltekit-preload-data="hover">
+					<a
+						class="lead-post"
+						href={resolve('/[slug]', { slug: heroPost.slug })}
+						data-sveltekit-preload-data="hover"
+					>
 						{#if heroPost.cover}
 							<img class="lead-cover" src={heroPost.cover} alt="" loading="eager" />
 						{:else}
@@ -83,7 +88,7 @@
 						<p>Recent</p>
 						<h2 id="latest-title">Latest notes</h2>
 					</div>
-					<a class="archive-link" href="/archive/">
+					<a class="archive-link" href={resolve('/archive')}>
 						All posts
 						<ArrowRightAltOutline width="1rem" height="1rem" ariaLabel="Open archive" />
 					</a>
@@ -91,7 +96,11 @@
 
 				<div class="latest-grid">
 					{#each latestPosts as post (post.slug)}
-						<a class="latest-card" href={`/${post.slug}`} data-sveltekit-preload-data="hover">
+						<a
+							class="latest-card"
+							href={resolve('/[slug]', { slug: post.slug })}
+							data-sveltekit-preload-data="hover"
+						>
 							<div class="latest-copy">
 								<PostMeta date={post.date} compact />
 								<h3>{post.title}</h3>
@@ -205,9 +214,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: clamp(1rem, 3vw, 1.5rem);
-		background:
-			linear-gradient(135deg, rgba(255, 62, 0, 0.14), rgba(64, 117, 166, 0.18)),
-			#f8fafc;
+		background: linear-gradient(135deg, rgba(255, 62, 0, 0.14), rgba(64, 117, 166, 0.18)), #f8fafc;
 	}
 
 	.lead-visual span {
