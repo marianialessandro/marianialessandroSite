@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-check:
-    name: Build Check
+    name: Check Build Integrity
     runs-on: ubuntu-latest
     env:
       PUBLIC_API_BASE_URL: http://127.0.0.1:8000/api
