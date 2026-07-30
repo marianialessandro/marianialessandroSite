@@ -10,7 +10,16 @@ jobs:
     name: Build Check
     runs-on: ubuntu-latest
     env:
-      PUBLIC_API_BASE_URL: https://api.marianialessandro.com/api
+      PUBLIC_API_BASE_URL: http://127.0.0.1:8000/api
+      APP_ENV: testing
+      APP_KEY: base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+      APP_DEBUG: 'true'
+      APP_URL: http://127.0.0.1:8000
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ${{ github.workspace }}/blog-ci.sqlite
+      SESSION_DRIVER: array
+      CACHE_STORE: array
+      QUEUE_CONNECTION: sync
 
     steps:
       - name: 🚚 Get latest code
@@ -27,8 +36,6 @@ jobs:
 
       - name: 🧪 Test API
         working-directory: apps/api.marianialessandro.com
-        env:
-          APP_KEY: base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
         run: |
           composer install --no-interaction --prefer-dist --no-progress
           php artisan test
@@ -36,6 +43,31 @@ jobs:
       - name: 🧪 Test blog
         run: npm test --workspace @marianialessandro/blog.marianialessandro.com
 
-      - name: 🔨 Try to Build
-        run: npm run build
+      - name: 🔨 Build against temporary API
+        run: |
+          touch "$DB_DATABASE"
+          php apps/api.marianialessandro.com/artisan migrate --force --no-interaction
+          php apps/api.marianialessandro.com/artisan posts:import-markdown \
+            --path="$GITHUB_WORKSPACE/apps/blog.marianialessandro.com/src/posts"
+
+          (
+            cd apps/api.marianialessandro.com/public
+            php -S 127.0.0.1:8000 \
+              "$GITHUB_WORKSPACE/apps/api.marianialessandro.com/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
+          ) > "$RUNNER_TEMP/blog-build-api.log" 2>&1 &
+          api_pid=$!
+          trap 'kill "$api_pid"' EXIT
+
+          for attempt in {1..20}; do
+            if curl --fail --silent --max-time 5 http://127.0.0.1:8000/api/health > /dev/null; then
+              npm run build
+              exit 0
+            fi
+
+            sleep 1
+          done
+
+          cat "$RUNNER_TEMP/blog-build-api.log"
+          echo "::error::Temporary API did not start."
+          exit 1
       # Niente deploy qui! Se la build fallisce, l'azione diventa rossa.

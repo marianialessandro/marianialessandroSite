@@ -1,9 +1,7 @@
 name: CD - Deploy blog.marianialessandro.com
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
   workflow_dispatch:
   schedule:
     # Safety net for scheduled/future-dated posts: catches a post becoming

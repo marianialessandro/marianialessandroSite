@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-api:
     name: Deploy api.marianialessandro.com
     runs-on: ubuntu-latest
 
@@ -68,3 +68,36 @@ jobs:
             storage/framework/testing/**
             storage/framework/views/**
             storage/logs/**
+
+      - name: 🩺 Verify deployed API
+        env:
+          API_HEALTH_URL: https://api.marianialessandro.com/api/health
+        run: |
+          for attempt in {1..12}; do
+            response="$(curl --fail --silent --show-error --max-time 15 "$API_HEALTH_URL" || true)"
+
+            if RESPONSE="$response" php -r '
+              $payload = json_decode(getenv("RESPONSE"), true);
+              $healthy = is_array($payload)
+                  && ($payload["status"] ?? null) === "ok"
+                  && ($payload["database"] ?? null) === "connected";
+              exit($healthy ? 0 : 1);
+            '; then
+              echo "API health check passed."
+              exit 0
+            fi
+
+            echo "API not ready yet (attempt $attempt/12)."
+            if [ "$attempt" -lt 12 ]; then
+              sleep 10
+            fi
+          done
+
+          echo "::error::The deployed API did not become healthy; blog deployment is blocked."
+          exit 1
+
+  deploy-blog:
+    name: Deploy blog after API
+    needs: deploy-api
+    uses: ./.github/workflows/deploy-blog.yml
+    secrets: inherit
