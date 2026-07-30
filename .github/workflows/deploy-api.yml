@@ -79,6 +79,7 @@ jobs:
 
       - name: 🩺 Verify deployed API
         env:
+          API_ORIGIN: https://api.marianialessandro.com
           API_HEALTH_URL: https://api.marianialessandro.com/api/health
         run: |
           for attempt in {1..12}; do
@@ -91,7 +92,23 @@ jobs:
                   && ($payload["database"] ?? null) === "connected";
               exit($healthy ? 0 : 1);
             '; then
+              for protected_path in \
+                "/.env" \
+                "/config/app.php" \
+                "/vendor/composer/installed.json"; do
+                status_code="$(
+                  curl --silent --output /dev/null --write-out "%{http_code}" \
+                    --max-time 15 "${API_ORIGIN}${protected_path}" || true
+                )"
+
+                if [ "$status_code" != "403" ] && [ "$status_code" != "404" ]; then
+                  echo "::error::Private API path is not protected: ${protected_path} returned ${status_code}."
+                  exit 1
+                fi
+              done
+
               echo "API health check passed."
+              echo "Private API paths are protected."
               exit 0
             fi
 
