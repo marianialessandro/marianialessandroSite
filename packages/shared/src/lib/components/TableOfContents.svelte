@@ -15,11 +15,11 @@
 	};
 </script>
 
-<nav class="toc" aria-label="Indice dell’articolo">
-	<h2 class="toc-title">In questa pagina</h2>
+<nav class="toc" aria-label="Post table of contents">
+	<h2 class="toc-title">On this page</h2>
 
 	{#if headings.length === 0}
-		<p class="toc-empty">Nessun titolo trovato.</p>
+		<p class="toc-empty">No headings found.</p>
 	{:else}
 		<ul class="toc-list">
 			{#each headings as h (h.id)}
@@ -40,7 +40,7 @@
 
 <style>
 	.toc {
-		/* via lo sticky: ci pensa l’aside */
+		/* Sticky positioning is handled by the aside. */
 		max-height: none;
 		overflow: visible;
 		padding: 12px 8px;
@@ -69,7 +69,7 @@
 		margin: 0.2rem 0;
 	}
 
-	/* indentazione per livello (ora con H1) */
+	/* Level indentation, now including H1. */
 	.lvl-1 {
 		padding-left: 0;
 	}

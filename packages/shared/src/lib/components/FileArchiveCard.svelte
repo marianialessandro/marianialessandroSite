@@ -30,9 +30,12 @@
 			? file.size_human
 			: formatBytes(file.size_bytes ?? 0)
 	);
-	const modifiedLabel = $derived(file.modified_iso ? formatDate(file.modified_iso) : 'Non disponibile');
+	const modifiedLabel = $derived(
+		file.modified_iso ? formatDate(file.modified_iso) : 'Non disponibile'
+	);
 </script>
 
+<!-- eslint-disable svelte/no-navigation-without-resolve -- file.url is an external API URL -->
 <a
 	class="card"
 	href={file.url}
@@ -85,6 +88,8 @@
 	</div>
 </a>
 
+<!-- eslint-enable svelte/no-navigation-without-resolve -->
+
 <style>
 	.card {
 		position: relative;
@@ -94,8 +99,11 @@
 		padding: 1.15rem;
 		border-radius: 1.5rem;
 		border: 1px solid var(--line);
-		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(252, 252, 251, 0.98) 100%);
+		background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.96) 0%,
+			rgba(252, 252, 251, 0.98) 100%
+		);
 		box-shadow: var(--shadow);
 		overflow: hidden;
 		text-decoration: none;

@@ -1,0 +1,49 @@
+<IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Never expose dotfiles such as .env. Keep ACME challenges available.
+    RewriteRule "(^|/)\.(?!well-known(?:/|$))" - [F,L]
+
+    # Laravel has to live inside this provider-controlled webroot. Deny every
+    # application directory before applying the public front-controller rule.
+    RewriteRule ^(?:app|bootstrap|config|database|public|resources|routes|storage|tests|vendor)(?:/|$) - [F,L,NC]
+
+    # Only the root front controller may execute as a directly requested PHP file.
+    RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+    RewriteRule \.(?:php|phar)$ - [F,L,NC]
+
+    # Block sensitive deployment and configuration file types.
+    RewriteRule \.(?:env|ini|log|lock|sql|sqlite3?|ya?ml)$ - [F,L,NC]
+    RewriteRule ^(?:artisan|composer\.(?:json|lock)|package(?:-lock)?\.json|phpunit\.xml(?:\.dist)?)$ - [F,L,NC]
+
+    # Preserve authentication headers for Laravel Sanctum.
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect trailing slashes unless the target is a public directory.
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Serve public files from the root and route everything else to Laravel.
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+<FilesMatch "(^\.|^(?:artisan|composer\.(?:json|lock)|package(?:-lock)?\.json|phpunit\.xml(?:\.dist)?)$)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>

@@ -1,5 +1,10 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+
+	const blogUrl = 'https://blog.marianialessandro.com';
+	const isBlog =
+		page.url.hostname === 'blog.marianialessandro.com' || page.url.pathname.startsWith('/blog');
 </script>
 
 <header class="site-header">
@@ -7,10 +12,10 @@
 		<nav aria-label="Primary">
 			<ul>
 				<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
-					<a href="/">Home</a>
+					<a href={resolve('/')}>Home</a>
 				</li>
-				<li aria-current={page.url.pathname.startsWith('/blog') ? 'page' : undefined}>
-					<a href="/blog">Blog</a>
+				<li aria-current={isBlog ? 'page' : undefined}>
+					<a href={blogUrl}>Blog</a>
 				</li>
 			</ul>
 		</nav>
@@ -85,10 +90,10 @@
 	}
 
 	/* pagina corrente: bold + linea piena */
-	li[aria-current="page"] a {
+	li[aria-current='page'] a {
 		font-weight: 700;
 	}
-	li[aria-current="page"] a::after {
+	li[aria-current='page'] a::after {
 		background: currentColor;
 	}
 

@@ -1,0 +1,6 @@
+{
+	"$schema": "https://www.schemastore.org/package.json",
+	"name": "@marianialessandro/api.marianialessandro.com",
+	"private": true,
+	"type": "module"
+}

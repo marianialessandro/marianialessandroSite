@@ -7,3 +7,12 @@ bun.lockb
 
 # Miscellaneous
 /static/
+vendor/
+**/vendor/
+node_modules/
+**/node_modules/
+public/build/
+**/public/build/
+
+# Editorial Markdown is author-controlled content, not source formatting.
+apps/blog.marianialessandro.com/src/posts/

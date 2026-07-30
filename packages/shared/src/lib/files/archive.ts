@@ -30,7 +30,18 @@ const DISPLAY_NAME_MAP: Record<string, string> = {
 
 const IMAGE_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'avif']);
 const PDF_EXTENSIONS = new Set(['pdf']);
-const TEXT_EXTENSIONS = new Set(['txt', 'md', 'json', 'xml', 'csv', 'log', 'php', 'js', 'css', 'html']);
+const TEXT_EXTENSIONS = new Set([
+	'txt',
+	'md',
+	'json',
+	'xml',
+	'csv',
+	'log',
+	'php',
+	'js',
+	'css',
+	'html'
+]);
 const ARCHIVE_EXTENSIONS = new Set(['zip', 'rar', '7z', 'tar', 'gz']);
 
 export function getDisplayName(filename: string): string {
@@ -130,5 +141,5 @@ export function resolveFilesSiteUrl(url: string): string {
 
 function getExtension(filename: string): string {
 	const parts = filename.toLowerCase().split('.');
-	return parts.length > 1 ? parts.at(-1) ?? '' : '';
+	return parts.length > 1 ? (parts.at(-1) ?? '') : '';
 }

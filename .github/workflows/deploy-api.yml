@@ -1,0 +1,128 @@
+name: CD - Deploy api.marianialessandro.com
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-api:
+    name: Deploy api.marianialessandro.com
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, sqlite, pdo_sqlite
+          coverage: none
+
+      - name: 📦 Install PHP dependencies
+        run: composer install --working-dir apps/api.marianialessandro.com --prefer-dist --no-progress --optimize-autoloader
+
+      - name: 🧪 Test API
+        working-directory: apps/api.marianialessandro.com
+        env:
+          APP_KEY: base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+        run: php artisan test
+
+      - name: 🔎 Audit production dependencies
+        working-directory: apps/api.marianialessandro.com
+        run: composer audit --locked --no-dev
+
+      - name: 📦 Remove development dependencies
+        run: composer install --working-dir apps/api.marianialessandro.com --no-dev --prefer-dist --no-progress --optimize-autoloader
+
+      - name: 🏗️ Prepare shared-hosting artifact
+        run: |
+          bash apps/api.marianialessandro.com/deploy/shared-hosting/build.sh \
+            apps/api.marianialessandro.com \
+            "$RUNNER_TEMP/api-deploy"
+
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+          protocol: ftp
+          port: 21
+
+          local-dir: ${{ runner.temp }}/api-deploy/
+          server-dir: api.marianialessandro.com/
+
+          dangerous-clean-slate: false
+          log-level: verbose
+          timeout: 60000
+
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .env
+            .well-known/**
+            .phpunit.result.cache
+            node_modules/**
+            tests/**
+            storage/app/private/**
+            storage/app/public/**
+            storage/framework/cache/**
+            storage/framework/sessions/**
+            storage/framework/testing/**
+            storage/framework/views/**
+            storage/logs/**
+
+      - name: 🩺 Verify deployed API
+        env:
+          API_ORIGIN: https://api.marianialessandro.com
+          API_HEALTH_URL: https://api.marianialessandro.com/api/health
+        run: |
+          for attempt in {1..12}; do
+            response="$(curl --fail --silent --show-error --max-time 15 "$API_HEALTH_URL" || true)"
+
+            if RESPONSE="$response" php -r '
+              $payload = json_decode(getenv("RESPONSE"), true);
+              $healthy = is_array($payload)
+                  && ($payload["status"] ?? null) === "ok"
+                  && ($payload["database"] ?? null) === "connected";
+              exit($healthy ? 0 : 1);
+            '; then
+              for protected_path in \
+                "/.env" \
+                "/config/app.php" \
+                "/vendor/composer/installed.json"; do
+                status_code="$(
+                  curl --silent --output /dev/null --write-out "%{http_code}" \
+                    --max-time 15 "${API_ORIGIN}${protected_path}" || true
+                )"
+
+                if [ "$status_code" != "403" ] && [ "$status_code" != "404" ]; then
+                  echo "::error::Private API path is not protected: ${protected_path} returned ${status_code}."
+                  exit 1
+                fi
+              done
+
+              echo "API health check passed."
+              echo "Private API paths are protected."
+              exit 0
+            fi
+
+            echo "API not ready yet (attempt $attempt/12)."
+            if [ "$attempt" -lt 12 ]; then
+              sleep 10
+            fi
+          done
+
+          echo "::error::The deployed API did not become healthy; blog deployment is blocked."
+          exit 1
+
+  deploy-blog:
+    name: Deploy blog after API
+    needs: deploy-api
+    uses: ./.github/workflows/deploy-blog.yml
+    secrets: inherit

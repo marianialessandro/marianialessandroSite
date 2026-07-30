@@ -1,0 +1,52 @@
+name: CD - Deploy blog.marianialessandro.com
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  schedule:
+    # Safety net for scheduled/future-dated posts: catches a post becoming
+    # publicly visible even with no admin action on the day it goes live.
+    - cron: '0 * * * *'
+
+jobs:
+  deploy:
+    name: Deploy blog.marianialessandro.com
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_API_BASE_URL: https://api.marianialessandro.com/api
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔎 Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: 🔨 Build blog.marianialessandro.com
+        run: npm run build:blog
+
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+          protocol: ftp
+          port: 21
+
+          local-dir: apps/blog.marianialessandro.com/build/
+          server-dir: blog.marianialessandro.com/
+
+          dangerous-clean-slate: false
+          log-level: verbose
+          timeout: 60000
