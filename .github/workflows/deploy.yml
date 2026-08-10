@@ -7,6 +7,9 @@ on:
   # Opzionale: permette di lanciare il deploy manualmente dalla tab Actions
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Deploy marianialessandro.com

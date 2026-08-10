@@ -8,6 +8,9 @@ on:
     # publicly visible even with no admin action on the day it goes live.
     - cron: '0 * * * *'
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Deploy blog.marianialessandro.com
