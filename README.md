@@ -8,6 +8,7 @@ This repository is an `npm` workspace monorepo for the public site, related Svel
 .
 ├── apps
 │   ├── api.marianialessandro.com
+│   ├── apps.marianialessandro.com
 │   ├── blog.marianialessandro.com
 │   ├── files.marianialessandro.com
 │   └── marianialessandro.com
@@ -19,6 +20,7 @@ This repository is an `npm` workspace monorepo for the public site, related Svel
 ```
 
 - `apps/marianialessandro.com`: the main SvelteKit personal website.
+- `apps/apps.marianialessandro.com`: the SvelteKit applications portal.
 - `apps/files.marianialessandro.com`: the SvelteKit files subdomain.
 - `apps/blog.marianialessandro.com`: the SvelteKit blog frontend.
 - `apps/api.marianialessandro.com`: the Laravel API service — JSON endpoints only, no frontend/UI.
@@ -52,6 +54,7 @@ Run individual frontend apps:
 npm run dev:site
 npm run dev:files
 npm run dev:blog
+npm run dev:apps
 ```
 
 Run the Laravel API locally:
@@ -87,6 +90,7 @@ Build individual projects:
 npm run build:site
 npm run build:files
 npm run build:blog
+npm run build:apps
 ```
 
 The API is a JSON-only Laravel application and has no frontend build step.
@@ -125,6 +129,8 @@ import githubIcon from '@marianialessandro/shared/images/github.svg';
 - `CD - Deploy blog.marianialessandro.com` publishes `apps/blog.marianialessandro.com/build/` to `blog.marianialessandro.com/`.
 - `CD - Deploy api.marianialessandro.com` builds a hardened shared-hosting
   artifact and publishes it to `api.marianialessandro.com/`.
+- `CD - Deploy apps.marianialessandro.com` publishes
+  `apps/apps.marianialessandro.com/build/` to `apps.marianialessandro.com/`.
 
 ### API production configuration
 
