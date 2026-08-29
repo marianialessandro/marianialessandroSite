@@ -21,7 +21,7 @@ return [
         'trim',
         explode(',', env(
             'CORS_ALLOWED_ORIGINS',
-            'http://localhost:5175,http://localhost:5176,https://blog.marianialessandro.com,https://apps.marianialessandro.com,https://app.marianialessandro.com'
+            'http://localhost:5175,http://localhost:5176,https://blog.marianialessandro.com,https://apps.marianialessandro.com'
         ))
     ))),
 
