@@ -7,10 +7,9 @@ return [
     | Cross-Origin Resource Sharing (CORS) Configuration
     |--------------------------------------------------------------------------
     |
-    | Allows the blog frontend (a different origin) to call the JSON API
-    | directly from the browser, e.g. for the /admin panel. Credentials are
-    | session cookies, so production must list the exact trusted frontend
-    | origin in CORS_ALLOWED_ORIGINS.
+    | Allows trusted first-party frontends to call the JSON API directly from
+    | the browser. Credentials are session cookies, so production must list
+    | the exact trusted frontend origins in CORS_ALLOWED_ORIGINS.
     |
     */
 
@@ -20,7 +19,10 @@ return [
 
     'allowed_origins' => array_values(array_filter(array_map(
         'trim',
-        explode(',', env('CORS_ALLOWED_ORIGINS', 'http://localhost:5175'))
+        explode(',', env(
+            'CORS_ALLOWED_ORIGINS',
+            'http://localhost:5175,http://localhost:5176,https://blog.marianialessandro.com,https://apps.marianialessandro.com'
+        ))
     ))),
 
     'allowed_origins_patterns' => [],

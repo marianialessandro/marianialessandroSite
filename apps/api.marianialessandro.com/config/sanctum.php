@@ -13,14 +13,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | Requests from the following domains / hosts will receive stateful API
-    | authentication cookies. Typically, these should include your local
-    | and production domains which access your API via a frontend SPA.
+    | authentication cookies. The blog and apps frontends intentionally share
+    | the same first-party Laravel session while remaining separate projects.
     |
     */
 
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s,%s',
-        'localhost,localhost:5175,127.0.0.1:5175,blog.marianialessandro.com',
+        'localhost,localhost:5175,localhost:5176,127.0.0.1:5175,127.0.0.1:5176,blog.marianialessandro.com,apps.marianialessandro.com',
         Sanctum::currentApplicationUrlWithPort(),
     ))),
 
@@ -28,12 +28,6 @@ return [
     |--------------------------------------------------------------------------
     | Sanctum Guards
     |--------------------------------------------------------------------------
-    |
-    | This array contains the authentication guards that will be checked when
-    | Sanctum is trying to authenticate a request. If none of these guards
-    | are able to authenticate the request, Sanctum will use the bearer
-    | token that's present on an incoming request for authentication.
-    |
     */
 
     'guard' => ['web'],
@@ -42,11 +36,6 @@ return [
     |--------------------------------------------------------------------------
     | Expiration Minutes
     |--------------------------------------------------------------------------
-    |
-    | This value controls the number of minutes until an issued token will be
-    | considered expired. This will override any values set in the token's
-    | "expires_at" attribute, but first-party sessions are not affected.
-    |
     */
 
     'expiration' => 480,
@@ -55,13 +44,6 @@ return [
     |--------------------------------------------------------------------------
     | Token Prefix
     |--------------------------------------------------------------------------
-    |
-    | Sanctum can prefix new tokens in order to take advantage of numerous
-    | security scanning initiatives maintained by open source platforms
-    | that notify developers if they commit tokens into repositories.
-    |
-    | See: https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning
-    |
     */
 
     'token_prefix' => env('SANCTUM_TOKEN_PREFIX', ''),
@@ -70,11 +52,6 @@ return [
     |--------------------------------------------------------------------------
     | Sanctum Middleware
     |--------------------------------------------------------------------------
-    |
-    | When authenticating your first-party SPA with Sanctum you may need to
-    | customize some of the middleware Sanctum uses while processing the
-    | request. You may change the middleware listed below as required.
-    |
     */
 
     'middleware' => [

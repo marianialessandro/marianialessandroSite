@@ -18,6 +18,7 @@ These are exactly the checks `CI - Build Check` (`.github/workflows/ci-check.yml
 
 ```
 apps/marianialessandro.com    — main personal site (SvelteKit, adapter-static)
+apps/apps.marianialessandro.com — applications portal (SvelteKit, adapter-static)
 apps/files.marianialessandro.com — files subdomain (SvelteKit, adapter-static)
 apps/blog.marianialessandro.com  — blog frontend + admin CMS UI (SvelteKit, adapter-static)
 apps/api.marianialessandro.com   — Laravel API backing the blog (JSON only, no views)
@@ -34,15 +35,17 @@ Run from the repo root unless noted.
 npm install                                                    # install all workspaces
 composer install --working-dir apps/api.marianialessandro.com  # install API deps
 
-npm run dev            # site + files + blog dev servers concurrently
+npm run dev            # site + files + blog + apps dev servers concurrently
 npm run dev:site        # apps/marianialessandro.com    (port 5173)
 npm run dev:files       # apps/files.marianialessandro.com (port 5174)
 npm run dev:blog        # apps/blog.marianialessandro.com  (port 5175)
+npm run dev:apps        # apps/apps.marianialessandro.com  (port 5176)
 npm run dev:api         # Laravel API via `composer dev`
 docker compose up -d --build   # API + MySQL via Docker instead
 
 npm run build           # build all workspaces
 npm run build:site / build:files / build:blog
+npm run build:apps
 
 npm run check            # svelte-check across all workspaces
 npm run lint              # prettier --check . && eslint .
