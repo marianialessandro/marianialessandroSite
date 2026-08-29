@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
@@ -13,6 +14,14 @@ Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{post}', [PostController::class, 'show']);
 
 Route::get('/uploads/{path}', [UploadController::class, 'show'])->where('path', '.*');
+
+Route::middleware('auth:web')->group(function () {
+    Route::prefix('/notion')->middleware('throttle:notion')->group(function () {
+        Route::get('/sources', [NotionController::class, 'sources']);
+        Route::get('/{source}', [NotionController::class, 'show']);
+        Route::post('/{source}/query', [NotionController::class, 'query']);
+    });
+});
 
 Route::middleware(['auth:web', 'admin'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
