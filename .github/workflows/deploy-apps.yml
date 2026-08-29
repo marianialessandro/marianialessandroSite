@@ -13,6 +13,8 @@ jobs:
   deploy:
     name: Deploy apps.marianialessandro.com
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_API_BASE_URL: https://api.marianialessandro.com/api
 
     steps:
       - name: 🚚 Get latest code
