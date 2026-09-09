@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Nutrition\NutritionAccessPolicy;
 use App\Services\Nutrition\QueryCatalog;
 use App\Services\Nutrition\QueryExecutor;
 use Illuminate\Http\JsonResponse;
@@ -11,7 +12,7 @@ class NutritionController extends Controller
 {
     public function index(Request $request, QueryCatalog $catalog): JsonResponse
     {
-        $operations = array_filter($catalog->all(), fn ($operation) => $request->user()->tokenCan($operation['ability']));
+        $operations = array_filter($catalog->all(), fn ($operation) => app(NutritionAccessPolicy::class)->allows($request, $operation['ability']));
         return response()->json(['data' => array_values(array_map($catalog->describe(...), $operations))])->header('Cache-Control', 'no-store');
     }
 
@@ -19,7 +20,7 @@ class NutritionController extends Controller
     {
         $paths = [];
         foreach ($catalog->all() as $id => $operation) {
-            if (!$request->user()->tokenCan($operation['ability'])) {
+            if (!app(NutritionAccessPolicy::class)->allows($request, $operation['ability'])) {
                 continue;
             }
             $confirmation = in_array($operation['ability'], ['nutrition:delete', 'nutrition:maintenance'], true);
@@ -32,14 +33,14 @@ class NutritionController extends Controller
     public function show(Request $request, string $operation, QueryCatalog $catalog): JsonResponse
     {
         $entry = $catalog->get($operation);
-        abort_unless($request->user()->tokenCan($entry['ability']), 403);
+        abort_unless(app(NutritionAccessPolicy::class)->allows($request, $entry['ability']), 403);
         return response()->json($catalog->describe($entry))->header('Cache-Control', 'no-store');
     }
 
     public function execute(Request $request, string $operation, QueryCatalog $catalog, QueryExecutor $executor): JsonResponse
     {
         $entry = $catalog->get($operation);
-        abort_unless($request->user()->tokenCan($entry['ability']), 403);
+        abort_unless(app(NutritionAccessPolicy::class)->allows($request, $entry['ability']), 403);
         $request->validate(['parameters' => ['sometimes', 'array'], 'confirm' => [$entry['ability'] === 'nutrition:delete' || $entry['ability'] === 'nutrition:maintenance' ? 'required' : 'sometimes', 'accepted']]);
         $parameters = $request->input('parameters', []);
         return response()->json($executor->execute($entry, $parameters))->header('Cache-Control', 'no-store');

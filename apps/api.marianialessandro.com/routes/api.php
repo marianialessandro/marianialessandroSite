@@ -53,7 +53,7 @@ Route::get('/health', function () {
     ]);
 });
 
-Route::middleware(['auth:sanctum', 'admin', 'throttle:60,1'])->prefix('nutrition')->group(function () {
+Route::middleware([\App\Http\Middleware\AuthenticateNutrition::class, 'admin', 'throttle:60,1'])->prefix('nutrition')->group(function () {
     Route::get('/openapi.json', [\App\Http\Controllers\NutritionController::class, 'openapi']);
     Route::get('/queries', [\App\Http\Controllers\NutritionController::class, 'index']);
     Route::get('/queries/{operation}', [\App\Http\Controllers\NutritionController::class, 'show']);

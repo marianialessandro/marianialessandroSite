@@ -204,3 +204,7 @@ php artisan optimize
 The `is_admin` migration preserves all existing accounts as administrators;
 new accounts are unprivileged by default unless created through the protected
 admin account interface or `php artisan users:create-admin`.
+
+## MCP nutrizionale remoto
+
+Il server remoto è nella nuova directory [`services/nutrition-mcp`](services/nutrition-mcp/README.md), con OAuth, identità personale consentita, credenziali API di servizio e container indipendente. Il bridge stdio mantiene il percorso storico. Stato delle prove e prerequisiti di collegamento online in [`ACCEPTANCE.md`](services/nutrition-mcp/ACCEPTANCE.md).

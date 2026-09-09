@@ -1,0 +1,5623 @@
+[
+  {
+    "id": "5.1",
+    "description": "Inserire una giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giorno": {
+        "type": "string",
+        "default": "Mercoledi 9 settembre 2026",
+        "description": "giorno: rati_g,\n  target_grassi_g,\n  target_fibre_g,\n  note\n) VALUES (\n  'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: note\n) VALUES (\n  'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,"
+      },
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 0,
+        "description": "giornata_chiusa: 'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,"
+      },
+      "target_kcal": {
+        "type": "number",
+        "default": 2200,
+        "description": "target_kcal: rcoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL"
+      },
+      "target_proteine_g": {
+        "type": "number",
+        "default": 150,
+        "description": "target_proteine_g: 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "target_carboidrati_g": {
+        "type": "number",
+        "default": 220,
+        "description": "target_carboidrati_g: mbre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "target_grassi_g": {
+        "type": "number",
+        "default": 70,
+        "description": "target_grassi_g: 26',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "target_fibre_g": {
+        "type": "number",
+        "default": 30,
+        "description": "target_fibre_g: @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: _rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giorno": {
+          "type": "string",
+          "default": "Mercoledi 9 settembre 2026",
+          "description": "giorno: rati_g,\n  target_grassi_g,\n  target_fibre_g,\n  note\n) VALUES (\n  'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "tipo_giornata": {
+          "type": "string",
+          "default": "Non definita",
+          "description": "tipo_giornata: note\n) VALUES (\n  'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,"
+        },
+        "giornata_chiusa": {
+          "type": "number",
+          "default": 0,
+          "description": "giornata_chiusa: 'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,"
+        },
+        "target_kcal": {
+          "type": "number",
+          "default": 2200,
+          "description": "target_kcal: rcoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL"
+        },
+        "target_proteine_g": {
+          "type": "number",
+          "default": 150,
+          "description": "target_proteine_g: 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+        },
+        "target_carboidrati_g": {
+          "type": "number",
+          "default": 220,
+          "description": "target_carboidrati_g: mbre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+        },
+        "target_grassi_g": {
+          "type": "number",
+          "default": 70,
+          "description": "target_grassi_g: 26',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+        },
+        "target_fibre_g": {
+          "type": "number",
+          "default": 30,
+          "description": "target_fibre_g: @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "note: _rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.2",
+    "description": "Upsert della giornata per data",
+    "ability": "nutrition:write",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "%Y-%m-%d",
+        "description": "SQL value: _giornata,\n  giornata_chiusa\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',\n  0\n)\nON DUPLICATE KEY UPDATE\n  g"
+      },
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 0,
+        "description": "giornata_chiusa: _FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',\n  0\n)\nON DUPLICATE KEY UPDATE\n  giorno"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_1": {
+          "type": "string",
+          "default": "%Y-%m-%d",
+          "description": "SQL value: _giornata,\n  giornata_chiusa\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',"
+        },
+        "tipo_giornata": {
+          "type": "string",
+          "default": "Non definita",
+          "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',\n  0\n)\nON DUPLICATE KEY UPDATE\n  g"
+        },
+        "giornata_chiusa": {
+          "type": "number",
+          "default": 0,
+          "description": "giornata_chiusa: _FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',\n  0\n)\nON DUPLICATE KEY UPDATE\n  giorno"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.3",
+    "description": "Inserire un pasto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "pasto": {
+        "type": "string",
+        "default": "Pranzo",
+        "description": "pasto: bero_sociale,\n  fame_nervosa,\n  giornata_id,\n  note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 13:00:00",
+        "description": "SQL value: giornata_id,\n  note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Pranzo",
+        "description": "tipo: note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_i"
+      },
+      "contesto": {
+        "type": "string",
+        "default": "Casa",
+        "description": "contesto: ES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL"
+      },
+      "libero_sociale": {
+        "type": "number",
+        "default": 0,
+        "description": "libero_sociale: anzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+      },
+      "fame_nervosa": {
+        "type": "number",
+        "default": 0,
+        "description": "fame_nervosa: ,\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pasto": {
+          "type": "string",
+          "default": "Pranzo",
+          "description": "pasto: bero_sociale,\n  fame_nervosa,\n  giornata_id,\n  note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": " 13:00:00",
+          "description": "SQL value: giornata_id,\n  note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,"
+        },
+        "tipo": {
+          "type": "string",
+          "default": "Pranzo",
+          "description": "tipo: note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_i"
+        },
+        "contesto": {
+          "type": "string",
+          "default": "Casa",
+          "description": "contesto: ES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL"
+        },
+        "libero_sociale": {
+          "type": "number",
+          "default": 0,
+          "description": "libero_sociale: anzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+        },
+        "fame_nervosa": {
+          "type": "number",
+          "default": 0,
+          "description": "fame_nervosa: ,\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+        },
+        "giornata_id": {
+          "type": "integer"
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "note: ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+        }
+      },
+      "required": [
+        "data_rif",
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.4",
+    "description": "Inserire un prodotto alimentare",
+    "ability": "nutrition:write",
+    "parameters": {
+      "alimento_prodotto": {
+        "type": "string",
+        "default": "Prodotto di esempio",
+        "description": "alimento_prodotto: porzione,\n  fonte,\n  ultimo_controllo,\n  verificato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina"
+      },
+      "marca": {
+        "type": "string",
+        "default": "Marca di esempio",
+        "description": "marca: mo_controllo,\n  verificato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,"
+      },
+      "categoria": {
+        "type": "string",
+        "default": "Proteina",
+        "description": "categoria: cato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,"
+      },
+      "stato": {
+        "type": "string",
+        "default": "Ammesso",
+        "description": "stato: (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,"
+      },
+      "kcal_100g": {
+        "type": "number",
+        "default": 150,
+        "description": "kcal_100g: di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,"
+      },
+      "proteine_100g": {
+        "type": "number",
+        "default": 20,
+        "description": "proteine_100g: mpio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,"
+      },
+      "carboidrati_100g": {
+        "type": "number",
+        "default": 2,
+        "description": "carboidrati_100g: 'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  15"
+      },
+      "grassi_100g": {
+        "type": "number",
+        "default": 6,
+        "description": "grassi_100g: arca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,"
+      },
+      "fibre_100g": {
+        "type": "number",
+        "default": 0,
+        "description": "fibre_100g: di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etic"
+      },
+      "zuccheri_100g": {
+        "type": "number",
+        "default": 1,
+        "description": "zuccheri_100g: empio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta"
+      },
+      "sale_100g": {
+        "type": "number",
+        "default": 0.5,
+        "description": "sale_100g: ',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @d"
+      },
+      "porzione_tipica_g": {
+        "type": "number",
+        "default": 100,
+        "description": "porzione_tipica_g: roteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif"
+      },
+      "kcal_porzione": {
+        "type": "number",
+        "default": 150,
+        "description": "kcal_porzione: ',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Etichetta",
+        "description": "fonte: mmesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "verificato": {
+        "type": "number",
+        "default": 1,
+        "description": "verificato: 6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "alimento_prodotto": {
+          "type": "string",
+          "default": "Prodotto di esempio",
+          "description": "alimento_prodotto: porzione,\n  fonte,\n  ultimo_controllo,\n  verificato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina"
+        },
+        "marca": {
+          "type": "string",
+          "default": "Marca di esempio",
+          "description": "marca: mo_controllo,\n  verificato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,"
+        },
+        "categoria": {
+          "type": "string",
+          "default": "Proteina",
+          "description": "categoria: cato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,"
+        },
+        "stato": {
+          "type": "string",
+          "default": "Ammesso",
+          "description": "stato: (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,"
+        },
+        "kcal_100g": {
+          "type": "number",
+          "default": 150,
+          "description": "kcal_100g: di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,"
+        },
+        "proteine_100g": {
+          "type": "number",
+          "default": 20,
+          "description": "proteine_100g: mpio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,"
+        },
+        "carboidrati_100g": {
+          "type": "number",
+          "default": 2,
+          "description": "carboidrati_100g: 'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  15"
+        },
+        "grassi_100g": {
+          "type": "number",
+          "default": 6,
+          "description": "grassi_100g: arca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,"
+        },
+        "fibre_100g": {
+          "type": "number",
+          "default": 0,
+          "description": "fibre_100g: di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etic"
+        },
+        "zuccheri_100g": {
+          "type": "number",
+          "default": 1,
+          "description": "zuccheri_100g: empio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta"
+        },
+        "sale_100g": {
+          "type": "number",
+          "default": 0.5,
+          "description": "sale_100g: ',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @d"
+        },
+        "porzione_tipica_g": {
+          "type": "number",
+          "default": 100,
+          "description": "porzione_tipica_g: roteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif"
+        },
+        "kcal_porzione": {
+          "type": "number",
+          "default": 150,
+          "description": "kcal_porzione: ',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+        },
+        "fonte": {
+          "type": "string",
+          "default": "Etichetta",
+          "description": "fonte: mmesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "verificato": {
+          "type": "number",
+          "default": 1,
+          "description": "verificato: 6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.5",
+    "description": "Inserire una voce alimentare con valori già riferiti alla quantità consumata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "voce": {
+        "type": "string",
+        "default": "Prodotto di esempio - 170 g",
+        "description": "voce: a,\n  giornata_id,\n  pasto_id,\n  prodotto_id,\n  note\n) VALUES (\n  'Prodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 13:05:00",
+        "description": "SQL value: ) VALUES (\n  'Prodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crud"
+      },
+      "quantita": {
+        "type": "number",
+        "default": 170,
+        "description": "quantita: rodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  25"
+      },
+      "unita": {
+        "type": "string",
+        "default": "g",
+        "description": "unita: di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34"
+      },
+      "descrizione_quantita": {
+        "type": "string",
+        "default": "170 g",
+        "description": "descrizione_quantita: mpio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,"
+      },
+      "peso": {
+        "type": "string",
+        "default": "Crudo",
+        "description": "peso: g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,"
+      },
+      "kcal": {
+        "type": "number",
+        "default": 255,
+        "description": "kcal: T(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,"
+      },
+      "proteine_g": {
+        "type": "number",
+        "default": 34,
+        "description": "proteine_g: _rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,"
+      },
+      "carboidrati_g": {
+        "type": "number",
+        "default": 3.4,
+        "description": "carboidrati_g: ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodo"
+      },
+      "grassi_g": {
+        "type": "number",
+        "default": 10.2,
+        "description": "grassi_g: :00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto regi"
+      },
+      "fibre_g": {
+        "type": "number",
+        "default": 0,
+        "description": "fibre_g: 170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrat"
+      },
+      "zuccheri_g": {
+        "type": "number",
+        "default": 1.7,
+        "description": "zuccheri_g: 'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  '"
+      },
+      "alcol_g": {
+        "type": "number",
+        "default": 0,
+        "description": "alcol_g: '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta'"
+      },
+      "fonte_valori": {
+        "type": "string",
+        "default": "Prodotto registrato",
+        "description": "fonte_valori: 70 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta',\n  @giornata_id,\n  @past"
+      },
+      "affidabilita": {
+        "type": "string",
+        "default": "Alta",
+        "description": "affidabilita: 34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta',\n  @giornata_id,\n  @pasto_id,\n  @p"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: trato',\n  'Alta',\n  @giornata_id,\n  @pasto_id,\n  @prodotto_id,\n  NULL\n)"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "voce": {
+          "type": "string",
+          "default": "Prodotto di esempio - 170 g",
+          "description": "voce: a,\n  giornata_id,\n  pasto_id,\n  prodotto_id,\n  note\n) VALUES (\n  'Prodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": " 13:05:00",
+          "description": "SQL value: ) VALUES (\n  'Prodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crud"
+        },
+        "quantita": {
+          "type": "number",
+          "default": 170,
+          "description": "quantita: rodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  25"
+        },
+        "unita": {
+          "type": "string",
+          "default": "g",
+          "description": "unita: di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34"
+        },
+        "descrizione_quantita": {
+          "type": "string",
+          "default": "170 g",
+          "description": "descrizione_quantita: mpio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,"
+        },
+        "peso": {
+          "type": "string",
+          "default": "Crudo",
+          "description": "peso: g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,"
+        },
+        "kcal": {
+          "type": "number",
+          "default": 255,
+          "description": "kcal: T(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,"
+        },
+        "proteine_g": {
+          "type": "number",
+          "default": 34,
+          "description": "proteine_g: _rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,"
+        },
+        "carboidrati_g": {
+          "type": "number",
+          "default": 3.4,
+          "description": "carboidrati_g: ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodo"
+        },
+        "grassi_g": {
+          "type": "number",
+          "default": 10.2,
+          "description": "grassi_g: :00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto regi"
+        },
+        "fibre_g": {
+          "type": "number",
+          "default": 0,
+          "description": "fibre_g: 170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrat"
+        },
+        "zuccheri_g": {
+          "type": "number",
+          "default": 1.7,
+          "description": "zuccheri_g: 'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  '"
+        },
+        "alcol_g": {
+          "type": "number",
+          "default": 0,
+          "description": "alcol_g: '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta'"
+        },
+        "fonte_valori": {
+          "type": "string",
+          "default": "Prodotto registrato",
+          "description": "fonte_valori: 70 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta',\n  @giornata_id,\n  @past"
+        },
+        "affidabilita": {
+          "type": "string",
+          "default": "Alta",
+          "description": "affidabilita: 34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta',\n  @giornata_id,\n  @pasto_id,\n  @p"
+        },
+        "giornata_id": {
+          "type": "integer"
+        },
+        "pasto_id": {
+          "type": "integer"
+        },
+        "prodotto_id": {
+          "type": "integer"
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "note: trato',\n  'Alta',\n  @giornata_id,\n  @pasto_id,\n  @prodotto_id,\n  NULL\n)"
+        }
+      },
+      "required": [
+        "data_rif",
+        "giornata_id",
+        "pasto_id",
+        "prodotto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.6",
+    "description": "Inserire una voce calcolando kcal/macro dai valori per 100 g del prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": " - ",
+        "description": "SQL value: pasto_id,\n  prodotto_id\n)\nSELECT\n  CONCAT(ap.alimento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@dat"
+      },
+      "quantita_g": {
+        "type": "number"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " g",
+        "description": "SQL value: o_id\n)\nSELECT\n  CONCAT(ap.alimento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00')"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_3": {
+        "type": "string",
+        "default": " 13:10:00",
+        "description": "SQL value: limento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',"
+      },
+      "arg_1_4": {
+        "type": "string",
+        "default": "g",
+        "description": "SQL value: ita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g *"
+      },
+      "arg_1_5": {
+        "type": "string",
+        "default": "Crudo",
+        "description": "SQL value: ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_"
+      },
+      "arg_1_6": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: antita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @q"
+      },
+      "arg_1_7": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: a_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quan"
+      },
+      "arg_1_8": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g *"
+      },
+      "arg_1_9": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: ntita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @q"
+      },
+      "arg_1_10": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: uantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @qua"
+      },
+      "arg_1_11": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: ta_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quanti"
+      },
+      "arg_1_12": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quan"
+      },
+      "arg_1_13": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: uantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantit"
+      },
+      "arg_1_14": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @q"
+      },
+      "arg_1_15": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quan"
+      },
+      "arg_1_16": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CA"
+      },
+      "arg_1_17": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: ntita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CASE"
+      },
+      "arg_1_18": {
+        "type": "string",
+        "default": "Prodotto registrato",
+        "description": "SQL value: g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THE"
+      },
+      "arg_1_19": {
+        "type": "number",
+        "default": 1,
+        "description": "SQL value: / 100, 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @g"
+      },
+      "arg_1_20": {
+        "type": "string",
+        "default": "Alta",
+        "description": "SQL value: 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @giornata_id,"
+      },
+      "arg_1_21": {
+        "type": "string",
+        "default": "Media",
+        "description": "SQL value: otto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @giornata_id,\n  @pasto_id,"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": " - ",
+          "description": "SQL value: pasto_id,\n  prodotto_id\n)\nSELECT\n  CONCAT(ap.alimento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@dat"
+        },
+        "quantita_g": {
+          "type": "number"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": " g",
+          "description": "SQL value: o_id\n)\nSELECT\n  CONCAT(ap.alimento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00')"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_3": {
+          "type": "string",
+          "default": " 13:10:00",
+          "description": "SQL value: limento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',"
+        },
+        "arg_1_4": {
+          "type": "string",
+          "default": "g",
+          "description": "SQL value: ita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g *"
+        },
+        "arg_1_5": {
+          "type": "string",
+          "default": "Crudo",
+          "description": "SQL value: ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_"
+        },
+        "arg_1_6": {
+          "type": "number",
+          "default": 100,
+          "description": "SQL value: antita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @q"
+        },
+        "arg_1_7": {
+          "type": "number",
+          "default": 3,
+          "description": "SQL value: a_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quan"
+        },
+        "arg_1_8": {
+          "type": "number",
+          "default": 100,
+          "description": "SQL value: @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g *"
+        },
+        "arg_1_9": {
+          "type": "number",
+          "default": 3,
+          "description": "SQL value: ntita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @q"
+        },
+        "arg_1_10": {
+          "type": "number",
+          "default": 100,
+          "description": "SQL value: uantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @qua"
+        },
+        "arg_1_11": {
+          "type": "number",
+          "default": 3,
+          "description": "SQL value: ta_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quanti"
+        },
+        "arg_1_12": {
+          "type": "number",
+          "default": 100,
+          "description": "SQL value: * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quan"
+        },
+        "arg_1_13": {
+          "type": "number",
+          "default": 3,
+          "description": "SQL value: uantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantit"
+        },
+        "arg_1_14": {
+          "type": "number",
+          "default": 100,
+          "description": "SQL value: g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @q"
+        },
+        "arg_1_15": {
+          "type": "number",
+          "default": 3,
+          "description": "SQL value: quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quan"
+        },
+        "arg_1_16": {
+          "type": "number",
+          "default": 100,
+          "description": "SQL value: @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CA"
+        },
+        "arg_1_17": {
+          "type": "number",
+          "default": 3,
+          "description": "SQL value: ntita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CASE"
+        },
+        "arg_1_18": {
+          "type": "string",
+          "default": "Prodotto registrato",
+          "description": "SQL value: g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THE"
+        },
+        "arg_1_19": {
+          "type": "number",
+          "default": 1,
+          "description": "SQL value: / 100, 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @g"
+        },
+        "arg_1_20": {
+          "type": "string",
+          "default": "Alta",
+          "description": "SQL value: 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @giornata_id,"
+        },
+        "arg_1_21": {
+          "type": "string",
+          "default": "Media",
+          "description": "SQL value: otto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @giornata_id,\n  @pasto_id,"
+        },
+        "giornata_id": {
+          "type": "integer"
+        },
+        "pasto_id": {
+          "type": "integer"
+        },
+        "prodotto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "quantita_g",
+        "data_rif",
+        "giornata_id",
+        "pasto_id",
+        "prodotto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.7",
+    "description": "Inserire una misura corporea",
+    "ability": "nutrition:write",
+    "parameters": {
+      "rilevazione": {
+        "type": "string",
+        "default": "Rilevazione mattutina",
+        "description": "rilevazione: fonte,\n  affidabilita,\n  condizioni,\n  giornata_id\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "peso_kg": {
+        "type": "number",
+        "default": 80.2,
+        "description": "peso_kg: giornata_id\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,"
+      },
+      "vita_cm": {
+        "type": "number",
+        "default": 86.5,
+        "description": "vita_cm: d\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,"
+      },
+      "fianchi_cm": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "fianchi_cm: ES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilanc"
+      },
+      "torace_cm": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "torace_cm: Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  '"
+      },
+      "massa_grassa_pct": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "massa_grassa_pct: one mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',"
+      },
+      "massa_muscolare_kg": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "massa_muscolare_kg: utina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattin"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Bilancia",
+        "description": "fonte: @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',"
+      },
+      "affidabilita": {
+        "type": "string",
+        "default": "Alta",
+        "description": "affidabilita: 80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',\n  @giorna"
+      },
+      "condizioni": {
+        "type": "string",
+        "default": "Mattina, a digiuno",
+        "description": "condizioni: 86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',\n  @giornata_id\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "rilevazione": {
+          "type": "string",
+          "default": "Rilevazione mattutina",
+          "description": "rilevazione: fonte,\n  affidabilita,\n  condizioni,\n  giornata_id\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "peso_kg": {
+          "type": "number",
+          "default": 80.2,
+          "description": "peso_kg: giornata_id\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,"
+        },
+        "vita_cm": {
+          "type": "number",
+          "default": 86.5,
+          "description": "vita_cm: d\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,"
+        },
+        "fianchi_cm": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "default": null,
+          "description": "fianchi_cm: ES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilanc"
+        },
+        "torace_cm": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "default": null,
+          "description": "torace_cm: Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  '"
+        },
+        "massa_grassa_pct": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "default": null,
+          "description": "massa_grassa_pct: one mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',"
+        },
+        "massa_muscolare_kg": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "default": null,
+          "description": "massa_muscolare_kg: utina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattin"
+        },
+        "fonte": {
+          "type": "string",
+          "default": "Bilancia",
+          "description": "fonte: @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',"
+        },
+        "affidabilita": {
+          "type": "string",
+          "default": "Alta",
+          "description": "affidabilita: 80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',\n  @giorna"
+        },
+        "condizioni": {
+          "type": "string",
+          "default": "Mattina, a digiuno",
+          "description": "condizioni: 86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',\n  @giornata_id\n)"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "data_rif",
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.8",
+    "description": "Inserire un'attività",
+    "ability": "nutrition:write",
+    "parameters": {
+      "attivita": {
+        "type": "string",
+        "default": "Camminata",
+        "description": "attivita: ,\n  intensita_percepita_0_10,\n  giornata_id,\n  note\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 18:30:00",
+        "description": "SQL value: iornata_id,\n  note\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Camminata",
+        "description": "tipo: te\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Apple Watch",
+        "description": "fonte: 'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112"
+      },
+      "durata_min": {
+        "type": "number",
+        "default": 45,
+        "description": "durata_min: ONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  14"
+      },
+      "distanza_km": {
+        "type": "number",
+        "default": 4.3,
+        "description": "distanza_km: @data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,"
+      },
+      "passi": {
+        "type": "number",
+        "default": 5800,
+        "description": "passi: if, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @gior"
+      },
+      "calorie_attive_dispositivo": {
+        "type": "number",
+        "default": 260,
+        "description": "calorie_attive_dispositivo: :30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id"
+      },
+      "fc_media": {
+        "type": "number",
+        "default": 112,
+        "description": "fc_media: ),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NUL"
+      },
+      "fc_max": {
+        "type": "number",
+        "default": 148,
+        "description": "fc_max: amminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+      },
+      "intensita_percepita_0_10": {
+        "type": "number",
+        "default": 4,
+        "description": "intensita_percepita_0_10: a',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: 45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "attivita": {
+          "type": "string",
+          "default": "Camminata",
+          "description": "attivita: ,\n  intensita_percepita_0_10,\n  giornata_id,\n  note\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": " 18:30:00",
+          "description": "SQL value: iornata_id,\n  note\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',"
+        },
+        "tipo": {
+          "type": "string",
+          "default": "Camminata",
+          "description": "tipo: te\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5"
+        },
+        "fonte": {
+          "type": "string",
+          "default": "Apple Watch",
+          "description": "fonte: 'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112"
+        },
+        "durata_min": {
+          "type": "number",
+          "default": 45,
+          "description": "durata_min: ONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  14"
+        },
+        "distanza_km": {
+          "type": "number",
+          "default": 4.3,
+          "description": "distanza_km: @data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,"
+        },
+        "passi": {
+          "type": "number",
+          "default": 5800,
+          "description": "passi: if, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @gior"
+        },
+        "calorie_attive_dispositivo": {
+          "type": "number",
+          "default": 260,
+          "description": "calorie_attive_dispositivo: :30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id"
+        },
+        "fc_media": {
+          "type": "number",
+          "default": 112,
+          "description": "fc_media: ),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NUL"
+        },
+        "fc_max": {
+          "type": "number",
+          "default": 148,
+          "description": "fc_max: amminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+        },
+        "intensita_percepita_0_10": {
+          "type": "number",
+          "default": 4,
+          "description": "intensita_percepita_0_10: a',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+        },
+        "giornata_id": {
+          "type": "integer"
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "note: 45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+        }
+      },
+      "required": [
+        "data_rif",
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.9",
+    "description": "Inserire un integratore",
+    "ability": "nutrition:write",
+    "parameters": {
+      "integratore": {
+        "type": "string",
+        "default": "Integratore di esempio",
+        "description": "integratore: motivo,\n  note_composizione,\n  stato,\n  data_inizio\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'cap"
+      },
+      "marca": {
+        "type": "string",
+        "default": "Marca di esempio",
+        "description": "marca: stato,\n  data_inizio\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al g"
+      },
+      "dose": {
+        "type": "number",
+        "default": 1,
+        "description": "dose: o\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno"
+      },
+      "unita_dose": {
+        "type": "string",
+        "default": "capsula",
+        "description": "unita_dose: ALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo co"
+      },
+      "frequenza": {
+        "type": "string",
+        "default": "1 volta al giorno",
+        "description": "frequenza: tegratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',"
+      },
+      "momento": {
+        "type": "string",
+        "default": "Dopo colazione",
+        "description": "momento: 'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',"
+      },
+      "motivo": {
+        "type": "string",
+        "default": "Esempio",
+        "description": "motivo: ,\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+      },
+      "note_composizione": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note_composizione: sula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+      },
+      "stato": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "stato: '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+      },
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "integratore": {
+          "type": "string",
+          "default": "Integratore di esempio",
+          "description": "integratore: motivo,\n  note_composizione,\n  stato,\n  data_inizio\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'cap"
+        },
+        "marca": {
+          "type": "string",
+          "default": "Marca di esempio",
+          "description": "marca: stato,\n  data_inizio\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al g"
+        },
+        "dose": {
+          "type": "number",
+          "default": 1,
+          "description": "dose: o\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno"
+        },
+        "unita_dose": {
+          "type": "string",
+          "default": "capsula",
+          "description": "unita_dose: ALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo co"
+        },
+        "frequenza": {
+          "type": "string",
+          "default": "1 volta al giorno",
+          "description": "frequenza: tegratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',"
+        },
+        "momento": {
+          "type": "string",
+          "default": "Dopo colazione",
+          "description": "momento: 'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',"
+        },
+        "motivo": {
+          "type": "string",
+          "default": "Esempio",
+          "description": "motivo: ,\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+        },
+        "note_composizione": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "note_composizione: sula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+        },
+        "stato": {
+          "type": "string",
+          "default": "Attivo",
+          "description": "stato: '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.10",
+    "description": "Registrare una singola assunzione",
+    "ability": "nutrition:write",
+    "parameters": {
+      "assunzione": {
+        "type": "string",
+        "default": "Assunzione integratore di esempio",
+        "description": "assunzione: ornata_id,\n  dose_assunta,\n  unita,\n  esito,\n  note\n) VALUES (\n  'Assunzione integratore di esempio',\n  CONCAT(@data_rif, ' 09:00:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 09:00:00",
+        "description": "SQL value: UES (\n  'Assunzione integratore di esempio',\n  CONCAT(@data_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_i"
+      },
+      "integratore_id": {
+        "type": "integer"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "dose_assunta": {
+        "type": "number",
+        "default": 1,
+        "description": "dose_assunta: AT(@data_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      },
+      "unita": {
+        "type": "string",
+        "default": "capsula",
+        "description": "unita: ata_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      },
+      "esito": {
+        "type": "string",
+        "default": "Preso",
+        "description": "esito: :00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "assunzione": {
+          "type": "string",
+          "default": "Assunzione integratore di esempio",
+          "description": "assunzione: ornata_id,\n  dose_assunta,\n  unita,\n  esito,\n  note\n) VALUES (\n  'Assunzione integratore di esempio',\n  CONCAT(@data_rif, ' 09:00:00'),"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": " 09:00:00",
+          "description": "SQL value: UES (\n  'Assunzione integratore di esempio',\n  CONCAT(@data_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_i"
+        },
+        "integratore_id": {
+          "type": "integer"
+        },
+        "giornata_id": {
+          "type": "integer"
+        },
+        "dose_assunta": {
+          "type": "number",
+          "default": 1,
+          "description": "dose_assunta: AT(@data_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+        },
+        "unita": {
+          "type": "string",
+          "default": "capsula",
+          "description": "unita: ata_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+        },
+        "esito": {
+          "type": "string",
+          "default": "Preso",
+          "description": "esito: :00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "note: @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+        }
+      },
+      "required": [
+        "data_rif",
+        "integratore_id",
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.11",
+    "description": "Inserire un'osservazione/apprendimento",
+    "ability": "nutrition:write",
+    "parameters": {
+      "osservazione": {
+        "type": "string",
+        "default": "Buona sazietà a pranzo",
+        "description": "osservazione: attiva,\n  regola_stabile,\n  giornata_id,\n  pasto_id\n) VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Uten"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Sazieta",
+        "description": "tipo: pasto_id\n) VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata do"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Utente",
+        "description": "fonte: VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto."
+      },
+      "dettaglio": {
+        "type": "string",
+        "default": "Sazietà elevata dopo il pasto.",
+        "description": "dettaglio: Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto.',\n  'La composizione del pasto è ri"
+      },
+      "apprendimento": {
+        "type": "string",
+        "default": "La composizione del pasto è risultata saziante.",
+        "description": "apprendimento: ,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto.',\n  'La composizione del pasto è risultata saziante.',\n  'Valutare di riutilizzare una c"
+      },
+      "azione_futura": {
+        "type": "string",
+        "default": "Valutare di riutilizzare una composizione simile.",
+        "description": "azione_futura: pasto.',\n  'La composizione del pasto è risultata saziante.',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,"
+      },
+      "valutazione_0_10": {
+        "type": "number",
+        "default": 8,
+        "description": "valutazione_0_10: ante.',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @past"
+      },
+      "attiva": {
+        "type": "number",
+        "default": 1,
+        "description": "attiva: ',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @pasto_id"
+      },
+      "regola_stabile": {
+        "type": "number",
+        "default": 0,
+        "description": "regola_stabile: 'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @pasto_id\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "osservazione": {
+          "type": "string",
+          "default": "Buona sazietà a pranzo",
+          "description": "osservazione: attiva,\n  regola_stabile,\n  giornata_id,\n  pasto_id\n) VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Uten"
+        },
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "tipo": {
+          "type": "string",
+          "default": "Sazieta",
+          "description": "tipo: pasto_id\n) VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata do"
+        },
+        "fonte": {
+          "type": "string",
+          "default": "Utente",
+          "description": "fonte: VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto."
+        },
+        "dettaglio": {
+          "type": "string",
+          "default": "Sazietà elevata dopo il pasto.",
+          "description": "dettaglio: Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto.',\n  'La composizione del pasto è ri"
+        },
+        "apprendimento": {
+          "type": "string",
+          "default": "La composizione del pasto è risultata saziante.",
+          "description": "apprendimento: ,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto.',\n  'La composizione del pasto è risultata saziante.',\n  'Valutare di riutilizzare una c"
+        },
+        "azione_futura": {
+          "type": "string",
+          "default": "Valutare di riutilizzare una composizione simile.",
+          "description": "azione_futura: pasto.',\n  'La composizione del pasto è risultata saziante.',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,"
+        },
+        "valutazione_0_10": {
+          "type": "number",
+          "default": 8,
+          "description": "valutazione_0_10: ante.',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @past"
+        },
+        "attiva": {
+          "type": "number",
+          "default": 1,
+          "description": "attiva: ',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @pasto_id"
+        },
+        "regola_stabile": {
+          "type": "number",
+          "default": 0,
+          "description": "regola_stabile: 'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @pasto_id\n)"
+        },
+        "giornata_id": {
+          "type": "integer"
+        },
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "data_rif",
+        "giornata_id",
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "5.12",
+    "description": "Inserimento atomico di giornata + pasto + voci",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giorno": {
+        "type": "string",
+        "default": "Giornata transazionale",
+        "description": "giorno: rio_giornaliero (\n  giorno,\n  data,\n  tipo_giornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'"
+      },
+      "data": {
+        "type": "string",
+        "default": "2026-09-10",
+        "description": "data: data,\n  tipo_giornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'\n)\nON DUPLICATE K"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: iornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+      },
+      "pasto": {
+        "type": "string",
+        "default": "Cena",
+        "description": "pasto: asto,\n  data_ora,\n  tipo,\n  contesto,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena'"
+      },
+      "data_ora": {
+        "type": "string",
+        "default": "2026-09-10 20:00:00",
+        "description": "data_ora: ta_ora,\n  tipo,\n  contesto,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornat"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Cena",
+        "description": "tipo: o,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornata_id\n)"
+      },
+      "contesto": {
+        "type": "string",
+        "default": "Casa",
+        "description": "contesto: ata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornata_id\n)"
+      },
+      "voce": {
+        "type": "string",
+        "default": "Voce A",
+        "description": "voce: lori,\n  affidabilita,\n  giornata_id,\n  pasto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    10"
+      },
+      "data_ora_5": {
+        "type": "string",
+        "default": "2026-09-10 20:05:00",
+        "description": "data_ora: bilita,\n  giornata_id,\n  pasto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20"
+      },
+      "quantita": {
+        "type": "number",
+        "default": 100,
+        "description": "quantita: sto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,"
+      },
+      "unita": {
+        "type": "string",
+        "default": "g",
+        "description": "unita: VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,"
+      },
+      "kcal": {
+        "type": "number",
+        "default": 120,
+        "description": "kcal: (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima'"
+      },
+      "proteine_g": {
+        "type": "number",
+        "default": 20,
+        "description": "proteine_g: ce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'M"
+      },
+      "carboidrati_g": {
+        "type": "number",
+        "default": 3,
+        "description": "carboidrati_g: '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',"
+      },
+      "grassi_g": {
+        "type": "number",
+        "default": 4,
+        "description": "grassi_g: 6-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx"
+      },
+      "fonte_valori": {
+        "type": "string",
+        "default": "Stima",
+        "description": "fonte_valori: 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx_giornata_id,"
+      },
+      "affidabilita": {
+        "type": "string",
+        "default": "Media",
+        "description": "affidabilita: 100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx_giornata_id,\n    @tx_past"
+      },
+      "voce_2": {
+        "type": "string",
+        "default": "Voce B",
+        "description": "voce_2: 'Media',\n    @tx_giornata_id,\n    @tx_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80"
+      },
+      "data_ora_2": {
+        "type": "string",
+        "default": "2026-09-10 20:06:00",
+        "description": "data_ora_2: @tx_giornata_id,\n    @tx_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,"
+      },
+      "quantita_2": {
+        "type": "number",
+        "default": 80,
+        "description": "quantita_2: x_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,"
+      },
+      "unita_2": {
+        "type": "string",
+        "default": "g",
+        "description": "unita_2: id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,"
+      },
+      "kcal_2": {
+        "type": "number",
+        "default": 180,
+        "description": "kcal_2: (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima'"
+      },
+      "proteine_g_2": {
+        "type": "number",
+        "default": 5,
+        "description": "proteine_g_2: oce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    '"
+      },
+      "carboidrati_g_2": {
+        "type": "number",
+        "default": 28,
+        "description": "carboidrati_g_2: '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',"
+      },
+      "grassi_g_2": {
+        "type": "number",
+        "default": 5,
+        "description": "grassi_g_2: 26-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx"
+      },
+      "fonte_valori_2": {
+        "type": "string",
+        "default": "Stima",
+        "description": "fonte_valori_2: 0 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx_giornata_id,"
+      },
+      "affidabilita_2": {
+        "type": "string",
+        "default": "Media",
+        "description": "affidabilita_2: 80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx_giornata_id,\n    @tx_past"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giorno": {
+          "type": "string",
+          "default": "Giornata transazionale",
+          "description": "giorno: rio_giornaliero (\n  giorno,\n  data,\n  tipo_giornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'"
+        },
+        "data": {
+          "type": "string",
+          "default": "2026-09-10",
+          "description": "data: data,\n  tipo_giornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'\n)\nON DUPLICATE K"
+        },
+        "tipo_giornata": {
+          "type": "string",
+          "default": "Non definita",
+          "description": "tipo_giornata: iornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+        },
+        "pasto": {
+          "type": "string",
+          "default": "Cena",
+          "description": "pasto: asto,\n  data_ora,\n  tipo,\n  contesto,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena'"
+        },
+        "data_ora": {
+          "type": "string",
+          "default": "2026-09-10 20:00:00",
+          "description": "data_ora: ta_ora,\n  tipo,\n  contesto,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornat"
+        },
+        "tipo": {
+          "type": "string",
+          "default": "Cena",
+          "description": "tipo: o,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornata_id\n)"
+        },
+        "contesto": {
+          "type": "string",
+          "default": "Casa",
+          "description": "contesto: ata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornata_id\n)"
+        },
+        "voce": {
+          "type": "string",
+          "default": "Voce A",
+          "description": "voce: lori,\n  affidabilita,\n  giornata_id,\n  pasto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    10"
+        },
+        "data_ora_5": {
+          "type": "string",
+          "default": "2026-09-10 20:05:00",
+          "description": "data_ora: bilita,\n  giornata_id,\n  pasto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20"
+        },
+        "quantita": {
+          "type": "number",
+          "default": 100,
+          "description": "quantita: sto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,"
+        },
+        "unita": {
+          "type": "string",
+          "default": "g",
+          "description": "unita: VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,"
+        },
+        "kcal": {
+          "type": "number",
+          "default": 120,
+          "description": "kcal: (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima'"
+        },
+        "proteine_g": {
+          "type": "number",
+          "default": 20,
+          "description": "proteine_g: ce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'M"
+        },
+        "carboidrati_g": {
+          "type": "number",
+          "default": 3,
+          "description": "carboidrati_g: '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',"
+        },
+        "grassi_g": {
+          "type": "number",
+          "default": 4,
+          "description": "grassi_g: 6-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx"
+        },
+        "fonte_valori": {
+          "type": "string",
+          "default": "Stima",
+          "description": "fonte_valori: 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx_giornata_id,"
+        },
+        "affidabilita": {
+          "type": "string",
+          "default": "Media",
+          "description": "affidabilita: 100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx_giornata_id,\n    @tx_past"
+        },
+        "voce_2": {
+          "type": "string",
+          "default": "Voce B",
+          "description": "voce_2: 'Media',\n    @tx_giornata_id,\n    @tx_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80"
+        },
+        "data_ora_2": {
+          "type": "string",
+          "default": "2026-09-10 20:06:00",
+          "description": "data_ora_2: @tx_giornata_id,\n    @tx_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,"
+        },
+        "quantita_2": {
+          "type": "number",
+          "default": 80,
+          "description": "quantita_2: x_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,"
+        },
+        "unita_2": {
+          "type": "string",
+          "default": "g",
+          "description": "unita_2: id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,"
+        },
+        "kcal_2": {
+          "type": "number",
+          "default": 180,
+          "description": "kcal_2: (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima'"
+        },
+        "proteine_g_2": {
+          "type": "number",
+          "default": 5,
+          "description": "proteine_g_2: oce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    '"
+        },
+        "carboidrati_g_2": {
+          "type": "number",
+          "default": 28,
+          "description": "carboidrati_g_2: '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',"
+        },
+        "grassi_g_2": {
+          "type": "number",
+          "default": 5,
+          "description": "grassi_g_2: 26-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx"
+        },
+        "fonte_valori_2": {
+          "type": "string",
+          "default": "Stima",
+          "description": "fonte_valori_2: 0 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx_giornata_id,"
+        },
+        "affidabilita_2": {
+          "type": "string",
+          "default": "Media",
+          "description": "affidabilita_2: 80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx_giornata_id,\n    @tx_past"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.1",
+    "description": "Tutte le giornate, dalla più recente",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.2",
+    "description": "Giornata specifica",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.3",
+    "description": "Ultimi N giorni",
+    "ability": "nutrition:read",
+    "parameters": {
+      "n_giorni": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "n_giorni": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "n_giorni"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.4",
+    "description": "Giorni in un intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.5",
+    "description": "Giornate non chiuse",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.6",
+    "description": "Giornate per tipo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Allenamento",
+        "description": "SQL value: SELECT *\nFROM diario_giornaliero\nWHERE tipo_giornata = 'Allenamento'\nORDER BY data DESC"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Allenamento",
+          "description": "SQL value: SELECT *\nFROM diario_giornaliero\nWHERE tipo_giornata = 'Allenamento'\nORDER BY data DESC"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.7",
+    "description": "Pasti di una giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.8",
+    "description": "Pasti di un certo tipo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Cena",
+        "description": "SQL value: IN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.tipo = 'Cena'\nORDER BY p.data_ora DESC"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Cena",
+          "description": "SQL value: IN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.tipo = 'Cena'\nORDER BY p.data_ora DESC"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.9",
+    "description": "Pasti consumati fuori casa",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Fuori",
+        "description": "SQL value: rio_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER B"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": "Ristorante",
+        "description": "SQL value: aliero d\n  ON d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER BY p.data_ora D"
+      },
+      "arg_1_3": {
+        "type": "string",
+        "default": "Delivery",
+        "description": "SQL value: d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER BY p.data_ora DESC"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Fuori",
+          "description": "SQL value: rio_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER B"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": "Ristorante",
+          "description": "SQL value: aliero d\n  ON d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER BY p.data_ora D"
+        },
+        "arg_1_3": {
+          "type": "string",
+          "default": "Delivery",
+          "description": "SQL value: d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER BY p.data_ora DESC"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.10",
+    "description": "Pasti liberi/sociali",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.11",
+    "description": "Pasti con fame nervosa",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.12",
+    "description": "Dettaglio di un pasto con tutte le voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.13",
+    "description": "Tutte le voci di una giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.14",
+    "description": "Ricerca testuale nelle voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "testo": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "testo": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "testo"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.15",
+    "description": "Catalogo prodotti",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.16",
+    "description": "Prodotti per categoria",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Proteina",
+        "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE categoria = 'Proteina'\nORDER BY alimento_prodotto"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Proteina",
+          "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE categoria = 'Proteina'\nORDER BY alimento_prodotto"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.17",
+    "description": "Prodotti preferiti",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Preferito",
+        "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE stato = 'Preferito'\nORDER BY alimento_prodotto"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Preferito",
+          "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE stato = 'Preferito'\nORDER BY alimento_prodotto"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.18",
+    "description": "Prodotti esclusi",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Escluso",
+        "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE stato = 'Escluso'\nORDER BY alimento_prodotto"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Escluso",
+          "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE stato = 'Escluso'\nORDER BY alimento_prodotto"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.19",
+    "description": "Prodotti non verificati",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "6.20",
+    "description": "Prodotti con controllo vecchio di almeno 6 mesi",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.1",
+    "description": "Totali di ogni pasto",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.2",
+    "description": "Totale del singolo pasto",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.3",
+    "description": "Totali nutrizionali giornalieri",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.4",
+    "description": "Totali nutrizionali per intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.5",
+    "description": "Scostamento dai target",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.6",
+    "description": "Percentuale raggiungimento target",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.7",
+    "description": "Calorie per tipo di pasto nel giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.8",
+    "description": "Distribuzione percentuale delle calorie per pasto nel giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.9",
+    "description": "Media giornaliera kcal e macro in un intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.10",
+    "description": "Minimo, massimo e media kcal",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.11",
+    "description": "Giorni sopra target kcal",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.12",
+    "description": "Giorni sotto target proteico",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.13",
+    "description": "Giorni con fibre sotto target",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.14",
+    "description": "Totali settimanali, settimana ISO-like con WEEK(..., 3)",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.15",
+    "description": "Totali mensili",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.16",
+    "description": "Media mobile a 7 giorni delle kcal",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "7.17",
+    "description": "Media mobile a 7 giorni dei macro",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.1",
+    "description": "Pasti più calorici",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.2",
+    "description": "Media kcal per tipo di pasto",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.3",
+    "description": "Media sazietà per tipo di pasto",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.4",
+    "description": "Media gradimento per contesto",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.5",
+    "description": "Relazione fame prima / sazietà dopo",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.6",
+    "description": "Pasti con alta sazietà e calorie relativamente basse",
+    "ability": "nutrition:read",
+    "parameters": {
+      "soglia_sazieta": {
+        "type": "number"
+      },
+      "soglia_kcal": {
+        "type": "number"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "soglia_sazieta": {
+          "type": "number"
+        },
+        "soglia_kcal": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "soglia_sazieta",
+        "soglia_kcal"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.7",
+    "description": "Pasti liberi/sociali: calorie medie",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "8.8",
+    "description": "Confronto casa vs fuori",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.1",
+    "description": "Prodotti più consumati per numero di voci",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.2",
+    "description": "Prodotti che hanno contribuito più kcal",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.3",
+    "description": "Proteine totali per prodotto",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.4",
+    "description": "Consumi del singolo prodotto",
+    "ability": "nutrition:read",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "prodotto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prodotto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.5",
+    "description": "Prodotti mai consumati",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.6",
+    "description": "Voci non collegate a un prodotto registrato",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.7",
+    "description": "Voci stimate",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Stima",
+        "description": "SQL value: SELECT *\nFROM voci_alimentari\nWHERE fonte_valori = 'Stima'\nORDER BY data_ora DESC"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Stima",
+          "description": "SQL value: SELECT *\nFROM voci_alimentari\nWHERE fonte_valori = 'Stima'\nORDER BY data_ora DESC"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.8",
+    "description": "Voci a bassa affidabilità",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Bassa",
+        "description": "SQL value: SELECT *\nFROM voci_alimentari\nWHERE affidabilita = 'Bassa'\nORDER BY data_ora DESC"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Bassa",
+          "description": "SQL value: SELECT *\nFROM voci_alimentari\nWHERE affidabilita = 'Bassa'\nORDER BY data_ora DESC"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.9",
+    "description": "Voci con macro mancanti",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.10",
+    "description": "Densità proteica dei prodotti",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "9.11",
+    "description": "Prodotti con dati nutrizionali sospetti:",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.1",
+    "description": "Tutte le rilevazioni",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.2",
+    "description": "Ultima rilevazione disponibile",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.3",
+    "description": "Ultimo peso disponibile",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.4",
+    "description": "Differenza peso rispetto alla rilevazione precedente",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.5",
+    "description": "Variazione totale di peso nell'intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.6",
+    "description": "Media mobile peso a 7 rilevazioni",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.7",
+    "description": "Ultime misure corporee non nulle, per colonna",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "10.8",
+    "description": "Trend settimanale del peso",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.1",
+    "description": "Attività del giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.2",
+    "description": "Rollup attività del giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.3",
+    "description": "Attività per tipo",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.4",
+    "description": "Attività per fonte",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.5",
+    "description": "Totali settimanali di attività",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.6",
+    "description": "Giorni con più calorie attive",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.7",
+    "description": "Sessioni ad alta intensità percepita",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "11.8",
+    "description": "Attività con dati device incompleti",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Apple Watch",
+        "description": "SQL value: SELECT *\nFROM attivita_allenamenti\nWHERE fonte = 'Apple Watch'\n  AND (\n    durata_min IS NULL"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Apple Watch",
+          "description": "SQL value: SELECT *\nFROM attivita_allenamenti\nWHERE fonte = 'Apple Watch'\n  AND (\n    durata_min IS NULL"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "12.1",
+    "description": "Integratori attivi",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "SQL value: SELECT *\nFROM integratori\nWHERE stato = 'Attivo'\nORDER BY integratore"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Attivo",
+          "description": "SQL value: SELECT *\nFROM integratori\nWHERE stato = 'Attivo'\nORDER BY integratore"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "12.2",
+    "description": "Assunzioni del giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "12.3",
+    "description": "Assunzioni saltate",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Saltato",
+        "description": "SQL value: JOIN integratori i\n  ON i.id = a.integratore_id\nWHERE a.esito = 'Saltato'\nORDER BY a.data_ora DESC"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Saltato",
+          "description": "SQL value: JOIN integratori i\n  ON i.id = a.integratore_id\nWHERE a.esito = 'Saltato'\nORDER BY a.data_ora DESC"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "12.4",
+    "description": "Aderenza per integratore",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "12.5",
+    "description": "Aderenza per integratore in un intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "12.6",
+    "description": "Ultima assunzione per integratore",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "12.7",
+    "description": "Integratori attivi senza assunzioni registrate",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "SQL value: T JOIN assunzioni a\n  ON a.integratore_id = i.id\nWHERE i.stato = 'Attivo'\nGROUP BY i.id\nHAVING COUNT(a.id) ="
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Attivo",
+          "description": "SQL value: T JOIN assunzioni a\n  ON a.integratore_id = i.id\nWHERE i.stato = 'Attivo'\nGROUP BY i.id\nHAVING COUNT(a.id) ="
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "13.1",
+    "description": "Osservazioni attive",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "13.2",
+    "description": "Regole stabili attive",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "13.3",
+    "description": "Osservazioni per tipo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Sazieta",
+        "description": "SQL value: SELECT *\nFROM osservazioni_apprendimenti\nWHERE tipo = 'Sazieta'\nORDER BY data DESC, id DESC"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "Sazieta",
+          "description": "SQL value: SELECT *\nFROM osservazioni_apprendimenti\nWHERE tipo = 'Sazieta'\nORDER BY data DESC, id DESC"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "13.4",
+    "description": "Osservazioni di una giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "13.5",
+    "description": "Osservazioni collegate a un pasto",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "13.6",
+    "description": "Distribuzione delle osservazioni per tipo",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "13.7",
+    "description": "Ricerca full-text semplice via LIKE",
+    "ability": "nutrition:read",
+    "parameters": {
+      "ricerca": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ricerca": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ricerca"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "14.1",
+    "description": "Report completo della giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "14.2",
+    "description": "Calorie ingerite vs calorie attive del device",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_da": {
+          "type": "string",
+          "format": "date"
+        },
+        "data_a": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_da",
+        "data_a"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "14.3",
+    "description": "Confronto giornate di allenamento vs riposo",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "14.4",
+    "description": "Relazione tra sonno e aderenza",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "14.5",
+    "description": "Relazione tra fame nervosa giornaliera e pasti con fame nervosa",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "14.6",
+    "description": "Giorni con migliore aderenza al target kcal:",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "14.7",
+    "description": "Giorni con proteine alte e kcal basse",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.1",
+    "description": "Pasti senza giornata",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.2",
+    "description": "Voci senza giornata",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.3",
+    "description": "Voci senza pasto",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.4",
+    "description": "Voci il cui timestamp non cade nella data della giornata",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.5",
+    "description": "Pasti il cui timestamp non cade nella data della giornata",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.6",
+    "description": "Misure con data diversa dalla giornata collegata",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.7",
+    "description": "Assunzioni con data diversa dalla giornata collegata",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.8",
+    "description": "Possibili duplicati di prodotto per nome + marca",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.9",
+    "description": "Possibili duplicati di voci nella stessa data/ora",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.10",
+    "description": "Giornate senza alcun pasto",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "15.11",
+    "description": "Giornate con pasti ma senza voci alimentari",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.1",
+    "description": "Modificare il tipo di giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Allenamento",
+        "description": "tipo_giornata: UPDATE diario_giornaliero\nSET tipo_giornata = 'Allenamento'\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "tipo_giornata": {
+          "type": "string",
+          "default": "Allenamento",
+          "description": "tipo_giornata: UPDATE diario_giornaliero\nSET tipo_giornata = 'Allenamento'\nWHERE id = @giornata_id"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.2",
+    "description": "Chiudere una giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 1,
+        "description": "giornata_chiusa: UPDATE diario_giornaliero\nSET giornata_chiusa = 1\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giornata_chiusa": {
+          "type": "number",
+          "default": 1,
+          "description": "giornata_chiusa: UPDATE diario_giornaliero\nSET giornata_chiusa = 1\nWHERE id = @giornata_id"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.3",
+    "description": "Riaprire una giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 0,
+        "description": "giornata_chiusa: UPDATE diario_giornaliero\nSET giornata_chiusa = 0\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giornata_chiusa": {
+          "type": "number",
+          "default": 0,
+          "description": "giornata_chiusa: UPDATE diario_giornaliero\nSET giornata_chiusa = 0\nWHERE id = @giornata_id"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.4",
+    "description": "Aggiornare i target nutrizionali",
+    "ability": "nutrition:write",
+    "parameters": {
+      "target_kcal": {
+        "type": "number",
+        "default": 2200,
+        "description": "target_kcal: UPDATE diario_giornaliero\nSET\n  target_kcal = 2200,\n  target_proteine_g = 150,\n  targ"
+      },
+      "target_proteine_g": {
+        "type": "number",
+        "default": 150,
+        "description": "target_proteine_g: ario_giornaliero\nSET\n  target_kcal = 2200,\n  target_proteine_g = 150,\n  target_carboidrati_g = 220,\n  t"
+      },
+      "target_carboidrati_g": {
+        "type": "number",
+        "default": 220,
+        "description": "target_carboidrati_g: kcal = 2200,\n  target_proteine_g = 150,\n  target_carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_"
+      },
+      "target_grassi_g": {
+        "type": "number",
+        "default": 70,
+        "description": "target_grassi_g: teine_g = 150,\n  target_carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_fibre_g = 30\nWHERE id ="
+      },
+      "target_fibre_g": {
+        "type": "number",
+        "default": 30,
+        "description": "target_fibre_g: _carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_fibre_g = 30\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "target_kcal": {
+          "type": "number",
+          "default": 2200,
+          "description": "target_kcal: UPDATE diario_giornaliero\nSET\n  target_kcal = 2200,\n  target_proteine_g = 150,\n  targ"
+        },
+        "target_proteine_g": {
+          "type": "number",
+          "default": 150,
+          "description": "target_proteine_g: ario_giornaliero\nSET\n  target_kcal = 2200,\n  target_proteine_g = 150,\n  target_carboidrati_g = 220,\n  t"
+        },
+        "target_carboidrati_g": {
+          "type": "number",
+          "default": 220,
+          "description": "target_carboidrati_g: kcal = 2200,\n  target_proteine_g = 150,\n  target_carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_"
+        },
+        "target_grassi_g": {
+          "type": "number",
+          "default": 70,
+          "description": "target_grassi_g: teine_g = 150,\n  target_carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_fibre_g = 30\nWHERE id ="
+        },
+        "target_fibre_g": {
+          "type": "number",
+          "default": 30,
+          "description": "target_fibre_g: _carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_fibre_g = 30\nWHERE id = @giornata_id"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.5",
+    "description": "Aggiornare idratazione, caffeina, alcol e passi",
+    "ability": "nutrition:write",
+    "parameters": {
+      "acqua_l": {
+        "type": "number",
+        "default": 2.5,
+        "description": "acqua_l: UPDATE diario_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,"
+      },
+      "caffe": {
+        "type": "number",
+        "default": 2,
+        "description": "caffe: UPDATE diario_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 1000"
+      },
+      "alcol_unita": {
+        "type": "number",
+        "default": 0,
+        "description": "alcol_unita: io_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 10000\nWHERE id = @giorn"
+      },
+      "passi": {
+        "type": "number",
+        "default": 10000,
+        "description": "passi: o\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 10000\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "acqua_l": {
+          "type": "number",
+          "default": 2.5,
+          "description": "acqua_l: UPDATE diario_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,"
+        },
+        "caffe": {
+          "type": "number",
+          "default": 2,
+          "description": "caffe: UPDATE diario_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 1000"
+        },
+        "alcol_unita": {
+          "type": "number",
+          "default": 0,
+          "description": "alcol_unita: io_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 10000\nWHERE id = @giorn"
+        },
+        "passi": {
+          "type": "number",
+          "default": 10000,
+          "description": "passi: o\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 10000\nWHERE id = @giornata_id"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.6",
+    "description": "Aggiornare sonno e valutazioni della giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "sonno_ore": {
+        "type": "number",
+        "default": 7.5,
+        "description": "sonno_ore: UPDATE diario_giornaliero\nSET\n  sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_"
+      },
+      "sonno_qualita_0_10": {
+        "type": "number",
+        "default": 8,
+        "description": "sonno_qualita_0_10: diario_giornaliero\nSET\n  sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_po"
+      },
+      "fame_pranzo_0_10": {
+        "type": "number",
+        "default": 5,
+        "description": "fame_pranzo_0_10: sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fam"
+      },
+      "fame_pomeriggio_0_10": {
+        "type": "number",
+        "default": 4,
+        "description": "fame_pomeriggio_0_10: alita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energi"
+      },
+      "fame_nervosa_0_10": {
+        "type": "number",
+        "default": 2,
+        "description": "fame_nervosa_0_10: anzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,"
+      },
+      "energia_post_pranzo_0_10": {
+        "type": "number",
+        "default": 8,
+        "description": "energia_post_pranzo_0_10: _0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,\n  aderenza_0_10 = 9\nWHERE id = @g"
+      },
+      "aderenza_0_10": {
+        "type": "number",
+        "default": 9,
+        "description": "aderenza_0_10: vosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,\n  aderenza_0_10 = 9\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "sonno_ore": {
+          "type": "number",
+          "default": 7.5,
+          "description": "sonno_ore: UPDATE diario_giornaliero\nSET\n  sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_"
+        },
+        "sonno_qualita_0_10": {
+          "type": "number",
+          "default": 8,
+          "description": "sonno_qualita_0_10: diario_giornaliero\nSET\n  sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_po"
+        },
+        "fame_pranzo_0_10": {
+          "type": "number",
+          "default": 5,
+          "description": "fame_pranzo_0_10: sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fam"
+        },
+        "fame_pomeriggio_0_10": {
+          "type": "number",
+          "default": 4,
+          "description": "fame_pomeriggio_0_10: alita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energi"
+        },
+        "fame_nervosa_0_10": {
+          "type": "number",
+          "default": 2,
+          "description": "fame_nervosa_0_10: anzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,"
+        },
+        "energia_post_pranzo_0_10": {
+          "type": "number",
+          "default": 8,
+          "description": "energia_post_pranzo_0_10: _0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,\n  aderenza_0_10 = 9\nWHERE id = @g"
+        },
+        "aderenza_0_10": {
+          "type": "number",
+          "default": 9,
+          "description": "aderenza_0_10: vosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,\n  aderenza_0_10 = 9\nWHERE id = @giornata_id"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.7",
+    "description": "Modificare un pasto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "contesto": {
+        "type": "string",
+        "default": "Ristorante",
+        "description": "contesto: UPDATE pasti\nSET\n  contesto = 'Ristorante',\n  libero_sociale = 1,\n  gradiment"
+      },
+      "libero_sociale": {
+        "type": "number",
+        "default": 1,
+        "description": "libero_sociale: UPDATE pasti\nSET\n  contesto = 'Ristorante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = '"
+      },
+      "gradimento_0_10": {
+        "type": "number",
+        "default": 9,
+        "description": "gradimento_0_10: ntesto = 'Ristorante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = 'Aggiornato'\nWHERE id ="
+      },
+      "note": {
+        "type": "string",
+        "default": "Aggiornato",
+        "description": "note: storante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = 'Aggiornato'\nWHERE id = @pasto_id"
+      },
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "contesto": {
+          "type": "string",
+          "default": "Ristorante",
+          "description": "contesto: UPDATE pasti\nSET\n  contesto = 'Ristorante',\n  libero_sociale = 1,\n  gradiment"
+        },
+        "libero_sociale": {
+          "type": "number",
+          "default": 1,
+          "description": "libero_sociale: UPDATE pasti\nSET\n  contesto = 'Ristorante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = '"
+        },
+        "gradimento_0_10": {
+          "type": "number",
+          "default": 9,
+          "description": "gradimento_0_10: ntesto = 'Ristorante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = 'Aggiornato'\nWHERE id ="
+        },
+        "note": {
+          "type": "string",
+          "default": "Aggiornato",
+          "description": "note: storante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = 'Aggiornato'\nWHERE id = @pasto_id"
+        },
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.8",
+    "description": "Spostare un pasto a un'altra giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "nuova_giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "nuova_giornata_id": {
+          "type": "integer"
+        },
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "nuova_giornata_id",
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.9",
+    "description": "Modificare quantità e macro di una voce",
+    "ability": "nutrition:write",
+    "parameters": {
+      "quantita": {
+        "type": "number",
+        "default": 180,
+        "description": "quantita: UPDATE voci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,"
+      },
+      "kcal": {
+        "type": "number",
+        "default": 270,
+        "description": "kcal: UPDATE voci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_"
+      },
+      "proteine_g": {
+        "type": "number",
+        "default": 36,
+        "description": "proteine_g: ci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g"
+      },
+      "carboidrati_g": {
+        "type": "number",
+        "default": 3.6,
+        "description": "carboidrati_g: antita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g = 10.8\nWHERE id = @voc"
+      },
+      "grassi_g": {
+        "type": "number",
+        "default": 10.8,
+        "description": "grassi_g: al = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g = 10.8\nWHERE id = @voce_id"
+      },
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "quantita": {
+          "type": "number",
+          "default": 180,
+          "description": "quantita: UPDATE voci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,"
+        },
+        "kcal": {
+          "type": "number",
+          "default": 270,
+          "description": "kcal: UPDATE voci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_"
+        },
+        "proteine_g": {
+          "type": "number",
+          "default": 36,
+          "description": "proteine_g: ci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g"
+        },
+        "carboidrati_g": {
+          "type": "number",
+          "default": 3.6,
+          "description": "carboidrati_g: antita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g = 10.8\nWHERE id = @voc"
+        },
+        "grassi_g": {
+          "type": "number",
+          "default": 10.8,
+          "description": "grassi_g: al = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g = 10.8\nWHERE id = @voce_id"
+        },
+        "voce_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "voce_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.10",
+    "description": "Ricalcolare una voce dai valori per 100 g del prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "voce_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "voce_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.11",
+    "description": "Aggiornare il prodotto di una voce",
+    "ability": "nutrition:write",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      },
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "prodotto_id": {
+          "type": "integer"
+        },
+        "voce_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prodotto_id",
+        "voce_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.12",
+    "description": "Scollegare una voce dal prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "prodotto_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "prodotto_id: UPDATE voci_alimentari\nSET prodotto_id = NULL\nWHERE id = @voce_id"
+      },
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "prodotto_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "prodotto_id: UPDATE voci_alimentari\nSET prodotto_id = NULL\nWHERE id = @voce_id"
+        },
+        "voce_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "voce_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.13",
+    "description": "Modificare i valori nutrizionali di un prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "kcal_100g": {
+        "type": "number",
+        "default": 155,
+        "description": "kcal_100g: UPDATE alimenti_prodotti\nSET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidra"
+      },
+      "proteine_100g": {
+        "type": "number",
+        "default": 21,
+        "description": "proteine_100g: PDATE alimenti_prodotti\nSET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_"
+      },
+      "carboidrati_100g": {
+        "type": "number",
+        "default": 2,
+        "description": "carboidrati_100g: ET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Eti"
+      },
+      "grassi_100g": {
+        "type": "number",
+        "default": 6,
+        "description": "grassi_100g: 5,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Etichetta',\n  ultimo_c"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Etichetta",
+        "description": "fonte: _100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Etichetta',\n  ultimo_controllo = CURRENT_DATE"
+      },
+      "verificato": {
+        "type": "number",
+        "default": 1,
+        "description": "verificato: = 'Etichetta',\n  ultimo_controllo = CURRENT_DATE,\n  verificato = 1\nWHERE id = @prodotto_id"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "kcal_100g": {
+          "type": "number",
+          "default": 155,
+          "description": "kcal_100g: UPDATE alimenti_prodotti\nSET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidra"
+        },
+        "proteine_100g": {
+          "type": "number",
+          "default": 21,
+          "description": "proteine_100g: PDATE alimenti_prodotti\nSET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_"
+        },
+        "carboidrati_100g": {
+          "type": "number",
+          "default": 2,
+          "description": "carboidrati_100g: ET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Eti"
+        },
+        "grassi_100g": {
+          "type": "number",
+          "default": 6,
+          "description": "grassi_100g: 5,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Etichetta',\n  ultimo_c"
+        },
+        "fonte": {
+          "type": "string",
+          "default": "Etichetta",
+          "description": "fonte: _100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Etichetta',\n  ultimo_controllo = CURRENT_DATE"
+        },
+        "verificato": {
+          "type": "number",
+          "default": 1,
+          "description": "verificato: = 'Etichetta',\n  ultimo_controllo = CURRENT_DATE,\n  verificato = 1\nWHERE id = @prodotto_id"
+        },
+        "prodotto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prodotto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.14",
+    "description": "Cambiare stato di un prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "stato": {
+        "type": "string",
+        "default": "Preferito",
+        "description": "stato: UPDATE alimenti_prodotti\nSET stato = 'Preferito'\nWHERE id = @prodotto_id"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "stato": {
+          "type": "string",
+          "default": "Preferito",
+          "description": "stato: UPDATE alimenti_prodotti\nSET stato = 'Preferito'\nWHERE id = @prodotto_id"
+        },
+        "prodotto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prodotto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.15",
+    "description": "Marcare più prodotti come da ricontrollare",
+    "ability": "nutrition:write",
+    "parameters": {
+      "verificato": {
+        "type": "number",
+        "default": 0,
+        "description": "verificato: UPDATE alimenti_prodotti\nSET verificato = 0\nWHERE ultimo_controllo < CURRENT_D"
+      },
+      "arg_1_2": {
+        "type": "number",
+        "default": 1,
+        "description": "SQL value: verificato = 0\nWHERE ultimo_controllo < CURRENT_DATE - INTERVAL 1 YEAR"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "verificato": {
+          "type": "number",
+          "default": 0,
+          "description": "verificato: UPDATE alimenti_prodotti\nSET verificato = 0\nWHERE ultimo_controllo < CURRENT_D"
+        },
+        "arg_1_2": {
+          "type": "number",
+          "default": 1,
+          "description": "SQL value: verificato = 0\nWHERE ultimo_controllo < CURRENT_DATE - INTERVAL 1 YEAR"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.16",
+    "description": "Aggiornare una rilevazione corporea",
+    "ability": "nutrition:write",
+    "parameters": {
+      "peso_kg": {
+        "type": "number",
+        "default": 79.9,
+        "description": "peso_kg: UPDATE peso_misure\nSET\n  peso_kg = 79.900,\n  note = 'Valore corretto'\nWHERE"
+      },
+      "note": {
+        "type": "string",
+        "default": "Valore corretto",
+        "description": "note: UPDATE peso_misure\nSET\n  peso_kg = 79.900,\n  note = 'Valore corretto'\nWHERE id = @rilevazione_id"
+      },
+      "rilevazione_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "peso_kg": {
+          "type": "number",
+          "default": 79.9,
+          "description": "peso_kg: UPDATE peso_misure\nSET\n  peso_kg = 79.900,\n  note = 'Valore corretto'\nWHERE"
+        },
+        "note": {
+          "type": "string",
+          "default": "Valore corretto",
+          "description": "note: UPDATE peso_misure\nSET\n  peso_kg = 79.900,\n  note = 'Valore corretto'\nWHERE id = @rilevazione_id"
+        },
+        "rilevazione_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "rilevazione_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.17",
+    "description": "Aggiornare un'attività",
+    "ability": "nutrition:write",
+    "parameters": {
+      "durata_min": {
+        "type": "number",
+        "default": 50,
+        "description": "durata_min: UPDATE attivita_allenamenti\nSET\n  durata_min = 50,\n  distanza_km = 4.8,\n  calorie_at"
+      },
+      "distanza_km": {
+        "type": "number",
+        "default": 4.8,
+        "description": "distanza_km: DATE attivita_allenamenti\nSET\n  durata_min = 50,\n  distanza_km = 4.8,\n  calorie_attive_dispositivo = 28"
+      },
+      "calorie_attive_dispositivo": {
+        "type": "number",
+        "default": 285,
+        "description": "calorie_attive_dispositivo: ta_min = 50,\n  distanza_km = 4.8,\n  calorie_attive_dispositivo = 285\nWHERE id = @attivita_id"
+      },
+      "attivita_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "durata_min": {
+          "type": "number",
+          "default": 50,
+          "description": "durata_min: UPDATE attivita_allenamenti\nSET\n  durata_min = 50,\n  distanza_km = 4.8,\n  calorie_at"
+        },
+        "distanza_km": {
+          "type": "number",
+          "default": 4.8,
+          "description": "distanza_km: DATE attivita_allenamenti\nSET\n  durata_min = 50,\n  distanza_km = 4.8,\n  calorie_attive_dispositivo = 28"
+        },
+        "calorie_attive_dispositivo": {
+          "type": "number",
+          "default": 285,
+          "description": "calorie_attive_dispositivo: ta_min = 50,\n  distanza_km = 4.8,\n  calorie_attive_dispositivo = 285\nWHERE id = @attivita_id"
+        },
+        "attivita_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "attivita_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.18",
+    "description": "Aggiornare stato integratore",
+    "ability": "nutrition:write",
+    "parameters": {
+      "stato": {
+        "type": "string",
+        "default": "Sospeso",
+        "description": "stato: UPDATE integratori\nSET\n  stato = 'Sospeso',\n  data_fine = CURRENT_DATE\nWHERE"
+      },
+      "integratore_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "stato": {
+          "type": "string",
+          "default": "Sospeso",
+          "description": "stato: UPDATE integratori\nSET\n  stato = 'Sospeso',\n  data_fine = CURRENT_DATE\nWHERE"
+        },
+        "integratore_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "integratore_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.19",
+    "description": "Riattivare integratore",
+    "ability": "nutrition:write",
+    "parameters": {
+      "stato": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "stato: UPDATE integratori\nSET\n  stato = 'Attivo',\n  data_fine = NULL\nWHERE id = @in"
+      },
+      "data_fine": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "data_fine: UPDATE integratori\nSET\n  stato = 'Attivo',\n  data_fine = NULL\nWHERE id = @integratore_id"
+      },
+      "integratore_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "stato": {
+          "type": "string",
+          "default": "Attivo",
+          "description": "stato: UPDATE integratori\nSET\n  stato = 'Attivo',\n  data_fine = NULL\nWHERE id = @in"
+        },
+        "data_fine": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "data_fine: UPDATE integratori\nSET\n  stato = 'Attivo',\n  data_fine = NULL\nWHERE id = @integratore_id"
+        },
+        "integratore_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "integratore_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.20",
+    "description": "Correggere una singola assunzione",
+    "ability": "nutrition:write",
+    "parameters": {
+      "esito": {
+        "type": "string",
+        "default": "Preso",
+        "description": "esito: UPDATE assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Cor"
+      },
+      "dose_assunta": {
+        "type": "number",
+        "default": 1,
+        "description": "dose_assunta: UPDATE assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Corretto manualmente'\nW"
+      },
+      "note": {
+        "type": "string",
+        "default": "Corretto manualmente",
+        "description": "note: E assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Corretto manualmente'\nWHERE id = @assunzione_id"
+      },
+      "assunzione_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "esito": {
+          "type": "string",
+          "default": "Preso",
+          "description": "esito: UPDATE assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Cor"
+        },
+        "dose_assunta": {
+          "type": "number",
+          "default": 1,
+          "description": "dose_assunta: UPDATE assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Corretto manualmente'\nW"
+        },
+        "note": {
+          "type": "string",
+          "default": "Corretto manualmente",
+          "description": "note: E assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Corretto manualmente'\nWHERE id = @assunzione_id"
+        },
+        "assunzione_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "assunzione_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.21",
+    "description": "Disattivare un'osservazione",
+    "ability": "nutrition:write",
+    "parameters": {
+      "attiva": {
+        "type": "number",
+        "default": 0,
+        "description": "attiva: UPDATE osservazioni_apprendimenti\nSET attiva = 0\nWHERE id = @osservazione_id"
+      },
+      "osservazione_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "attiva": {
+          "type": "number",
+          "default": 0,
+          "description": "attiva: UPDATE osservazioni_apprendimenti\nSET attiva = 0\nWHERE id = @osservazione_id"
+        },
+        "osservazione_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "osservazione_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.22",
+    "description": "Promuovere un'osservazione a regola stabile",
+    "ability": "nutrition:write",
+    "parameters": {
+      "attiva": {
+        "type": "number",
+        "default": 1,
+        "description": "attiva: UPDATE osservazioni_apprendimenti\nSET\n  attiva = 1,\n  regola_stabile = 1\nWHERE id = @"
+      },
+      "regola_stabile": {
+        "type": "number",
+        "default": 1,
+        "description": "regola_stabile: osservazioni_apprendimenti\nSET\n  attiva = 1,\n  regola_stabile = 1\nWHERE id = @osservazione_id"
+      },
+      "osservazione_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "attiva": {
+          "type": "number",
+          "default": 1,
+          "description": "attiva: UPDATE osservazioni_apprendimenti\nSET\n  attiva = 1,\n  regola_stabile = 1\nWHERE id = @"
+        },
+        "regola_stabile": {
+          "type": "number",
+          "default": 1,
+          "description": "regola_stabile: osservazioni_apprendimenti\nSET\n  attiva = 1,\n  regola_stabile = 1\nWHERE id = @osservazione_id"
+        },
+        "osservazione_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "osservazione_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "16.23",
+    "description": "Appendere una nota senza sovrascrivere quella esistente",
+    "ability": "nutrition:write",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "\n",
+        "description": "SQL value: UPDATE diario_giornaliero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[',"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": "",
+        "description": "SQL value: diario_giornaliero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota"
+      },
+      "arg_1_3": {
+        "type": "string",
+        "default": "[",
+        "description": "SQL value: liero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nW"
+      },
+      "arg_1_4": {
+        "type": "string",
+        "default": "] ",
+        "description": "SQL value: te = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nWHERE id = @gi"
+      },
+      "arg_1_5": {
+        "type": "string",
+        "default": "Nota aggiunta",
+        "description": "SQL value: ONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "\n",
+          "description": "SQL value: UPDATE diario_giornaliero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[',"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": "",
+          "description": "SQL value: diario_giornaliero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota"
+        },
+        "arg_1_3": {
+          "type": "string",
+          "default": "[",
+          "description": "SQL value: liero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nW"
+        },
+        "arg_1_4": {
+          "type": "string",
+          "default": "] ",
+          "description": "SQL value: te = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nWHERE id = @gi"
+        },
+        "arg_1_5": {
+          "type": "string",
+          "default": "Nota aggiunta",
+          "description": "SQL value: ONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nWHERE id = @giornata_id"
+        },
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.1",
+    "description": "Eliminare una voce alimentare",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "voce_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "voce_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.2",
+    "description": "Eliminare tutte le voci di un pasto",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.3",
+    "description": "Eliminare un pasto e i suoi figli per CASCADE",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.4",
+    "description": "Eliminare un prodotto mantenendo lo storico dei consumi",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "prodotto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prodotto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.5",
+    "description": "Eliminare una rilevazione corporea",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "rilevazione_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "rilevazione_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "rilevazione_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.6",
+    "description": "Eliminare un'attività",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "attivita_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "attivita_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "attivita_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.7",
+    "description": "Eliminare una singola assunzione",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "assunzione_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "assunzione_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "assunzione_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.8",
+    "description": "Eliminare un integratore mantenendo le assunzioni storiche",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "integratore_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "integratore_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "integratore_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.9",
+    "description": "Eliminare un'osservazione",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "osservazione_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "osservazione_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "osservazione_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.10",
+    "description": "Eliminare una giornata intera con tutte le dipendenze",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.11",
+    "description": "Eliminare voci potenzialmente duplicate conservando l'ID minore",
+    "ability": "nutrition:delete",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.12",
+    "description": "Cancellazione sicura in transazione con controllo preventivo",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "17.13",
+    "description": "Eliminare dati di test per intervallo di date",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "2099-01-01",
+        "description": "SQL value: DELETE FROM diario_giornaliero\nWHERE data BETWEEN '2099-01-01' AND '2099-12-31'"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": "2099-12-31",
+        "description": "SQL value: LETE FROM diario_giornaliero\nWHERE data BETWEEN '2099-01-01' AND '2099-12-31'"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "arg_1_1": {
+          "type": "string",
+          "default": "2099-01-01",
+          "description": "SQL value: DELETE FROM diario_giornaliero\nWHERE data BETWEEN '2099-01-01' AND '2099-12-31'"
+        },
+        "arg_1_2": {
+          "type": "string",
+          "default": "2099-12-31",
+          "description": "SQL value: LETE FROM diario_giornaliero\nWHERE data BETWEEN '2099-01-01' AND '2099-12-31'"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.1",
+    "description": "Elenco tabelle",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.2",
+    "description": "Struttura di una tabella",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.3",
+    "description": "DDL effettivo",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.4",
+    "description": "Elenco indici",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.5",
+    "description": "Dimensione delle tabelle",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.6",
+    "description": "Foreign key del database",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.7",
+    "description": "Conteggio record per tabella",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "18.8",
+    "description": "Analizzare le tabelle dopo import massivo",
+    "ability": "nutrition:maintenance",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.1",
+    "description": "Recuperare ID giornata da data",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.2",
+    "description": "Creare la giornata solo se manca e ottenere sempre l'ID",
+    "ability": "nutrition:write",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "%Y-%m-%d",
+        "description": "SQL value: rno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_1": {
+          "type": "string",
+          "default": "%Y-%m-%d",
+          "description": "SQL value: rno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)"
+        },
+        "tipo_giornata": {
+          "type": "string",
+          "default": "Non definita",
+          "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.3",
+    "description": "Recuperare un prodotto per ID",
+    "ability": "nutrition:read",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "prodotto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prodotto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.4",
+    "description": "Ricerca prodotto per nome/marca",
+    "ability": "nutrition:read",
+    "parameters": {
+      "nome_prodotto": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "",
+        "description": "SQL value: HERE alimento_prodotto LIKE @nome_prodotto\n  AND COALESCE(marca, '') LIKE @marca\nORDER BY verificato D"
+      },
+      "marca": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "nome_prodotto": {
+          "type": "string"
+        },
+        "arg_1_1": {
+          "type": "string",
+          "default": "",
+          "description": "SQL value: HERE alimento_prodotto LIKE @nome_prodotto\n  AND COALESCE(marca, '') LIKE @marca\nORDER BY verificato D"
+        },
+        "marca": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nome_prodotto",
+        "marca"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.5",
+    "description": "Paginazione cursor-based per pasti",
+    "ability": "nutrition:read",
+    "parameters": {
+      "ultimo_id": {
+        "type": "integer"
+      },
+      "page_size": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ultimo_id": {
+          "type": "integer"
+        },
+        "page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        }
+      },
+      "required": [
+        "ultimo_id",
+        "page_size"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.6",
+    "description": "Paginazione offset-based",
+    "ability": "nutrition:read",
+    "parameters": {
+      "page_size": {
+        "type": "integer"
+      },
+      "offset": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "page_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      },
+      "required": [
+        "page_size",
+        "offset"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.7",
+    "description": "ETag-like timestamp per capire se una giornata è cambiata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.8",
+    "description": "Query JSON: giornata + pasti + voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "19.9",
+    "description": "Query JSON dettagliata del pasto con voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pasto_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pasto_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "20.1",
+    "description": "Export logico tabellare della giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "20.2",
+    "description": "Snapshot delle regole attive",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.1",
+    "description": "Quartili approssimati delle kcal giornaliere usando NTILE",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.2",
+    "description": "Ranking dei giorni più calorici",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.3",
+    "description": "Ranking dei pasti più sazianti a parità di kcal",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.4",
+    "description": "Frequenza dei contesti dei pasti",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.5",
+    "description": "Frequenza degli alimenti nel tempo: ultimi 30 giorni",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.6",
+    "description": "Giorni consecutivi registrati: segmentazione per gap",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.7",
+    "description": "Giorni senza dati nutrizionali ma con giornata creata",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "21.8",
+    "description": "Correlazione \"grezza\" esportabile: peso vs media kcal ultimi 7 giorni",
+    "ability": "nutrition:read",
+    "parameters": [],
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "23.1",
+    "description": "sp_get_or_create_giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "%Y-%m-%d",
+        "description": "SQL value: rno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "data_rif": {
+          "type": "string",
+          "format": "date"
+        },
+        "arg_1_1": {
+          "type": "string",
+          "default": "%Y-%m-%d",
+          "description": "SQL value: rno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)"
+        },
+        "tipo_giornata": {
+          "type": "string",
+          "default": "Non definita",
+          "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+        }
+      },
+      "required": [
+        "data_rif"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "23.2",
+    "description": "sp_ricalcola_voce_da_prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "voce_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "voce_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "id": "23.3",
+    "description": "sp_delete_giornata",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "giornata_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "giornata_id"
+      ],
+      "additionalProperties": false
+    }
+  }
+]
