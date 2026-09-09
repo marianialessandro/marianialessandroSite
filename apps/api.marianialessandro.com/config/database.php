@@ -45,7 +45,7 @@ return [
             'timezone' => env('NUTRITION_DB_TIMEZONE', '+02:00'),
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::ATTR_EMULATE_PREPARES => false,
-                PDO::MYSQL_ATTR_SSL_CA => env('NUTRITION_MYSQL_SSL_CA') ?: null,
+                (class_exists(\Pdo\Mysql::class) ? \Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('NUTRITION_MYSQL_SSL_CA') ?: null,
             ], fn ($value) => $value !== null) : [],
         ],
 
@@ -78,7 +78,7 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                (class_exists(\Pdo\Mysql::class) ? \Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
@@ -98,7 +98,7 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                (class_exists(\Pdo\Mysql::class) ? \Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
