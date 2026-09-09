@@ -1,0 +1,4522 @@
+{
+  "5.1": {
+    "id": "5.1",
+    "description": "Inserire una giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giorno": {
+        "type": "string",
+        "default": "Mercoledi 9 settembre 2026",
+        "description": "giorno: rati_g,\n  target_grassi_g,\n  target_fibre_g,\n  note\n) VALUES (\n  'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: note\n) VALUES (\n  'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,"
+      },
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 0,
+        "description": "giornata_chiusa: 'Mercoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,"
+      },
+      "target_kcal": {
+        "type": "number",
+        "default": 2200,
+        "description": "target_kcal: rcoledi 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL"
+      },
+      "target_proteine_g": {
+        "type": "number",
+        "default": 150,
+        "description": "target_proteine_g: 9 settembre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "target_carboidrati_g": {
+        "type": "number",
+        "default": 220,
+        "description": "target_carboidrati_g: mbre 2026',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "target_grassi_g": {
+        "type": "number",
+        "default": 70,
+        "description": "target_grassi_g: 26',\n  @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "target_fibre_g": {
+        "type": "number",
+        "default": 30,
+        "description": "target_fibre_g: @data_rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: _rif,\n  'Non definita',\n  0,\n  2200,\n  150,\n  220,\n  70,\n  30,\n  NULL\n)"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO diario_giornaliero (\n  giorno,\n  data,\n  tipo_giornata,\n  giornata_chiusa,\n  target_kcal,\n  target_proteine_g,\n  target_carboidrati_g,\n  target_grassi_g,\n  target_fibre_g,\n  note\n) VALUES (\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "giorno",
+          "data_rif",
+          "tipo_giornata",
+          "giornata_chiusa",
+          "target_kcal",
+          "target_proteine_g",
+          "target_carboidrati_g",
+          "target_grassi_g",
+          "target_fibre_g",
+          "note"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "giornata_id"
+      }
+    ]
+  },
+  "5.2": {
+    "id": "5.2",
+    "description": "Upsert della giornata per data",
+    "ability": "nutrition:write",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "%Y-%m-%d",
+        "description": "SQL value: _giornata,\n  giornata_chiusa\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',\n  0\n)\nON DUPLICATE KEY UPDATE\n  g"
+      },
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 0,
+        "description": "giornata_chiusa: _FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita',\n  0\n)\nON DUPLICATE KEY UPDATE\n  giorno"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO diario_giornaliero (\n  giorno,\n  data,\n  tipo_giornata,\n  giornata_chiusa\n) VALUES (\n  DATE_FORMAT(?, ?),\n  ?,\n  ?,\n  ?\n)\nON DUPLICATE KEY UPDATE\n  giorno = VALUES(giorno),\n  aggiornato = CURRENT_TIMESTAMP",
+        "bindings": [
+          "data_rif",
+          "arg_1_1",
+          "data_rif",
+          "tipo_giornata",
+          "giornata_chiusa"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT id\nFROM diario_giornaliero\nWHERE data = ?",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": "giornata_id"
+      }
+    ]
+  },
+  "5.3": {
+    "id": "5.3",
+    "description": "Inserire un pasto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "pasto": {
+        "type": "string",
+        "default": "Pranzo",
+        "description": "pasto: bero_sociale,\n  fame_nervosa,\n  giornata_id,\n  note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 13:00:00",
+        "description": "SQL value: giornata_id,\n  note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Pranzo",
+        "description": "tipo: note\n) VALUES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_i"
+      },
+      "contesto": {
+        "type": "string",
+        "default": "Casa",
+        "description": "contesto: ES (\n  'Pranzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL"
+      },
+      "libero_sociale": {
+        "type": "number",
+        "default": 0,
+        "description": "libero_sociale: anzo',\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+      },
+      "fame_nervosa": {
+        "type": "number",
+        "default": 0,
+        "description": "fame_nervosa: ,\n  CONCAT(@data_rif, ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: ' 13:00:00'),\n  'Pranzo',\n  'Casa',\n  0,\n  0,\n  @giornata_id,\n  NULL\n)"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO pasti (\n  pasto,\n  data_ora,\n  tipo,\n  contesto,\n  libero_sociale,\n  fame_nervosa,\n  giornata_id,\n  note\n) VALUES (\n  ?,\n  CONCAT(?, ?),\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "pasto",
+          "data_rif",
+          "arg_1_2",
+          "tipo",
+          "contesto",
+          "libero_sociale",
+          "fame_nervosa",
+          "giornata_id",
+          "note"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "pasto_id"
+      }
+    ]
+  },
+  "5.4": {
+    "id": "5.4",
+    "description": "Inserire un prodotto alimentare",
+    "ability": "nutrition:write",
+    "parameters": {
+      "alimento_prodotto": {
+        "type": "string",
+        "default": "Prodotto di esempio",
+        "description": "alimento_prodotto: porzione,\n  fonte,\n  ultimo_controllo,\n  verificato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina"
+      },
+      "marca": {
+        "type": "string",
+        "default": "Marca di esempio",
+        "description": "marca: mo_controllo,\n  verificato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,"
+      },
+      "categoria": {
+        "type": "string",
+        "default": "Proteina",
+        "description": "categoria: cato\n) VALUES (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,"
+      },
+      "stato": {
+        "type": "string",
+        "default": "Ammesso",
+        "description": "stato: (\n  'Prodotto di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,"
+      },
+      "kcal_100g": {
+        "type": "number",
+        "default": 150,
+        "description": "kcal_100g: di esempio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,"
+      },
+      "proteine_100g": {
+        "type": "number",
+        "default": 20,
+        "description": "proteine_100g: mpio',\n  'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,"
+      },
+      "carboidrati_100g": {
+        "type": "number",
+        "default": 2,
+        "description": "carboidrati_100g: 'Marca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  15"
+      },
+      "grassi_100g": {
+        "type": "number",
+        "default": 6,
+        "description": "grassi_100g: arca di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,"
+      },
+      "fibre_100g": {
+        "type": "number",
+        "default": 0,
+        "description": "fibre_100g: di esempio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etic"
+      },
+      "zuccheri_100g": {
+        "type": "number",
+        "default": 1,
+        "description": "zuccheri_100g: empio',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta"
+      },
+      "sale_100g": {
+        "type": "number",
+        "default": 0.5,
+        "description": "sale_100g: ',\n  'Proteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @d"
+      },
+      "porzione_tipica_g": {
+        "type": "number",
+        "default": 100,
+        "description": "porzione_tipica_g: roteina',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif"
+      },
+      "kcal_porzione": {
+        "type": "number",
+        "default": 150,
+        "description": "kcal_porzione: ',\n  'Ammesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Etichetta",
+        "description": "fonte: mmesso',\n  150,\n  20,\n  2,\n  6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "verificato": {
+        "type": "number",
+        "default": 1,
+        "description": "verificato: 6,\n  0,\n  1,\n  0.5,\n  100,\n  150,\n  'Etichetta',\n  @data_rif,\n  1\n)"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO alimenti_prodotti (\n  alimento_prodotto,\n  marca,\n  categoria,\n  stato,\n  kcal_100g,\n  proteine_100g,\n  carboidrati_100g,\n  grassi_100g,\n  fibre_100g,\n  zuccheri_100g,\n  sale_100g,\n  porzione_tipica_g,\n  kcal_porzione,\n  fonte,\n  ultimo_controllo,\n  verificato\n) VALUES (\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "alimento_prodotto",
+          "marca",
+          "categoria",
+          "stato",
+          "kcal_100g",
+          "proteine_100g",
+          "carboidrati_100g",
+          "grassi_100g",
+          "fibre_100g",
+          "zuccheri_100g",
+          "sale_100g",
+          "porzione_tipica_g",
+          "kcal_porzione",
+          "fonte",
+          "data_rif",
+          "verificato"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "prodotto_id"
+      }
+    ]
+  },
+  "5.5": {
+    "id": "5.5",
+    "description": "Inserire una voce alimentare con valori già riferiti alla quantità consumata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "voce": {
+        "type": "string",
+        "default": "Prodotto di esempio - 170 g",
+        "description": "voce: a,\n  giornata_id,\n  pasto_id,\n  prodotto_id,\n  note\n) VALUES (\n  'Prodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 13:05:00",
+        "description": "SQL value: ) VALUES (\n  'Prodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crud"
+      },
+      "quantita": {
+        "type": "number",
+        "default": 170,
+        "description": "quantita: rodotto di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  25"
+      },
+      "unita": {
+        "type": "string",
+        "default": "g",
+        "description": "unita: di esempio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34"
+      },
+      "descrizione_quantita": {
+        "type": "string",
+        "default": "170 g",
+        "description": "descrizione_quantita: mpio - 170 g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,"
+      },
+      "peso": {
+        "type": "string",
+        "default": "Crudo",
+        "description": "peso: g',\n  CONCAT(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,"
+      },
+      "kcal": {
+        "type": "number",
+        "default": 255,
+        "description": "kcal: T(@data_rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,"
+      },
+      "proteine_g": {
+        "type": "number",
+        "default": 34,
+        "description": "proteine_g: _rif, ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,"
+      },
+      "carboidrati_g": {
+        "type": "number",
+        "default": 3.4,
+        "description": "carboidrati_g: ' 13:05:00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodo"
+      },
+      "grassi_g": {
+        "type": "number",
+        "default": 10.2,
+        "description": "grassi_g: :00'),\n  170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto regi"
+      },
+      "fibre_g": {
+        "type": "number",
+        "default": 0,
+        "description": "fibre_g: 170,\n  'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrat"
+      },
+      "zuccheri_g": {
+        "type": "number",
+        "default": 1.7,
+        "description": "zuccheri_g: 'g',\n  '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  '"
+      },
+      "alcol_g": {
+        "type": "number",
+        "default": 0,
+        "description": "alcol_g: '170 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta'"
+      },
+      "fonte_valori": {
+        "type": "string",
+        "default": "Prodotto registrato",
+        "description": "fonte_valori: 70 g',\n  'Crudo',\n  255,\n  34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta',\n  @giornata_id,\n  @past"
+      },
+      "affidabilita": {
+        "type": "string",
+        "default": "Alta",
+        "description": "affidabilita: 34,\n  3.4,\n  10.2,\n  0,\n  1.7,\n  0,\n  'Prodotto registrato',\n  'Alta',\n  @giornata_id,\n  @pasto_id,\n  @p"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: trato',\n  'Alta',\n  @giornata_id,\n  @pasto_id,\n  @prodotto_id,\n  NULL\n)"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO voci_alimentari (\n  voce,\n  data_ora,\n  quantita,\n  unita,\n  descrizione_quantita,\n  peso,\n  kcal,\n  proteine_g,\n  carboidrati_g,\n  grassi_g,\n  fibre_g,\n  zuccheri_g,\n  alcol_g,\n  fonte_valori,\n  affidabilita,\n  giornata_id,\n  pasto_id,\n  prodotto_id,\n  note\n) VALUES (\n  ?,\n  CONCAT(?, ?),\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "voce",
+          "data_rif",
+          "arg_1_2",
+          "quantita",
+          "unita",
+          "descrizione_quantita",
+          "peso",
+          "kcal",
+          "proteine_g",
+          "carboidrati_g",
+          "grassi_g",
+          "fibre_g",
+          "zuccheri_g",
+          "alcol_g",
+          "fonte_valori",
+          "affidabilita",
+          "giornata_id",
+          "pasto_id",
+          "prodotto_id",
+          "note"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "5.6": {
+    "id": "5.6",
+    "description": "Inserire una voce calcolando kcal/macro dai valori per 100 g del prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": " - ",
+        "description": "SQL value: pasto_id,\n  prodotto_id\n)\nSELECT\n  CONCAT(ap.alimento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@dat"
+      },
+      "quantita_g": {
+        "type": "number"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " g",
+        "description": "SQL value: o_id\n)\nSELECT\n  CONCAT(ap.alimento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00')"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_3": {
+        "type": "string",
+        "default": " 13:10:00",
+        "description": "SQL value: limento_prodotto, ' - ', @quantita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',"
+      },
+      "arg_1_4": {
+        "type": "string",
+        "default": "g",
+        "description": "SQL value: ita_g, ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g *"
+      },
+      "arg_1_5": {
+        "type": "string",
+        "default": "Crudo",
+        "description": "SQL value: ' g'),\n  CONCAT(@data_rif, ' 13:10:00'),\n  @quantita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_"
+      },
+      "arg_1_6": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: antita_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @q"
+      },
+      "arg_1_7": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: a_g,\n  'g',\n  'Crudo',\n  ROUND(ap.kcal_100g * @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quan"
+      },
+      "arg_1_8": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: @quantita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g *"
+      },
+      "arg_1_9": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: ntita_g / 100, 3),\n  ROUND(ap.proteine_100g * @quantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @q"
+      },
+      "arg_1_10": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: uantita_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @qua"
+      },
+      "arg_1_11": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: ta_g / 100, 3),\n  ROUND(ap.carboidrati_100g * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quanti"
+      },
+      "arg_1_12": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: * @quantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quan"
+      },
+      "arg_1_13": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: uantita_g / 100, 3),\n  ROUND(ap.grassi_100g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantit"
+      },
+      "arg_1_14": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: g * @quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @q"
+      },
+      "arg_1_15": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: quantita_g / 100, 3),\n  ROUND(ap.fibre_100g * @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quan"
+      },
+      "arg_1_16": {
+        "type": "number",
+        "default": 100,
+        "description": "SQL value: @quantita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CA"
+      },
+      "arg_1_17": {
+        "type": "number",
+        "default": 3,
+        "description": "SQL value: ntita_g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CASE"
+      },
+      "arg_1_18": {
+        "type": "string",
+        "default": "Prodotto registrato",
+        "description": "SQL value: g / 100, 3),\n  ROUND(ap.zuccheri_100g * @quantita_g / 100, 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THE"
+      },
+      "arg_1_19": {
+        "type": "number",
+        "default": 1,
+        "description": "SQL value: / 100, 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @g"
+      },
+      "arg_1_20": {
+        "type": "string",
+        "default": "Alta",
+        "description": "SQL value: 3),\n  'Prodotto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @giornata_id,"
+      },
+      "arg_1_21": {
+        "type": "string",
+        "default": "Media",
+        "description": "SQL value: otto registrato',\n  CASE WHEN ap.verificato = 1 THEN 'Alta' ELSE 'Media' END,\n  @giornata_id,\n  @pasto_id,"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO voci_alimentari (\n  voce,\n  data_ora,\n  quantita,\n  unita,\n  peso,\n  kcal,\n  proteine_g,\n  carboidrati_g,\n  grassi_g,\n  fibre_g,\n  zuccheri_g,\n  fonte_valori,\n  affidabilita,\n  giornata_id,\n  pasto_id,\n  prodotto_id\n)\nSELECT\n  CONCAT(ap.alimento_prodotto, ?, ?, ?),\n  CONCAT(?, ?),\n  ?,\n  ?,\n  ?,\n  ROUND(ap.kcal_100g * ? / ?, ?),\n  ROUND(ap.proteine_100g * ? / ?, ?),\n  ROUND(ap.carboidrati_100g * ? / ?, ?),\n  ROUND(ap.grassi_100g * ? / ?, ?),\n  ROUND(ap.fibre_100g * ? / ?, ?),\n  ROUND(ap.zuccheri_100g * ? / ?, ?),\n  ?,\n  CASE WHEN ap.verificato = ? THEN ? ELSE ? END,\n  ?,\n  ?,\n  ap.id\nFROM alimenti_prodotti ap\nWHERE ap.id = ?",
+        "bindings": [
+          "arg_1_1",
+          "quantita_g",
+          "arg_1_2",
+          "data_rif",
+          "arg_1_3",
+          "quantita_g",
+          "arg_1_4",
+          "arg_1_5",
+          "quantita_g",
+          "arg_1_6",
+          "arg_1_7",
+          "quantita_g",
+          "arg_1_8",
+          "arg_1_9",
+          "quantita_g",
+          "arg_1_10",
+          "arg_1_11",
+          "quantita_g",
+          "arg_1_12",
+          "arg_1_13",
+          "quantita_g",
+          "arg_1_14",
+          "arg_1_15",
+          "quantita_g",
+          "arg_1_16",
+          "arg_1_17",
+          "arg_1_18",
+          "arg_1_19",
+          "arg_1_20",
+          "arg_1_21",
+          "giornata_id",
+          "pasto_id",
+          "prodotto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "5.7": {
+    "id": "5.7",
+    "description": "Inserire una misura corporea",
+    "ability": "nutrition:write",
+    "parameters": {
+      "rilevazione": {
+        "type": "string",
+        "default": "Rilevazione mattutina",
+        "description": "rilevazione: fonte,\n  affidabilita,\n  condizioni,\n  giornata_id\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "peso_kg": {
+        "type": "number",
+        "default": 80.2,
+        "description": "peso_kg: giornata_id\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,"
+      },
+      "vita_cm": {
+        "type": "number",
+        "default": 86.5,
+        "description": "vita_cm: d\n) VALUES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,"
+      },
+      "fianchi_cm": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "fianchi_cm: ES (\n  'Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilanc"
+      },
+      "torace_cm": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "torace_cm: Rilevazione mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  '"
+      },
+      "massa_grassa_pct": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "massa_grassa_pct: one mattutina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',"
+      },
+      "massa_muscolare_kg": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "default": null,
+        "description": "massa_muscolare_kg: utina',\n  @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattin"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Bilancia",
+        "description": "fonte: @data_rif,\n  80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',"
+      },
+      "affidabilita": {
+        "type": "string",
+        "default": "Alta",
+        "description": "affidabilita: 80.200,\n  86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',\n  @giorna"
+      },
+      "condizioni": {
+        "type": "string",
+        "default": "Mattina, a digiuno",
+        "description": "condizioni: 86.5,\n  NULL,\n  NULL,\n  NULL,\n  NULL,\n  'Bilancia',\n  'Alta',\n  'Mattina, a digiuno',\n  @giornata_id\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO peso_misure (\n  rilevazione,\n  data,\n  peso_kg,\n  vita_cm,\n  fianchi_cm,\n  torace_cm,\n  massa_grassa_pct,\n  massa_muscolare_kg,\n  fonte,\n  affidabilita,\n  condizioni,\n  giornata_id\n) VALUES (\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "rilevazione",
+          "data_rif",
+          "peso_kg",
+          "vita_cm",
+          "fianchi_cm",
+          "torace_cm",
+          "massa_grassa_pct",
+          "massa_muscolare_kg",
+          "fonte",
+          "affidabilita",
+          "condizioni",
+          "giornata_id"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "rilevazione_id"
+      }
+    ]
+  },
+  "5.8": {
+    "id": "5.8",
+    "description": "Inserire un'attività",
+    "ability": "nutrition:write",
+    "parameters": {
+      "attivita": {
+        "type": "string",
+        "default": "Camminata",
+        "description": "attivita: ,\n  intensita_percepita_0_10,\n  giornata_id,\n  note\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 18:30:00",
+        "description": "SQL value: iornata_id,\n  note\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Camminata",
+        "description": "tipo: te\n) VALUES (\n  'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Apple Watch",
+        "description": "fonte: 'Camminata',\n  CONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112"
+      },
+      "durata_min": {
+        "type": "number",
+        "default": 45,
+        "description": "durata_min: ONCAT(@data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  14"
+      },
+      "distanza_km": {
+        "type": "number",
+        "default": 4.3,
+        "description": "distanza_km: @data_rif, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,"
+      },
+      "passi": {
+        "type": "number",
+        "default": 5800,
+        "description": "passi: if, ' 18:30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @gior"
+      },
+      "calorie_attive_dispositivo": {
+        "type": "number",
+        "default": 260,
+        "description": "calorie_attive_dispositivo: :30:00'),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id"
+      },
+      "fc_media": {
+        "type": "number",
+        "default": 112,
+        "description": "fc_media: ),\n  'Camminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NUL"
+      },
+      "fc_max": {
+        "type": "number",
+        "default": 148,
+        "description": "fc_max: amminata',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+      },
+      "intensita_percepita_0_10": {
+        "type": "number",
+        "default": 4,
+        "description": "intensita_percepita_0_10: a',\n  'Apple Watch',\n  45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: 45,\n  4.3,\n  5800,\n  260,\n  112,\n  148,\n  4,\n  @giornata_id,\n  NULL\n)"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO attivita_allenamenti (\n  attivita,\n  data_ora,\n  tipo,\n  fonte,\n  durata_min,\n  distanza_km,\n  passi,\n  calorie_attive_dispositivo,\n  fc_media,\n  fc_max,\n  intensita_percepita_0_10,\n  giornata_id,\n  note\n) VALUES (\n  ?,\n  CONCAT(?, ?),\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "attivita",
+          "data_rif",
+          "arg_1_2",
+          "tipo",
+          "fonte",
+          "durata_min",
+          "distanza_km",
+          "passi",
+          "calorie_attive_dispositivo",
+          "fc_media",
+          "fc_max",
+          "intensita_percepita_0_10",
+          "giornata_id",
+          "note"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "attivita_id"
+      }
+    ]
+  },
+  "5.9": {
+    "id": "5.9",
+    "description": "Inserire un integratore",
+    "ability": "nutrition:write",
+    "parameters": {
+      "integratore": {
+        "type": "string",
+        "default": "Integratore di esempio",
+        "description": "integratore: motivo,\n  note_composizione,\n  stato,\n  data_inizio\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'cap"
+      },
+      "marca": {
+        "type": "string",
+        "default": "Marca di esempio",
+        "description": "marca: stato,\n  data_inizio\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al g"
+      },
+      "dose": {
+        "type": "number",
+        "default": 1,
+        "description": "dose: o\n) VALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno"
+      },
+      "unita_dose": {
+        "type": "string",
+        "default": "capsula",
+        "description": "unita_dose: ALUES (\n  'Integratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo co"
+      },
+      "frequenza": {
+        "type": "string",
+        "default": "1 volta al giorno",
+        "description": "frequenza: tegratore di esempio',\n  'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',"
+      },
+      "momento": {
+        "type": "string",
+        "default": "Dopo colazione",
+        "description": "momento: 'Marca di esempio',\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',"
+      },
+      "motivo": {
+        "type": "string",
+        "default": "Esempio",
+        "description": "motivo: ,\n  1,\n  'capsula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+      },
+      "note_composizione": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note_composizione: sula',\n  '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+      },
+      "stato": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "stato: '1 volta al giorno',\n  'Dopo colazione',\n  'Esempio',\n  NULL,\n  'Attivo',\n  @data_rif\n)"
+      },
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO integratori (\n  integratore,\n  marca,\n  dose,\n  unita_dose,\n  frequenza,\n  momento,\n  motivo,\n  note_composizione,\n  stato,\n  data_inizio\n) VALUES (\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "integratore",
+          "marca",
+          "dose",
+          "unita_dose",
+          "frequenza",
+          "momento",
+          "motivo",
+          "note_composizione",
+          "stato",
+          "data_rif"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "integratore_id"
+      }
+    ]
+  },
+  "5.10": {
+    "id": "5.10",
+    "description": "Registrare una singola assunzione",
+    "ability": "nutrition:write",
+    "parameters": {
+      "assunzione": {
+        "type": "string",
+        "default": "Assunzione integratore di esempio",
+        "description": "assunzione: ornata_id,\n  dose_assunta,\n  unita,\n  esito,\n  note\n) VALUES (\n  'Assunzione integratore di esempio',\n  CONCAT(@data_rif, ' 09:00:00'),"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": " 09:00:00",
+        "description": "SQL value: UES (\n  'Assunzione integratore di esempio',\n  CONCAT(@data_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_i"
+      },
+      "integratore_id": {
+        "type": "integer"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "dose_assunta": {
+        "type": "number",
+        "default": 1,
+        "description": "dose_assunta: AT(@data_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      },
+      "unita": {
+        "type": "string",
+        "default": "capsula",
+        "description": "unita: ata_rif, ' 09:00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      },
+      "esito": {
+        "type": "string",
+        "default": "Preso",
+        "description": "esito: :00:00'),\n  @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      },
+      "note": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "note: @integratore_id,\n  @giornata_id,\n  1,\n  'capsula',\n  'Preso',\n  NULL\n)"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO assunzioni (\n  assunzione,\n  data_ora,\n  integratore_id,\n  giornata_id,\n  dose_assunta,\n  unita,\n  esito,\n  note\n) VALUES (\n  ?,\n  CONCAT(?, ?),\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "assunzione",
+          "data_rif",
+          "arg_1_2",
+          "integratore_id",
+          "giornata_id",
+          "dose_assunta",
+          "unita",
+          "esito",
+          "note"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "assunzione_id"
+      }
+    ]
+  },
+  "5.11": {
+    "id": "5.11",
+    "description": "Inserire un'osservazione/apprendimento",
+    "ability": "nutrition:write",
+    "parameters": {
+      "osservazione": {
+        "type": "string",
+        "default": "Buona sazietà a pranzo",
+        "description": "osservazione: attiva,\n  regola_stabile,\n  giornata_id,\n  pasto_id\n) VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Uten"
+      },
+      "data_rif": {
+        "type": "string"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Sazieta",
+        "description": "tipo: pasto_id\n) VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata do"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Utente",
+        "description": "fonte: VALUES (\n  'Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto."
+      },
+      "dettaglio": {
+        "type": "string",
+        "default": "Sazietà elevata dopo il pasto.",
+        "description": "dettaglio: Buona sazietà a pranzo',\n  @data_rif,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto.',\n  'La composizione del pasto è ri"
+      },
+      "apprendimento": {
+        "type": "string",
+        "default": "La composizione del pasto è risultata saziante.",
+        "description": "apprendimento: ,\n  'Sazieta',\n  'Utente',\n  'Sazietà elevata dopo il pasto.',\n  'La composizione del pasto è risultata saziante.',\n  'Valutare di riutilizzare una c"
+      },
+      "azione_futura": {
+        "type": "string",
+        "default": "Valutare di riutilizzare una composizione simile.",
+        "description": "azione_futura: pasto.',\n  'La composizione del pasto è risultata saziante.',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,"
+      },
+      "valutazione_0_10": {
+        "type": "number",
+        "default": 8,
+        "description": "valutazione_0_10: ante.',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @past"
+      },
+      "attiva": {
+        "type": "number",
+        "default": 1,
+        "description": "attiva: ',\n  'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @pasto_id"
+      },
+      "regola_stabile": {
+        "type": "number",
+        "default": 0,
+        "description": "regola_stabile: 'Valutare di riutilizzare una composizione simile.',\n  8,\n  1,\n  0,\n  @giornata_id,\n  @pasto_id\n)"
+      },
+      "giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO osservazioni_apprendimenti (\n  osservazione,\n  data,\n  tipo,\n  fonte,\n  dettaglio,\n  apprendimento,\n  azione_futura,\n  valutazione_0_10,\n  attiva,\n  regola_stabile,\n  giornata_id,\n  pasto_id\n) VALUES (\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "osservazione",
+          "data_rif",
+          "tipo",
+          "fonte",
+          "dettaglio",
+          "apprendimento",
+          "azione_futura",
+          "valutazione_0_10",
+          "attiva",
+          "regola_stabile",
+          "giornata_id",
+          "pasto_id"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "osservazione_id"
+      }
+    ]
+  },
+  "5.12": {
+    "id": "5.12",
+    "description": "Inserimento atomico di giornata + pasto + voci",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giorno": {
+        "type": "string",
+        "default": "Giornata transazionale",
+        "description": "giorno: rio_giornaliero (\n  giorno,\n  data,\n  tipo_giornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'"
+      },
+      "data": {
+        "type": "string",
+        "default": "2026-09-10",
+        "description": "data: data,\n  tipo_giornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'\n)\nON DUPLICATE K"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: iornata\n) VALUES (\n  'Giornata transazionale',\n  '2026-09-10',\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+      },
+      "pasto": {
+        "type": "string",
+        "default": "Cena",
+        "description": "pasto: asto,\n  data_ora,\n  tipo,\n  contesto,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena'"
+      },
+      "data_ora": {
+        "type": "string",
+        "default": "2026-09-10 20:00:00",
+        "description": "data_ora: ta_ora,\n  tipo,\n  contesto,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornat"
+      },
+      "tipo": {
+        "type": "string",
+        "default": "Cena",
+        "description": "tipo: o,\n  giornata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornata_id\n)"
+      },
+      "contesto": {
+        "type": "string",
+        "default": "Casa",
+        "description": "contesto: ata_id\n) VALUES (\n  'Cena',\n  '2026-09-10 20:00:00',\n  'Cena',\n  'Casa',\n  @tx_giornata_id\n)"
+      },
+      "voce": {
+        "type": "string",
+        "default": "Voce A",
+        "description": "voce: lori,\n  affidabilita,\n  giornata_id,\n  pasto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    10"
+      },
+      "data_ora_5": {
+        "type": "string",
+        "default": "2026-09-10 20:05:00",
+        "description": "data_ora: bilita,\n  giornata_id,\n  pasto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20"
+      },
+      "quantita": {
+        "type": "number",
+        "default": 100,
+        "description": "quantita: sto_id\n) VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,"
+      },
+      "unita": {
+        "type": "string",
+        "default": "g",
+        "description": "unita: VALUES\n  (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,"
+      },
+      "kcal": {
+        "type": "number",
+        "default": 120,
+        "description": "kcal: (\n    'Voce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima'"
+      },
+      "proteine_g": {
+        "type": "number",
+        "default": 20,
+        "description": "proteine_g: ce A',\n    '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'M"
+      },
+      "carboidrati_g": {
+        "type": "number",
+        "default": 3,
+        "description": "carboidrati_g: '2026-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',"
+      },
+      "grassi_g": {
+        "type": "number",
+        "default": 4,
+        "description": "grassi_g: 6-09-10 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx"
+      },
+      "fonte_valori": {
+        "type": "string",
+        "default": "Stima",
+        "description": "fonte_valori: 20:05:00',\n    100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx_giornata_id,"
+      },
+      "affidabilita": {
+        "type": "string",
+        "default": "Media",
+        "description": "affidabilita: 100,\n    'g',\n    120,\n    20,\n    3,\n    4,\n    'Stima',\n    'Media',\n    @tx_giornata_id,\n    @tx_past"
+      },
+      "voce_2": {
+        "type": "string",
+        "default": "Voce B",
+        "description": "voce_2: 'Media',\n    @tx_giornata_id,\n    @tx_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80"
+      },
+      "data_ora_2": {
+        "type": "string",
+        "default": "2026-09-10 20:06:00",
+        "description": "data_ora_2: @tx_giornata_id,\n    @tx_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,"
+      },
+      "quantita_2": {
+        "type": "number",
+        "default": 80,
+        "description": "quantita_2: x_pasto_id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,"
+      },
+      "unita_2": {
+        "type": "string",
+        "default": "g",
+        "description": "unita_2: id\n  ),\n  (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,"
+      },
+      "kcal_2": {
+        "type": "number",
+        "default": 180,
+        "description": "kcal_2: (\n    'Voce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima'"
+      },
+      "proteine_g_2": {
+        "type": "number",
+        "default": 5,
+        "description": "proteine_g_2: oce B',\n    '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    '"
+      },
+      "carboidrati_g_2": {
+        "type": "number",
+        "default": 28,
+        "description": "carboidrati_g_2: '2026-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',"
+      },
+      "grassi_g_2": {
+        "type": "number",
+        "default": 5,
+        "description": "grassi_g_2: 26-09-10 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx"
+      },
+      "fonte_valori_2": {
+        "type": "string",
+        "default": "Stima",
+        "description": "fonte_valori_2: 0 20:06:00',\n    80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx_giornata_id,"
+      },
+      "affidabilita_2": {
+        "type": "string",
+        "default": "Media",
+        "description": "affidabilita_2: 80,\n    'g',\n    180,\n    5,\n    28,\n    5,\n    'Stima',\n    'Media',\n    @tx_giornata_id,\n    @tx_past"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO diario_giornaliero (\n  giorno,\n  data,\n  tipo_giornata\n) VALUES (\n  ?,\n  ?,\n  ?\n)\nON DUPLICATE KEY UPDATE\n  id = LAST_INSERT_ID(id)",
+        "bindings": [
+          "giorno",
+          "data",
+          "tipo_giornata"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "tx_giornata_id"
+      },
+      {
+        "sql": "INSERT INTO pasti (\n  pasto,\n  data_ora,\n  tipo,\n  contesto,\n  giornata_id\n) VALUES (\n  ?,\n  ?,\n  ?,\n  ?,\n  ?\n)",
+        "bindings": [
+          "pasto",
+          "data_ora",
+          "tipo",
+          "contesto",
+          "tx_giornata_id"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "tx_pasto_id"
+      },
+      {
+        "sql": "INSERT INTO voci_alimentari (\n  voce,\n  data_ora,\n  quantita,\n  unita,\n  kcal,\n  proteine_g,\n  carboidrati_g,\n  grassi_g,\n  fonte_valori,\n  affidabilita,\n  giornata_id,\n  pasto_id\n) VALUES\n  (\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?\n  ),\n  (\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?,\n    ?\n  )",
+        "bindings": [
+          "voce",
+          "data_ora_5",
+          "quantita",
+          "unita",
+          "kcal",
+          "proteine_g",
+          "carboidrati_g",
+          "grassi_g",
+          "fonte_valori",
+          "affidabilita",
+          "tx_giornata_id",
+          "tx_pasto_id",
+          "voce_2",
+          "data_ora_2",
+          "quantita_2",
+          "unita_2",
+          "kcal_2",
+          "proteine_g_2",
+          "carboidrati_g_2",
+          "grassi_g_2",
+          "fonte_valori_2",
+          "affidabilita_2",
+          "tx_giornata_id",
+          "tx_pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.1": {
+    "id": "6.1",
+    "description": "Tutte le giornate, dalla più recente",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM diario_giornaliero\nORDER BY data DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "6.2": {
+    "id": "6.2",
+    "description": "Giornata specifica",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM diario_giornaliero\nWHERE data = ?",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.3": {
+    "id": "6.3",
+    "description": "Ultimi N giorni",
+    "ability": "nutrition:read",
+    "parameters": {
+      "n_giorni": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM diario_giornaliero\nWHERE data >= CURRENT_DATE - INTERVAL ? DAY\nORDER BY data DESC",
+        "bindings": [
+          "n_giorni"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.4": {
+    "id": "6.4",
+    "description": "Giorni in un intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM diario_giornaliero\nWHERE data BETWEEN ? AND ?\nORDER BY data",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.5": {
+    "id": "6.5",
+    "description": "Giornate non chiuse",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM diario_giornaliero\nWHERE giornata_chiusa = 0\nORDER BY data DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "6.6": {
+    "id": "6.6",
+    "description": "Giornate per tipo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Allenamento",
+        "description": "SQL value: SELECT *\nFROM diario_giornaliero\nWHERE tipo_giornata = 'Allenamento'\nORDER BY data DESC"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM diario_giornaliero\nWHERE tipo_giornata = ?\nORDER BY data DESC",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.7": {
+    "id": "6.7",
+    "description": "Pasti di una giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT p.*\nFROM pasti p\nJOIN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE d.data = ?\nORDER BY p.data_ora, p.id",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.8": {
+    "id": "6.8",
+    "description": "Pasti di un certo tipo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Cena",
+        "description": "SQL value: IN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.tipo = 'Cena'\nORDER BY p.data_ora DESC"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT p.*, d.data\nFROM pasti p\nLEFT JOIN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.tipo = ?\nORDER BY p.data_ora DESC",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.9": {
+    "id": "6.9",
+    "description": "Pasti consumati fuori casa",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Fuori",
+        "description": "SQL value: rio_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER B"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": "Ristorante",
+        "description": "SQL value: aliero d\n  ON d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER BY p.data_ora D"
+      },
+      "arg_1_3": {
+        "type": "string",
+        "default": "Delivery",
+        "description": "SQL value: d.id = p.giornata_id\nWHERE p.contesto IN ('Fuori', 'Ristorante', 'Delivery')\nORDER BY p.data_ora DESC"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT p.*, d.data\nFROM pasti p\nLEFT JOIN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.contesto IN (?, ?, ?)\nORDER BY p.data_ora DESC",
+        "bindings": [
+          "arg_1_1",
+          "arg_1_2",
+          "arg_1_3"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.10": {
+    "id": "6.10",
+    "description": "Pasti liberi/sociali",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT p.*, d.data\nFROM pasti p\nLEFT JOIN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.libero_sociale = 1\nORDER BY p.data_ora DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "6.11": {
+    "id": "6.11",
+    "description": "Pasti con fame nervosa",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT p.*, d.data\nFROM pasti p\nLEFT JOIN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.fame_nervosa = 1\nORDER BY p.data_ora DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "6.12": {
+    "id": "6.12",
+    "description": "Dettaglio di un pasto con tutte le voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  p.id AS pasto_id,\n  p.pasto,\n  p.tipo,\n  p.data_ora AS pasto_data_ora,\n  v.id AS voce_id,\n  v.voce,\n  v.quantita,\n  v.unita,\n  v.kcal,\n  v.proteine_g,\n  v.carboidrati_g,\n  v.grassi_g,\n  v.fibre_g,\n  v.zuccheri_g,\n  v.alcol_g,\n  ap.alimento_prodotto,\n  ap.marca\nFROM pasti p\nLEFT JOIN voci_alimentari v\n  ON v.pasto_id = p.id\nLEFT JOIN alimenti_prodotti ap\n  ON ap.id = v.prodotto_id\nWHERE p.id = ?\nORDER BY v.data_ora, v.id",
+        "bindings": [
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.13": {
+    "id": "6.13",
+    "description": "Tutte le voci di una giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  v.*,\n  p.tipo AS tipo_pasto,\n  p.pasto,\n  ap.alimento_prodotto,\n  ap.marca\nFROM voci_alimentari v\nLEFT JOIN pasti p\n  ON p.id = v.pasto_id\nLEFT JOIN alimenti_prodotti ap\n  ON ap.id = v.prodotto_id\nJOIN diario_giornaliero d\n  ON d.id = v.giornata_id\nWHERE d.data = ?\nORDER BY COALESCE(v.data_ora, p.data_ora), v.id",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.14": {
+    "id": "6.14",
+    "description": "Ricerca testuale nelle voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "testo": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nWHERE voce LIKE ?\n   OR descrizione_quantita LIKE ?\n   OR note LIKE ?\nORDER BY data_ora DESC",
+        "bindings": [
+          "testo",
+          "testo",
+          "testo"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.15": {
+    "id": "6.15",
+    "description": "Catalogo prodotti",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nORDER BY alimento_prodotto, marca",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "6.16": {
+    "id": "6.16",
+    "description": "Prodotti per categoria",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Proteina",
+        "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE categoria = 'Proteina'\nORDER BY alimento_prodotto"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nWHERE categoria = ?\nORDER BY alimento_prodotto",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.17": {
+    "id": "6.17",
+    "description": "Prodotti preferiti",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Preferito",
+        "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE stato = 'Preferito'\nORDER BY alimento_prodotto"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nWHERE stato = ?\nORDER BY alimento_prodotto",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.18": {
+    "id": "6.18",
+    "description": "Prodotti esclusi",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Escluso",
+        "description": "SQL value: SELECT *\nFROM alimenti_prodotti\nWHERE stato = 'Escluso'\nORDER BY alimento_prodotto"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nWHERE stato = ?\nORDER BY alimento_prodotto",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "6.19": {
+    "id": "6.19",
+    "description": "Prodotti non verificati",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nWHERE verificato = 0\nORDER BY ultimo_controllo IS NULL DESC, ultimo_controllo",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "6.20": {
+    "id": "6.20",
+    "description": "Prodotti con controllo vecchio di almeno 6 mesi",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nWHERE ultimo_controllo IS NULL\n   OR ultimo_controllo < CURRENT_DATE - INTERVAL 6 MONTH\nORDER BY ultimo_controllo",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.1": {
+    "id": "7.1",
+    "description": "Totali di ogni pasto",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_pasti_totali\nORDER BY data_ora DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.2": {
+    "id": "7.2",
+    "description": "Totale del singolo pasto",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_pasti_totali\nWHERE pasto_id = ?",
+        "bindings": [
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.3": {
+    "id": "7.3",
+    "description": "Totali nutrizionali giornalieri",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_diario_nutrizione\nWHERE data = ?",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.4": {
+    "id": "7.4",
+    "description": "Totali nutrizionali per intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_diario_nutrizione\nWHERE data BETWEEN ? AND ?\nORDER BY data",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.5": {
+    "id": "7.5",
+    "description": "Scostamento dai target",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_kcal,\n  target_kcal,\n  totale_kcal - target_kcal AS delta_kcal,\n  totale_proteine_g,\n  target_proteine_g,\n  totale_proteine_g - target_proteine_g AS delta_proteine_g,\n  totale_carboidrati_g,\n  target_carboidrati_g,\n  totale_carboidrati_g - target_carboidrati_g AS delta_carboidrati_g,\n  totale_grassi_g,\n  target_grassi_g,\n  totale_grassi_g - target_grassi_g AS delta_grassi_g,\n  totale_fibre_g,\n  target_fibre_g,\n  totale_fibre_g - target_fibre_g AS delta_fibre_g\nFROM v_diario_nutrizione\nWHERE data BETWEEN ? AND ?\nORDER BY data",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.6": {
+    "id": "7.6",
+    "description": "Percentuale raggiungimento target",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  ROUND(100 * totale_kcal / NULLIF(target_kcal, 0), 1) AS kcal_target_pct,\n  ROUND(100 * totale_proteine_g / NULLIF(target_proteine_g, 0), 1)\n    AS proteine_target_pct,\n  ROUND(100 * totale_carboidrati_g / NULLIF(target_carboidrati_g, 0), 1)\n    AS carboidrati_target_pct,\n  ROUND(100 * totale_grassi_g / NULLIF(target_grassi_g, 0), 1)\n    AS grassi_target_pct,\n  ROUND(100 * totale_fibre_g / NULLIF(target_fibre_g, 0), 1)\n    AS fibre_target_pct\nFROM v_diario_nutrizione\nWHERE data BETWEEN ? AND ?\nORDER BY data",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.7": {
+    "id": "7.7",
+    "description": "Calorie per tipo di pasto nel giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  p.tipo,\n  ROUND(SUM(v.kcal), 2) AS kcal\nFROM pasti p\nJOIN diario_giornaliero d\n  ON d.id = p.giornata_id\nLEFT JOIN voci_alimentari v\n  ON v.pasto_id = p.id\nWHERE d.data = ?\nGROUP BY p.tipo\nORDER BY kcal DESC",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.8": {
+    "id": "7.8",
+    "description": "Distribuzione percentuale delle calorie per pasto nel giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "WITH kcal_per_pasto AS (\n  SELECT\n    p.id,\n    p.pasto,\n    p.tipo,\n    SUM(v.kcal) AS kcal\n  FROM pasti p\n  JOIN diario_giornaliero d\n    ON d.id = p.giornata_id\n  LEFT JOIN voci_alimentari v\n    ON v.pasto_id = p.id\n  WHERE d.data = ?\n  GROUP BY p.id, p.pasto, p.tipo\n),\ntotale AS (\n  SELECT SUM(kcal) AS kcal_totali\n  FROM kcal_per_pasto\n)\nSELECT\n  k.id,\n  k.pasto,\n  k.tipo,\n  k.kcal,\n  ROUND(100 * k.kcal / NULLIF(t.kcal_totali, 0), 1) AS quota_kcal_pct\nFROM kcal_per_pasto k\nCROSS JOIN totale t\nORDER BY k.kcal DESC",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.9": {
+    "id": "7.9",
+    "description": "Media giornaliera kcal e macro in un intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  ROUND(AVG(totale_kcal), 2) AS media_kcal,\n  ROUND(AVG(totale_proteine_g), 2) AS media_proteine_g,\n  ROUND(AVG(totale_carboidrati_g), 2) AS media_carboidrati_g,\n  ROUND(AVG(totale_grassi_g), 2) AS media_grassi_g,\n  ROUND(AVG(totale_fibre_g), 2) AS media_fibre_g\nFROM v_diario_nutrizione\nWHERE data BETWEEN ? AND ?",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.10": {
+    "id": "7.10",
+    "description": "Minimo, massimo e media kcal",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  MIN(totale_kcal) AS kcal_min,\n  MAX(totale_kcal) AS kcal_max,\n  ROUND(AVG(totale_kcal), 2) AS kcal_media\nFROM v_diario_nutrizione\nWHERE data BETWEEN ? AND ?",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "7.11": {
+    "id": "7.11",
+    "description": "Giorni sopra target kcal",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_kcal,\n  target_kcal,\n  totale_kcal - target_kcal AS eccedenza_kcal\nFROM v_diario_nutrizione\nWHERE target_kcal IS NOT NULL\n  AND totale_kcal > target_kcal\nORDER BY eccedenza_kcal DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.12": {
+    "id": "7.12",
+    "description": "Giorni sotto target proteico",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_proteine_g,\n  target_proteine_g,\n  target_proteine_g - totale_proteine_g AS proteine_mancanti_g\nFROM v_diario_nutrizione\nWHERE target_proteine_g IS NOT NULL\n  AND totale_proteine_g < target_proteine_g\nORDER BY proteine_mancanti_g DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.13": {
+    "id": "7.13",
+    "description": "Giorni con fibre sotto target",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_fibre_g,\n  target_fibre_g,\n  target_fibre_g - totale_fibre_g AS fibre_mancanti_g\nFROM v_diario_nutrizione\nWHERE target_fibre_g IS NOT NULL\n  AND totale_fibre_g < target_fibre_g\nORDER BY fibre_mancanti_g DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.14": {
+    "id": "7.14",
+    "description": "Totali settimanali, settimana ISO-like con WEEK(..., 3)",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  YEARWEEK(data, 3) AS anno_settimana,\n  MIN(data) AS primo_giorno,\n  MAX(data) AS ultimo_giorno,\n  COUNT(*) AS giornate_registrate,\n  ROUND(SUM(totale_kcal), 2) AS kcal_totali,\n  ROUND(AVG(totale_kcal), 2) AS kcal_medie,\n  ROUND(AVG(totale_proteine_g), 2) AS proteine_medie_g,\n  ROUND(AVG(totale_carboidrati_g), 2) AS carboidrati_medi_g,\n  ROUND(AVG(totale_grassi_g), 2) AS grassi_medi_g\nFROM v_diario_nutrizione\nGROUP BY YEARWEEK(data, 3)\nORDER BY anno_settimana DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.15": {
+    "id": "7.15",
+    "description": "Totali mensili",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  DATE_FORMAT(data, '%Y-%m') AS mese,\n  COUNT(*) AS giornate_registrate,\n  ROUND(SUM(totale_kcal), 2) AS kcal_totali,\n  ROUND(AVG(totale_kcal), 2) AS kcal_medie,\n  ROUND(AVG(totale_proteine_g), 2) AS proteine_medie_g,\n  ROUND(AVG(totale_carboidrati_g), 2) AS carboidrati_medi_g,\n  ROUND(AVG(totale_grassi_g), 2) AS grassi_medi_g,\n  ROUND(AVG(totale_fibre_g), 2) AS fibre_medie_g\nFROM v_diario_nutrizione\nGROUP BY DATE_FORMAT(data, '%Y-%m')\nORDER BY mese DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.16": {
+    "id": "7.16",
+    "description": "Media mobile a 7 giorni delle kcal",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_kcal,\n  ROUND(\n    AVG(totale_kcal) OVER (\n      ORDER BY data\n      ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\n    ),\n    2\n  ) AS media_mobile_7g_kcal\nFROM v_diario_nutrizione\nORDER BY data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "7.17": {
+    "id": "7.17",
+    "description": "Media mobile a 7 giorni dei macro",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  ROUND(\n    AVG(totale_proteine_g) OVER (\n      ORDER BY data\n      ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\n    ),\n    2\n  ) AS proteine_media_mobile_7g,\n  ROUND(\n    AVG(totale_carboidrati_g) OVER (\n      ORDER BY data\n      ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\n    ),\n    2\n  ) AS carboidrati_media_mobile_7g,\n  ROUND(\n    AVG(totale_grassi_g) OVER (\n      ORDER BY data\n      ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\n    ),\n    2\n  ) AS grassi_media_mobile_7g\nFROM v_diario_nutrizione\nORDER BY data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "8.1": {
+    "id": "8.1",
+    "description": "Pasti più calorici",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_pasti_totali\nORDER BY totale_kcal DESC\nLIMIT 20",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "8.2": {
+    "id": "8.2",
+    "description": "Media kcal per tipo di pasto",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  tipo,\n  COUNT(*) AS numero_pasti,\n  ROUND(AVG(totale_kcal), 2) AS kcal_medie,\n  ROUND(AVG(totale_proteine_g), 2) AS proteine_medie_g\nFROM v_pasti_totali\nGROUP BY tipo\nORDER BY kcal_medie DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "8.3": {
+    "id": "8.3",
+    "description": "Media sazietà per tipo di pasto",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  tipo,\n  COUNT(*) AS numero_valutazioni,\n  ROUND(AVG(sazieta_dopo_0_10), 2) AS sazieta_media\nFROM pasti\nWHERE sazieta_dopo_0_10 IS NOT NULL\nGROUP BY tipo\nORDER BY sazieta_media DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "8.4": {
+    "id": "8.4",
+    "description": "Media gradimento per contesto",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  contesto,\n  COUNT(*) AS numero_valutazioni,\n  ROUND(AVG(gradimento_0_10), 2) AS gradimento_medio\nFROM pasti\nWHERE gradimento_0_10 IS NOT NULL\nGROUP BY contesto\nORDER BY gradimento_medio DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "8.5": {
+    "id": "8.5",
+    "description": "Relazione fame prima / sazietà dopo",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  id,\n  pasto,\n  tipo,\n  fame_prima_0_10,\n  sazieta_dopo_0_10,\n  sazieta_dopo_0_10 - fame_prima_0_10 AS delta_sazieta\nFROM pasti\nWHERE fame_prima_0_10 IS NOT NULL\n  AND sazieta_dopo_0_10 IS NOT NULL\nORDER BY delta_sazieta DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "8.6": {
+    "id": "8.6",
+    "description": "Pasti con alta sazietà e calorie relativamente basse",
+    "ability": "nutrition:read",
+    "parameters": {
+      "soglia_sazieta": {
+        "type": "number"
+      },
+      "soglia_kcal": {
+        "type": "number"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_pasti_totali\nWHERE sazieta_dopo_0_10 >= ?\n  AND totale_kcal <= ?\nORDER BY sazieta_dopo_0_10 DESC, totale_kcal ASC",
+        "bindings": [
+          "soglia_sazieta",
+          "soglia_kcal"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "8.7": {
+    "id": "8.7",
+    "description": "Pasti liberi/sociali: calorie medie",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  libero_sociale,\n  COUNT(*) AS pasti,\n  ROUND(AVG(totale_kcal), 2) AS kcal_medie\nFROM v_pasti_totali\nGROUP BY libero_sociale",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "8.8": {
+    "id": "8.8",
+    "description": "Confronto casa vs fuori",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  CASE\n    WHEN contesto = 'Casa' THEN 'Casa'\n    ELSE 'Fuori casa'\n  END AS macro_contesto,\n  COUNT(*) AS pasti,\n  ROUND(AVG(totale_kcal), 2) AS kcal_medie,\n  ROUND(AVG(sazieta_dopo_0_10), 2) AS sazieta_media,\n  ROUND(AVG(gradimento_0_10), 2) AS gradimento_medio\nFROM v_pasti_totali\nGROUP BY\n  CASE\n    WHEN contesto = 'Casa' THEN 'Casa'\n    ELSE 'Fuori casa'\n  END",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.1": {
+    "id": "9.1",
+    "description": "Prodotti più consumati per numero di voci",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  ap.id,\n  ap.alimento_prodotto,\n  ap.marca,\n  COUNT(v.id) AS consumi\nFROM alimenti_prodotti ap\nJOIN voci_alimentari v\n  ON v.prodotto_id = ap.id\nGROUP BY ap.id, ap.alimento_prodotto, ap.marca\nORDER BY consumi DESC, ap.alimento_prodotto\nLIMIT 50",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.2": {
+    "id": "9.2",
+    "description": "Prodotti che hanno contribuito più kcal",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  ap.id,\n  ap.alimento_prodotto,\n  ap.marca,\n  COUNT(v.id) AS consumi,\n  ROUND(SUM(v.kcal), 2) AS kcal_totali\nFROM alimenti_prodotti ap\nJOIN voci_alimentari v\n  ON v.prodotto_id = ap.id\nGROUP BY ap.id, ap.alimento_prodotto, ap.marca\nORDER BY kcal_totali DESC\nLIMIT 50",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.3": {
+    "id": "9.3",
+    "description": "Proteine totali per prodotto",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  ap.alimento_prodotto,\n  ap.marca,\n  ROUND(SUM(v.proteine_g), 2) AS proteine_totali_g\nFROM alimenti_prodotti ap\nJOIN voci_alimentari v\n  ON v.prodotto_id = ap.id\nGROUP BY ap.id, ap.alimento_prodotto, ap.marca\nORDER BY proteine_totali_g DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.4": {
+    "id": "9.4",
+    "description": "Consumi del singolo prodotto",
+    "ability": "nutrition:read",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  v.*,\n  d.data,\n  p.tipo AS tipo_pasto\nFROM voci_alimentari v\nLEFT JOIN diario_giornaliero d\n  ON d.id = v.giornata_id\nLEFT JOIN pasti p\n  ON p.id = v.pasto_id\nWHERE v.prodotto_id = ?\nORDER BY v.data_ora DESC",
+        "bindings": [
+          "prodotto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "9.5": {
+    "id": "9.5",
+    "description": "Prodotti mai consumati",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT ap.*\nFROM alimenti_prodotti ap\nLEFT JOIN voci_alimentari v\n  ON v.prodotto_id = ap.id\nWHERE v.id IS NULL\nORDER BY ap.alimento_prodotto",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.6": {
+    "id": "9.6",
+    "description": "Voci non collegate a un prodotto registrato",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nWHERE prodotto_id IS NULL\nORDER BY data_ora DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.7": {
+    "id": "9.7",
+    "description": "Voci stimate",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Stima",
+        "description": "SQL value: SELECT *\nFROM voci_alimentari\nWHERE fonte_valori = 'Stima'\nORDER BY data_ora DESC"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nWHERE fonte_valori = ?\nORDER BY data_ora DESC",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "9.8": {
+    "id": "9.8",
+    "description": "Voci a bassa affidabilità",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Bassa",
+        "description": "SQL value: SELECT *\nFROM voci_alimentari\nWHERE affidabilita = 'Bassa'\nORDER BY data_ora DESC"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nWHERE affidabilita = ?\nORDER BY data_ora DESC",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "9.9": {
+    "id": "9.9",
+    "description": "Voci con macro mancanti",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nWHERE kcal IS NULL\n   OR proteine_g IS NULL\n   OR carboidrati_g IS NULL\n   OR grassi_g IS NULL\nORDER BY data_ora DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.10": {
+    "id": "9.10",
+    "description": "Densità proteica dei prodotti",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  id,\n  alimento_prodotto,\n  marca,\n  kcal_100g,\n  proteine_100g,\n  ROUND(\n    100 * proteine_100g / NULLIF(kcal_100g, 0),\n    2\n  ) AS g_proteine_per_100_kcal\nFROM alimenti_prodotti\nWHERE kcal_100g IS NOT NULL\n  AND proteine_100g IS NOT NULL\nORDER BY g_proteine_per_100_kcal DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "9.11": {
+    "id": "9.11",
+    "description": "Prodotti con dati nutrizionali sospetti:",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  id,\n  alimento_prodotto,\n  marca,\n  kcal_100g,\n  proteine_100g,\n  carboidrati_100g,\n  grassi_100g,\n  ROUND(\n    COALESCE(proteine_100g, 0) * 4\n    + COALESCE(carboidrati_100g, 0) * 4\n    + COALESCE(grassi_100g, 0) * 9,\n    2\n  ) AS kcal_stimate_da_macro\nFROM alimenti_prodotti\nWHERE kcal_100g IS NOT NULL\nHAVING ABS(kcal_stimate_da_macro - kcal_100g) > 30\nORDER BY ABS(kcal_stimate_da_macro - kcal_100g) DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "10.1": {
+    "id": "10.1",
+    "description": "Tutte le rilevazioni",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM peso_misure\nORDER BY data DESC, id DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "10.2": {
+    "id": "10.2",
+    "description": "Ultima rilevazione disponibile",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM peso_misure\nORDER BY data DESC, id DESC\nLIMIT 1",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "10.3": {
+    "id": "10.3",
+    "description": "Ultimo peso disponibile",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  peso_kg\nFROM peso_misure\nWHERE peso_kg IS NOT NULL\nORDER BY data DESC, id DESC\nLIMIT 1",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "10.4": {
+    "id": "10.4",
+    "description": "Differenza peso rispetto alla rilevazione precedente",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "WITH pesi AS (\n  SELECT\n    data,\n    peso_kg,\n    LAG(peso_kg) OVER (\n      ORDER BY data, id\n    ) AS peso_precedente\n  FROM peso_misure\n  WHERE peso_kg IS NOT NULL\n)\nSELECT\n  data,\n  peso_kg,\n  peso_precedente,\n  ROUND(peso_kg - peso_precedente, 3) AS delta_kg\nFROM pesi\nORDER BY data DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "10.5": {
+    "id": "10.5",
+    "description": "Variazione totale di peso nell'intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "WITH ordinati AS (\n  SELECT\n    data,\n    peso_kg,\n    ROW_NUMBER() OVER (ORDER BY data, id) AS rn_asc,\n    ROW_NUMBER() OVER (ORDER BY data DESC, id DESC) AS rn_desc\n  FROM peso_misure\n  WHERE peso_kg IS NOT NULL\n    AND data BETWEEN ? AND ?\n)\nSELECT\n  MAX(CASE WHEN rn_asc = 1 THEN peso_kg END) AS peso_iniziale,\n  MAX(CASE WHEN rn_desc = 1 THEN peso_kg END) AS peso_finale,\n  ROUND(\n    MAX(CASE WHEN rn_desc = 1 THEN peso_kg END)\n    - MAX(CASE WHEN rn_asc = 1 THEN peso_kg END),\n    3\n  ) AS variazione_kg\nFROM ordinati",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "10.6": {
+    "id": "10.6",
+    "description": "Media mobile peso a 7 rilevazioni",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  peso_kg,\n  ROUND(\n    AVG(peso_kg) OVER (\n      ORDER BY data, id\n      ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\n    ),\n    3\n  ) AS media_mobile_7_rilevazioni\nFROM peso_misure\nWHERE peso_kg IS NOT NULL\nORDER BY data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "10.7": {
+    "id": "10.7",
+    "description": "Ultime misure corporee non nulle, per colonna",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  (\n    SELECT peso_kg\n    FROM peso_misure\n    WHERE peso_kg IS NOT NULL\n    ORDER BY data DESC, id DESC\n    LIMIT 1\n  ) AS ultimo_peso_kg,\n  (\n    SELECT vita_cm\n    FROM peso_misure\n    WHERE vita_cm IS NOT NULL\n    ORDER BY data DESC, id DESC\n    LIMIT 1\n  ) AS ultima_vita_cm,\n  (\n    SELECT fianchi_cm\n    FROM peso_misure\n    WHERE fianchi_cm IS NOT NULL\n    ORDER BY data DESC, id DESC\n    LIMIT 1\n  ) AS ultimi_fianchi_cm,\n  (\n    SELECT torace_cm\n    FROM peso_misure\n    WHERE torace_cm IS NOT NULL\n    ORDER BY data DESC, id DESC\n    LIMIT 1\n  ) AS ultimo_torace_cm,\n  (\n    SELECT massa_grassa_pct\n    FROM peso_misure\n    WHERE massa_grassa_pct IS NOT NULL\n    ORDER BY data DESC, id DESC\n    LIMIT 1\n  ) AS ultima_massa_grassa_pct,\n  (\n    SELECT massa_muscolare_kg\n    FROM peso_misure\n    WHERE massa_muscolare_kg IS NOT NULL\n    ORDER BY data DESC, id DESC\n    LIMIT 1\n  ) AS ultima_massa_muscolare_kg",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "10.8": {
+    "id": "10.8",
+    "description": "Trend settimanale del peso",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  YEARWEEK(data, 3) AS anno_settimana,\n  MIN(data) AS da_data,\n  MAX(data) AS a_data,\n  ROUND(AVG(peso_kg), 3) AS peso_medio_kg,\n  ROUND(MIN(peso_kg), 3) AS peso_min_kg,\n  ROUND(MAX(peso_kg), 3) AS peso_max_kg\nFROM peso_misure\nWHERE peso_kg IS NOT NULL\nGROUP BY YEARWEEK(data, 3)\nORDER BY anno_settimana DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "11.1": {
+    "id": "11.1",
+    "description": "Attività del giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT a.*\nFROM attivita_allenamenti a\nJOIN diario_giornaliero d\n  ON d.id = a.giornata_id\nWHERE d.data = ?\nORDER BY a.data_ora",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "11.2": {
+    "id": "11.2",
+    "description": "Rollup attività del giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_diario_attivita\nWHERE data = ?",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "11.3": {
+    "id": "11.3",
+    "description": "Attività per tipo",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  tipo,\n  COUNT(*) AS sessioni,\n  ROUND(SUM(durata_min), 2) AS durata_totale_min,\n  ROUND(SUM(distanza_km), 2) AS distanza_totale_km,\n  ROUND(SUM(calorie_attive_dispositivo), 2) AS kcal_attive_totali,\n  ROUND(AVG(fc_media), 2) AS fc_media,\n  MAX(fc_max) AS fc_max\nFROM attivita_allenamenti\nGROUP BY tipo\nORDER BY durata_totale_min DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "11.4": {
+    "id": "11.4",
+    "description": "Attività per fonte",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  fonte,\n  COUNT(*) AS registrazioni,\n  ROUND(SUM(durata_min), 2) AS durata_totale_min,\n  ROUND(SUM(calorie_attive_dispositivo), 2) AS kcal_attive_totali\nFROM attivita_allenamenti\nGROUP BY fonte\nORDER BY registrazioni DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "11.5": {
+    "id": "11.5",
+    "description": "Totali settimanali di attività",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  YEARWEEK(d.data, 3) AS anno_settimana,\n  MIN(d.data) AS da_data,\n  MAX(d.data) AS a_data,\n  COUNT(a.id) AS sessioni,\n  ROUND(SUM(a.durata_min), 2) AS durata_min,\n  ROUND(SUM(a.distanza_km), 2) AS distanza_km,\n  ROUND(SUM(a.calorie_attive_dispositivo), 2) AS calorie_attive\nFROM diario_giornaliero d\nLEFT JOIN attivita_allenamenti a\n  ON a.giornata_id = d.id\nGROUP BY YEARWEEK(d.data, 3)\nORDER BY anno_settimana DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "11.6": {
+    "id": "11.6",
+    "description": "Giorni con più calorie attive",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_diario_attivita\nORDER BY calorie_attive_device DESC\nLIMIT 20",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "11.7": {
+    "id": "11.7",
+    "description": "Sessioni ad alta intensità percepita",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM attivita_allenamenti\nWHERE intensita_percepita_0_10 >= 8\nORDER BY data_ora DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "11.8": {
+    "id": "11.8",
+    "description": "Attività con dati device incompleti",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Apple Watch",
+        "description": "SQL value: SELECT *\nFROM attivita_allenamenti\nWHERE fonte = 'Apple Watch'\n  AND (\n    durata_min IS NULL"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM attivita_allenamenti\nWHERE fonte = ?\n  AND (\n    durata_min IS NULL\n    OR calorie_attive_dispositivo IS NULL\n  )\nORDER BY data_ora DESC",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "12.1": {
+    "id": "12.1",
+    "description": "Integratori attivi",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "SQL value: SELECT *\nFROM integratori\nWHERE stato = 'Attivo'\nORDER BY integratore"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM integratori\nWHERE stato = ?\nORDER BY integratore",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "12.2": {
+    "id": "12.2",
+    "description": "Assunzioni del giorno",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  a.*,\n  i.integratore,\n  i.marca\nFROM assunzioni a\nLEFT JOIN integratori i\n  ON i.id = a.integratore_id\nJOIN diario_giornaliero d\n  ON d.id = a.giornata_id\nWHERE d.data = ?\nORDER BY a.data_ora",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "12.3": {
+    "id": "12.3",
+    "description": "Assunzioni saltate",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Saltato",
+        "description": "SQL value: JOIN integratori i\n  ON i.id = a.integratore_id\nWHERE a.esito = 'Saltato'\nORDER BY a.data_ora DESC"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  a.*,\n  i.integratore,\n  i.marca\nFROM assunzioni a\nLEFT JOIN integratori i\n  ON i.id = a.integratore_id\nWHERE a.esito = ?\nORDER BY a.data_ora DESC",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "12.4": {
+    "id": "12.4",
+    "description": "Aderenza per integratore",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM v_integratori_aderenza\nORDER BY aderenza_pct DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "12.5": {
+    "id": "12.5",
+    "description": "Aderenza per integratore in un intervallo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  i.id,\n  i.integratore,\n  COUNT(a.id) AS registrazioni,\n  SUM(a.esito = 'Preso') AS prese,\n  SUM(a.esito = 'Saltato') AS saltate,\n  ROUND(\n    100 * SUM(a.esito = 'Preso')\n    / NULLIF(SUM(a.esito IN ('Preso', 'Saltato')), 0),\n    2\n  ) AS aderenza_pct\nFROM integratori i\nLEFT JOIN assunzioni a\n  ON a.integratore_id = i.id\n  AND DATE(a.data_ora) BETWEEN ? AND ?\nGROUP BY i.id, i.integratore\nORDER BY aderenza_pct DESC",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "12.6": {
+    "id": "12.6",
+    "description": "Ultima assunzione per integratore",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "WITH ranked AS (\n  SELECT\n    a.*,\n    ROW_NUMBER() OVER (\n      PARTITION BY a.integratore_id\n      ORDER BY a.data_ora DESC, a.id DESC\n    ) AS rn\n  FROM assunzioni a\n)\nSELECT\n  r.*,\n  i.integratore\nFROM ranked r\nLEFT JOIN integratori i\n  ON i.id = r.integratore_id\nWHERE r.rn = 1\nORDER BY i.integratore",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "12.7": {
+    "id": "12.7",
+    "description": "Integratori attivi senza assunzioni registrate",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "SQL value: T JOIN assunzioni a\n  ON a.integratore_id = i.id\nWHERE i.stato = 'Attivo'\nGROUP BY i.id\nHAVING COUNT(a.id) ="
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT i.*\nFROM integratori i\nLEFT JOIN assunzioni a\n  ON a.integratore_id = i.id\nWHERE i.stato = ?\nGROUP BY i.id\nHAVING COUNT(a.id) = 0\nORDER BY i.integratore",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "13.1": {
+    "id": "13.1",
+    "description": "Osservazioni attive",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM osservazioni_apprendimenti\nWHERE attiva = 1\nORDER BY regola_stabile DESC, data DESC, id DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "13.2": {
+    "id": "13.2",
+    "description": "Regole stabili attive",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM osservazioni_apprendimenti\nWHERE attiva = 1\n  AND regola_stabile = 1\nORDER BY data DESC, id DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "13.3": {
+    "id": "13.3",
+    "description": "Osservazioni per tipo",
+    "ability": "nutrition:read",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "Sazieta",
+        "description": "SQL value: SELECT *\nFROM osservazioni_apprendimenti\nWHERE tipo = 'Sazieta'\nORDER BY data DESC, id DESC"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM osservazioni_apprendimenti\nWHERE tipo = ?\nORDER BY data DESC, id DESC",
+        "bindings": [
+          "arg_1_1"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "13.4": {
+    "id": "13.4",
+    "description": "Osservazioni di una giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT o.*\nFROM osservazioni_apprendimenti o\nJOIN diario_giornaliero d\n  ON d.id = o.giornata_id\nWHERE d.data = ?\nORDER BY o.id",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "13.5": {
+    "id": "13.5",
+    "description": "Osservazioni collegate a un pasto",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  o.*,\n  p.pasto,\n  p.tipo,\n  p.data_ora\nFROM osservazioni_apprendimenti o\nJOIN pasti p\n  ON p.id = o.pasto_id\nWHERE o.pasto_id = ?\nORDER BY o.data DESC, o.id DESC",
+        "bindings": [
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "13.6": {
+    "id": "13.6",
+    "description": "Distribuzione delle osservazioni per tipo",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  tipo,\n  COUNT(*) AS numero_osservazioni,\n  SUM(attiva = 1) AS attive,\n  SUM(regola_stabile = 1) AS regole_stabili\nFROM osservazioni_apprendimenti\nGROUP BY tipo\nORDER BY numero_osservazioni DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "13.7": {
+    "id": "13.7",
+    "description": "Ricerca full-text semplice via LIKE",
+    "ability": "nutrition:read",
+    "parameters": {
+      "ricerca": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM osservazioni_apprendimenti\nWHERE osservazione LIKE ?\n   OR dettaglio LIKE ?\n   OR apprendimento LIKE ?\n   OR azione_futura LIKE ?\nORDER BY data DESC, id DESC",
+        "bindings": [
+          "ricerca",
+          "ricerca",
+          "ricerca",
+          "ricerca"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "14.1": {
+    "id": "14.1",
+    "description": "Report completo della giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  dc.*,\n  d.acqua_l,\n  d.caffe,\n  d.alcol_unita,\n  d.passi AS passi_giornata,\n  d.sonno_ore,\n  d.sonno_qualita_0_10,\n  d.fame_pranzo_0_10,\n  d.fame_pomeriggio_0_10,\n  d.fame_nervosa_0_10,\n  d.energia_post_pranzo_0_10,\n  d.aderenza_0_10,\n  d.note\nFROM v_diario_completo dc\nJOIN diario_giornaliero d\n  ON d.id = dc.giornata_id\nWHERE dc.data = ?",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "14.2": {
+    "id": "14.2",
+    "description": "Calorie ingerite vs calorie attive del device",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_da": {
+        "type": "string"
+      },
+      "data_a": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  dc.data,\n  dc.totale_kcal AS kcal_ingerite,\n  dc.calorie_attive_device,\n  dc.totale_kcal - dc.calorie_attive_device\n    AS kcal_ingerite_meno_attive_device\nFROM v_diario_completo dc\nWHERE dc.data BETWEEN ? AND ?\nORDER BY dc.data",
+        "bindings": [
+          "data_da",
+          "data_a"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "14.3": {
+    "id": "14.3",
+    "description": "Confronto giornate di allenamento vs riposo",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  tipo_giornata,\n  COUNT(*) AS giorni,\n  ROUND(AVG(totale_kcal), 2) AS kcal_medie,\n  ROUND(AVG(totale_proteine_g), 2) AS proteine_medie_g,\n  ROUND(AVG(calorie_attive_device), 2) AS calorie_attive_medie\nFROM v_diario_completo\nGROUP BY tipo_giornata\nORDER BY tipo_giornata",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "14.4": {
+    "id": "14.4",
+    "description": "Relazione tra sonno e aderenza",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  d.data,\n  d.sonno_ore,\n  d.sonno_qualita_0_10,\n  d.aderenza_0_10,\n  n.totale_kcal,\n  n.target_kcal\nFROM diario_giornaliero d\nJOIN v_diario_nutrizione n\n  ON n.giornata_id = d.id\nWHERE d.sonno_ore IS NOT NULL\n   OR d.sonno_qualita_0_10 IS NOT NULL\nORDER BY d.data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "14.5": {
+    "id": "14.5",
+    "description": "Relazione tra fame nervosa giornaliera e pasti con fame nervosa",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  d.data,\n  d.fame_nervosa_0_10,\n  SUM(p.fame_nervosa = 1) AS pasti_con_fame_nervosa,\n  COUNT(p.id) AS pasti_totali\nFROM diario_giornaliero d\nLEFT JOIN pasti p\n  ON p.giornata_id = d.id\nGROUP BY d.id, d.data, d.fame_nervosa_0_10\nORDER BY d.data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "14.6": {
+    "id": "14.6",
+    "description": "Giorni con migliore aderenza al target kcal:",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_kcal,\n  target_kcal,\n  ABS(totale_kcal - target_kcal) AS scostamento_assoluto_kcal\nFROM v_diario_nutrizione\nWHERE target_kcal IS NOT NULL\nORDER BY scostamento_assoluto_kcal ASC\nLIMIT 20",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "14.7": {
+    "id": "14.7",
+    "description": "Giorni con proteine alte e kcal basse",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_kcal,\n  totale_proteine_g,\n  ROUND(\n    100 * totale_proteine_g / NULLIF(totale_kcal, 0),\n    2\n  ) AS proteine_g_per_100_kcal\nFROM v_diario_nutrizione\nWHERE totale_kcal > 0\nORDER BY proteine_g_per_100_kcal DESC\nLIMIT 20",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.1": {
+    "id": "15.1",
+    "description": "Pasti senza giornata",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM pasti\nWHERE giornata_id IS NULL",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.2": {
+    "id": "15.2",
+    "description": "Voci senza giornata",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nWHERE giornata_id IS NULL",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.3": {
+    "id": "15.3",
+    "description": "Voci senza pasto",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nWHERE pasto_id IS NULL",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.4": {
+    "id": "15.4",
+    "description": "Voci il cui timestamp non cade nella data della giornata",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  v.id,\n  v.voce,\n  v.data_ora,\n  d.data\nFROM voci_alimentari v\nJOIN diario_giornaliero d\n  ON d.id = v.giornata_id\nWHERE v.data_ora IS NOT NULL\n  AND DATE(v.data_ora) <> d.data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.5": {
+    "id": "15.5",
+    "description": "Pasti il cui timestamp non cade nella data della giornata",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  p.id,\n  p.pasto,\n  p.data_ora,\n  d.data\nFROM pasti p\nJOIN diario_giornaliero d\n  ON d.id = p.giornata_id\nWHERE p.data_ora IS NOT NULL\n  AND DATE(p.data_ora) <> d.data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.6": {
+    "id": "15.6",
+    "description": "Misure con data diversa dalla giornata collegata",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  pm.id,\n  pm.rilevazione,\n  pm.data AS data_misura,\n  d.data AS data_giornata\nFROM peso_misure pm\nJOIN diario_giornaliero d\n  ON d.id = pm.giornata_id\nWHERE pm.data <> d.data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.7": {
+    "id": "15.7",
+    "description": "Assunzioni con data diversa dalla giornata collegata",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  a.id,\n  a.assunzione,\n  a.data_ora,\n  d.data AS data_giornata\nFROM assunzioni a\nJOIN diario_giornaliero d\n  ON d.id = a.giornata_id\nWHERE DATE(a.data_ora) <> d.data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.8": {
+    "id": "15.8",
+    "description": "Possibili duplicati di prodotto per nome + marca",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  alimento_prodotto,\n  COALESCE(marca, '') AS marca_norm,\n  COUNT(*) AS duplicati,\n  GROUP_CONCAT(id ORDER BY id) AS ids\nFROM alimenti_prodotti\nGROUP BY alimento_prodotto, COALESCE(marca, '')\nHAVING COUNT(*) > 1\nORDER BY duplicati DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.9": {
+    "id": "15.9",
+    "description": "Possibili duplicati di voci nella stessa data/ora",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  giornata_id,\n  pasto_id,\n  voce,\n  data_ora,\n  quantita,\n  unita,\n  COUNT(*) AS duplicati,\n  GROUP_CONCAT(id ORDER BY id) AS ids\nFROM voci_alimentari\nGROUP BY\n  giornata_id,\n  pasto_id,\n  voce,\n  data_ora,\n  quantita,\n  unita\nHAVING COUNT(*) > 1\nORDER BY duplicati DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.10": {
+    "id": "15.10",
+    "description": "Giornate senza alcun pasto",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT d.*\nFROM diario_giornaliero d\nLEFT JOIN pasti p\n  ON p.giornata_id = d.id\nWHERE p.id IS NULL\nORDER BY d.data DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "15.11": {
+    "id": "15.11",
+    "description": "Giornate con pasti ma senza voci alimentari",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  d.id,\n  d.data,\n  COUNT(DISTINCT p.id) AS pasti\nFROM diario_giornaliero d\nJOIN pasti p\n  ON p.giornata_id = d.id\nLEFT JOIN voci_alimentari v\n  ON v.giornata_id = d.id\nGROUP BY d.id, d.data\nHAVING COUNT(DISTINCT v.id) = 0\nORDER BY d.data DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "16.1": {
+    "id": "16.1",
+    "description": "Modificare il tipo di giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Allenamento",
+        "description": "tipo_giornata: UPDATE diario_giornaliero\nSET tipo_giornata = 'Allenamento'\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE diario_giornaliero\nSET tipo_giornata = ?\nWHERE id = ?",
+        "bindings": [
+          "tipo_giornata",
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.2": {
+    "id": "16.2",
+    "description": "Chiudere una giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 1,
+        "description": "giornata_chiusa: UPDATE diario_giornaliero\nSET giornata_chiusa = 1\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE diario_giornaliero\nSET giornata_chiusa = ?\nWHERE id = ?",
+        "bindings": [
+          "giornata_chiusa",
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.3": {
+    "id": "16.3",
+    "description": "Riaprire una giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "giornata_chiusa": {
+        "type": "number",
+        "default": 0,
+        "description": "giornata_chiusa: UPDATE diario_giornaliero\nSET giornata_chiusa = 0\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE diario_giornaliero\nSET giornata_chiusa = ?\nWHERE id = ?",
+        "bindings": [
+          "giornata_chiusa",
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.4": {
+    "id": "16.4",
+    "description": "Aggiornare i target nutrizionali",
+    "ability": "nutrition:write",
+    "parameters": {
+      "target_kcal": {
+        "type": "number",
+        "default": 2200,
+        "description": "target_kcal: UPDATE diario_giornaliero\nSET\n  target_kcal = 2200,\n  target_proteine_g = 150,\n  targ"
+      },
+      "target_proteine_g": {
+        "type": "number",
+        "default": 150,
+        "description": "target_proteine_g: ario_giornaliero\nSET\n  target_kcal = 2200,\n  target_proteine_g = 150,\n  target_carboidrati_g = 220,\n  t"
+      },
+      "target_carboidrati_g": {
+        "type": "number",
+        "default": 220,
+        "description": "target_carboidrati_g: kcal = 2200,\n  target_proteine_g = 150,\n  target_carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_"
+      },
+      "target_grassi_g": {
+        "type": "number",
+        "default": 70,
+        "description": "target_grassi_g: teine_g = 150,\n  target_carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_fibre_g = 30\nWHERE id ="
+      },
+      "target_fibre_g": {
+        "type": "number",
+        "default": 30,
+        "description": "target_fibre_g: _carboidrati_g = 220,\n  target_grassi_g = 70,\n  target_fibre_g = 30\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE diario_giornaliero\nSET\n  target_kcal = ?,\n  target_proteine_g = ?,\n  target_carboidrati_g = ?,\n  target_grassi_g = ?,\n  target_fibre_g = ?\nWHERE id = ?",
+        "bindings": [
+          "target_kcal",
+          "target_proteine_g",
+          "target_carboidrati_g",
+          "target_grassi_g",
+          "target_fibre_g",
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.5": {
+    "id": "16.5",
+    "description": "Aggiornare idratazione, caffeina, alcol e passi",
+    "ability": "nutrition:write",
+    "parameters": {
+      "acqua_l": {
+        "type": "number",
+        "default": 2.5,
+        "description": "acqua_l: UPDATE diario_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,"
+      },
+      "caffe": {
+        "type": "number",
+        "default": 2,
+        "description": "caffe: UPDATE diario_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 1000"
+      },
+      "alcol_unita": {
+        "type": "number",
+        "default": 0,
+        "description": "alcol_unita: io_giornaliero\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 10000\nWHERE id = @giorn"
+      },
+      "passi": {
+        "type": "number",
+        "default": 10000,
+        "description": "passi: o\nSET\n  acqua_l = 2.5,\n  caffe = 2,\n  alcol_unita = 0,\n  passi = 10000\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE diario_giornaliero\nSET\n  acqua_l = ?,\n  caffe = ?,\n  alcol_unita = ?,\n  passi = ?\nWHERE id = ?",
+        "bindings": [
+          "acqua_l",
+          "caffe",
+          "alcol_unita",
+          "passi",
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.6": {
+    "id": "16.6",
+    "description": "Aggiornare sonno e valutazioni della giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "sonno_ore": {
+        "type": "number",
+        "default": 7.5,
+        "description": "sonno_ore: UPDATE diario_giornaliero\nSET\n  sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_"
+      },
+      "sonno_qualita_0_10": {
+        "type": "number",
+        "default": 8,
+        "description": "sonno_qualita_0_10: diario_giornaliero\nSET\n  sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_po"
+      },
+      "fame_pranzo_0_10": {
+        "type": "number",
+        "default": 5,
+        "description": "fame_pranzo_0_10: sonno_ore = 7.5,\n  sonno_qualita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fam"
+      },
+      "fame_pomeriggio_0_10": {
+        "type": "number",
+        "default": 4,
+        "description": "fame_pomeriggio_0_10: alita_0_10 = 8,\n  fame_pranzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energi"
+      },
+      "fame_nervosa_0_10": {
+        "type": "number",
+        "default": 2,
+        "description": "fame_nervosa_0_10: anzo_0_10 = 5,\n  fame_pomeriggio_0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,"
+      },
+      "energia_post_pranzo_0_10": {
+        "type": "number",
+        "default": 8,
+        "description": "energia_post_pranzo_0_10: _0_10 = 4,\n  fame_nervosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,\n  aderenza_0_10 = 9\nWHERE id = @g"
+      },
+      "aderenza_0_10": {
+        "type": "number",
+        "default": 9,
+        "description": "aderenza_0_10: vosa_0_10 = 2,\n  energia_post_pranzo_0_10 = 8,\n  aderenza_0_10 = 9\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE diario_giornaliero\nSET\n  sonno_ore = ?,\n  sonno_qualita_0_10 = ?,\n  fame_pranzo_0_10 = ?,\n  fame_pomeriggio_0_10 = ?,\n  fame_nervosa_0_10 = ?,\n  energia_post_pranzo_0_10 = ?,\n  aderenza_0_10 = ?\nWHERE id = ?",
+        "bindings": [
+          "sonno_ore",
+          "sonno_qualita_0_10",
+          "fame_pranzo_0_10",
+          "fame_pomeriggio_0_10",
+          "fame_nervosa_0_10",
+          "energia_post_pranzo_0_10",
+          "aderenza_0_10",
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.7": {
+    "id": "16.7",
+    "description": "Modificare un pasto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "contesto": {
+        "type": "string",
+        "default": "Ristorante",
+        "description": "contesto: UPDATE pasti\nSET\n  contesto = 'Ristorante',\n  libero_sociale = 1,\n  gradiment"
+      },
+      "libero_sociale": {
+        "type": "number",
+        "default": 1,
+        "description": "libero_sociale: UPDATE pasti\nSET\n  contesto = 'Ristorante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = '"
+      },
+      "gradimento_0_10": {
+        "type": "number",
+        "default": 9,
+        "description": "gradimento_0_10: ntesto = 'Ristorante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = 'Aggiornato'\nWHERE id ="
+      },
+      "note": {
+        "type": "string",
+        "default": "Aggiornato",
+        "description": "note: storante',\n  libero_sociale = 1,\n  gradimento_0_10 = 9,\n  note = 'Aggiornato'\nWHERE id = @pasto_id"
+      },
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE pasti\nSET\n  contesto = ?,\n  libero_sociale = ?,\n  gradimento_0_10 = ?,\n  note = ?\nWHERE id = ?",
+        "bindings": [
+          "contesto",
+          "libero_sociale",
+          "gradimento_0_10",
+          "note",
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.8": {
+    "id": "16.8",
+    "description": "Spostare un pasto a un'altra giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "nuova_giornata_id": {
+        "type": "integer"
+      },
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE pasti\nSET giornata_id = ?\nWHERE id = ?",
+        "bindings": [
+          "nuova_giornata_id",
+          "pasto_id"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "UPDATE voci_alimentari\nSET giornata_id = ?\nWHERE pasto_id = ?",
+        "bindings": [
+          "nuova_giornata_id",
+          "pasto_id"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "UPDATE osservazioni_apprendimenti SET giornata_id = ? WHERE pasto_id = ?",
+        "bindings": [
+          "nuova_giornata_id",
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.9": {
+    "id": "16.9",
+    "description": "Modificare quantità e macro di una voce",
+    "ability": "nutrition:write",
+    "parameters": {
+      "quantita": {
+        "type": "number",
+        "default": 180,
+        "description": "quantita: UPDATE voci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,"
+      },
+      "kcal": {
+        "type": "number",
+        "default": 270,
+        "description": "kcal: UPDATE voci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_"
+      },
+      "proteine_g": {
+        "type": "number",
+        "default": 36,
+        "description": "proteine_g: ci_alimentari\nSET\n  quantita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g"
+      },
+      "carboidrati_g": {
+        "type": "number",
+        "default": 3.6,
+        "description": "carboidrati_g: antita = 180,\n  kcal = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g = 10.8\nWHERE id = @voc"
+      },
+      "grassi_g": {
+        "type": "number",
+        "default": 10.8,
+        "description": "grassi_g: al = 270,\n  proteine_g = 36,\n  carboidrati_g = 3.6,\n  grassi_g = 10.8\nWHERE id = @voce_id"
+      },
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE voci_alimentari\nSET\n  quantita = ?,\n  kcal = ?,\n  proteine_g = ?,\n  carboidrati_g = ?,\n  grassi_g = ?\nWHERE id = ?",
+        "bindings": [
+          "quantita",
+          "kcal",
+          "proteine_g",
+          "carboidrati_g",
+          "grassi_g",
+          "voce_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.10": {
+    "id": "16.10",
+    "description": "Ricalcolare una voce dai valori per 100 g del prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE voci_alimentari v\nJOIN alimenti_prodotti ap\n  ON ap.id = v.prodotto_id\nSET\n  v.kcal = ROUND(ap.kcal_100g * v.quantita / 100, 3),\n  v.proteine_g = ROUND(ap.proteine_100g * v.quantita / 100, 3),\n  v.carboidrati_g = ROUND(ap.carboidrati_100g * v.quantita / 100, 3),\n  v.grassi_g = ROUND(ap.grassi_100g * v.quantita / 100, 3),\n  v.fibre_g = ROUND(ap.fibre_100g * v.quantita / 100, 3),\n  v.zuccheri_g = ROUND(ap.zuccheri_100g * v.quantita / 100, 3),\n  v.fonte_valori = 'Prodotto registrato',\n  v.affidabilita = CASE\n    WHEN ap.verificato = 1 THEN 'Alta'\n    ELSE 'Media'\n  END\nWHERE v.id = ?\n  AND v.unita = 'g'\n  AND v.quantita IS NOT NULL",
+        "bindings": [
+          "voce_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.11": {
+    "id": "16.11",
+    "description": "Aggiornare il prodotto di una voce",
+    "ability": "nutrition:write",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      },
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE voci_alimentari\nSET prodotto_id = ?\nWHERE id = ?",
+        "bindings": [
+          "prodotto_id",
+          "voce_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.12": {
+    "id": "16.12",
+    "description": "Scollegare una voce dal prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "prodotto_id": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "prodotto_id: UPDATE voci_alimentari\nSET prodotto_id = NULL\nWHERE id = @voce_id"
+      },
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE voci_alimentari\nSET prodotto_id = ?\nWHERE id = ?",
+        "bindings": [
+          "prodotto_id",
+          "voce_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.13": {
+    "id": "16.13",
+    "description": "Modificare i valori nutrizionali di un prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "kcal_100g": {
+        "type": "number",
+        "default": 155,
+        "description": "kcal_100g: UPDATE alimenti_prodotti\nSET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidra"
+      },
+      "proteine_100g": {
+        "type": "number",
+        "default": 21,
+        "description": "proteine_100g: PDATE alimenti_prodotti\nSET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_"
+      },
+      "carboidrati_100g": {
+        "type": "number",
+        "default": 2,
+        "description": "carboidrati_100g: ET\n  kcal_100g = 155,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Eti"
+      },
+      "grassi_100g": {
+        "type": "number",
+        "default": 6,
+        "description": "grassi_100g: 5,\n  proteine_100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Etichetta',\n  ultimo_c"
+      },
+      "fonte": {
+        "type": "string",
+        "default": "Etichetta",
+        "description": "fonte: _100g = 21,\n  carboidrati_100g = 2,\n  grassi_100g = 6,\n  fonte = 'Etichetta',\n  ultimo_controllo = CURRENT_DATE"
+      },
+      "verificato": {
+        "type": "number",
+        "default": 1,
+        "description": "verificato: = 'Etichetta',\n  ultimo_controllo = CURRENT_DATE,\n  verificato = 1\nWHERE id = @prodotto_id"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE alimenti_prodotti\nSET\n  kcal_100g = ?,\n  proteine_100g = ?,\n  carboidrati_100g = ?,\n  grassi_100g = ?,\n  fonte = ?,\n  ultimo_controllo = CURRENT_DATE,\n  verificato = ?\nWHERE id = ?",
+        "bindings": [
+          "kcal_100g",
+          "proteine_100g",
+          "carboidrati_100g",
+          "grassi_100g",
+          "fonte",
+          "verificato",
+          "prodotto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.14": {
+    "id": "16.14",
+    "description": "Cambiare stato di un prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "stato": {
+        "type": "string",
+        "default": "Preferito",
+        "description": "stato: UPDATE alimenti_prodotti\nSET stato = 'Preferito'\nWHERE id = @prodotto_id"
+      },
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE alimenti_prodotti\nSET stato = ?\nWHERE id = ?",
+        "bindings": [
+          "stato",
+          "prodotto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.15": {
+    "id": "16.15",
+    "description": "Marcare più prodotti come da ricontrollare",
+    "ability": "nutrition:write",
+    "parameters": {
+      "verificato": {
+        "type": "number",
+        "default": 0,
+        "description": "verificato: UPDATE alimenti_prodotti\nSET verificato = 0\nWHERE ultimo_controllo < CURRENT_D"
+      },
+      "arg_1_2": {
+        "type": "number",
+        "default": 1,
+        "description": "SQL value: verificato = 0\nWHERE ultimo_controllo < CURRENT_DATE - INTERVAL 1 YEAR"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE alimenti_prodotti\nSET verificato = ?\nWHERE ultimo_controllo < CURRENT_DATE - INTERVAL ? YEAR",
+        "bindings": [
+          "verificato",
+          "arg_1_2"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.16": {
+    "id": "16.16",
+    "description": "Aggiornare una rilevazione corporea",
+    "ability": "nutrition:write",
+    "parameters": {
+      "peso_kg": {
+        "type": "number",
+        "default": 79.9,
+        "description": "peso_kg: UPDATE peso_misure\nSET\n  peso_kg = 79.900,\n  note = 'Valore corretto'\nWHERE"
+      },
+      "note": {
+        "type": "string",
+        "default": "Valore corretto",
+        "description": "note: UPDATE peso_misure\nSET\n  peso_kg = 79.900,\n  note = 'Valore corretto'\nWHERE id = @rilevazione_id"
+      },
+      "rilevazione_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE peso_misure\nSET\n  peso_kg = ?,\n  note = ?\nWHERE id = ?",
+        "bindings": [
+          "peso_kg",
+          "note",
+          "rilevazione_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.17": {
+    "id": "16.17",
+    "description": "Aggiornare un'attività",
+    "ability": "nutrition:write",
+    "parameters": {
+      "durata_min": {
+        "type": "number",
+        "default": 50,
+        "description": "durata_min: UPDATE attivita_allenamenti\nSET\n  durata_min = 50,\n  distanza_km = 4.8,\n  calorie_at"
+      },
+      "distanza_km": {
+        "type": "number",
+        "default": 4.8,
+        "description": "distanza_km: DATE attivita_allenamenti\nSET\n  durata_min = 50,\n  distanza_km = 4.8,\n  calorie_attive_dispositivo = 28"
+      },
+      "calorie_attive_dispositivo": {
+        "type": "number",
+        "default": 285,
+        "description": "calorie_attive_dispositivo: ta_min = 50,\n  distanza_km = 4.8,\n  calorie_attive_dispositivo = 285\nWHERE id = @attivita_id"
+      },
+      "attivita_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE attivita_allenamenti\nSET\n  durata_min = ?,\n  distanza_km = ?,\n  calorie_attive_dispositivo = ?\nWHERE id = ?",
+        "bindings": [
+          "durata_min",
+          "distanza_km",
+          "calorie_attive_dispositivo",
+          "attivita_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.18": {
+    "id": "16.18",
+    "description": "Aggiornare stato integratore",
+    "ability": "nutrition:write",
+    "parameters": {
+      "stato": {
+        "type": "string",
+        "default": "Sospeso",
+        "description": "stato: UPDATE integratori\nSET\n  stato = 'Sospeso',\n  data_fine = CURRENT_DATE\nWHERE"
+      },
+      "integratore_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE integratori\nSET\n  stato = ?,\n  data_fine = CURRENT_DATE\nWHERE id = ?",
+        "bindings": [
+          "stato",
+          "integratore_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.19": {
+    "id": "16.19",
+    "description": "Riattivare integratore",
+    "ability": "nutrition:write",
+    "parameters": {
+      "stato": {
+        "type": "string",
+        "default": "Attivo",
+        "description": "stato: UPDATE integratori\nSET\n  stato = 'Attivo',\n  data_fine = NULL\nWHERE id = @in"
+      },
+      "data_fine": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "default": null,
+        "description": "data_fine: UPDATE integratori\nSET\n  stato = 'Attivo',\n  data_fine = NULL\nWHERE id = @integratore_id"
+      },
+      "integratore_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE integratori\nSET\n  stato = ?,\n  data_fine = ?\nWHERE id = ?",
+        "bindings": [
+          "stato",
+          "data_fine",
+          "integratore_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.20": {
+    "id": "16.20",
+    "description": "Correggere una singola assunzione",
+    "ability": "nutrition:write",
+    "parameters": {
+      "esito": {
+        "type": "string",
+        "default": "Preso",
+        "description": "esito: UPDATE assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Cor"
+      },
+      "dose_assunta": {
+        "type": "number",
+        "default": 1,
+        "description": "dose_assunta: UPDATE assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Corretto manualmente'\nW"
+      },
+      "note": {
+        "type": "string",
+        "default": "Corretto manualmente",
+        "description": "note: E assunzioni\nSET\n  esito = 'Preso',\n  dose_assunta = 1,\n  note = 'Corretto manualmente'\nWHERE id = @assunzione_id"
+      },
+      "assunzione_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE assunzioni\nSET\n  esito = ?,\n  dose_assunta = ?,\n  note = ?\nWHERE id = ?",
+        "bindings": [
+          "esito",
+          "dose_assunta",
+          "note",
+          "assunzione_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.21": {
+    "id": "16.21",
+    "description": "Disattivare un'osservazione",
+    "ability": "nutrition:write",
+    "parameters": {
+      "attiva": {
+        "type": "number",
+        "default": 0,
+        "description": "attiva: UPDATE osservazioni_apprendimenti\nSET attiva = 0\nWHERE id = @osservazione_id"
+      },
+      "osservazione_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE osservazioni_apprendimenti\nSET attiva = ?\nWHERE id = ?",
+        "bindings": [
+          "attiva",
+          "osservazione_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.22": {
+    "id": "16.22",
+    "description": "Promuovere un'osservazione a regola stabile",
+    "ability": "nutrition:write",
+    "parameters": {
+      "attiva": {
+        "type": "number",
+        "default": 1,
+        "description": "attiva: UPDATE osservazioni_apprendimenti\nSET\n  attiva = 1,\n  regola_stabile = 1\nWHERE id = @"
+      },
+      "regola_stabile": {
+        "type": "number",
+        "default": 1,
+        "description": "regola_stabile: osservazioni_apprendimenti\nSET\n  attiva = 1,\n  regola_stabile = 1\nWHERE id = @osservazione_id"
+      },
+      "osservazione_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE osservazioni_apprendimenti\nSET\n  attiva = ?,\n  regola_stabile = ?\nWHERE id = ?",
+        "bindings": [
+          "attiva",
+          "regola_stabile",
+          "osservazione_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "16.23": {
+    "id": "16.23",
+    "description": "Appendere una nota senza sovrascrivere quella esistente",
+    "ability": "nutrition:write",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "\n",
+        "description": "SQL value: UPDATE diario_giornaliero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[',"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": "",
+        "description": "SQL value: diario_giornaliero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota"
+      },
+      "arg_1_3": {
+        "type": "string",
+        "default": "[",
+        "description": "SQL value: liero\nSET note = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nW"
+      },
+      "arg_1_4": {
+        "type": "string",
+        "default": "] ",
+        "description": "SQL value: te = CONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nWHERE id = @gi"
+      },
+      "arg_1_5": {
+        "type": "string",
+        "default": "Nota aggiunta",
+        "description": "SQL value: ONCAT_WS(\n  '\\n',\n  NULLIF(note, ''),\n  CONCAT('[', NOW(), '] ', 'Nota aggiunta')\n)\nWHERE id = @giornata_id"
+      },
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE diario_giornaliero\nSET note = CONCAT_WS(\n  ?,\n  NULLIF(note, ?),\n  CONCAT(?, NOW(), ?, ?)\n)\nWHERE id = ?",
+        "bindings": [
+          "arg_1_1",
+          "arg_1_2",
+          "arg_1_3",
+          "arg_1_4",
+          "arg_1_5",
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.1": {
+    "id": "17.1",
+    "description": "Eliminare una voce alimentare",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM voci_alimentari\nWHERE id = ?",
+        "bindings": [
+          "voce_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.2": {
+    "id": "17.2",
+    "description": "Eliminare tutte le voci di un pasto",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM voci_alimentari\nWHERE pasto_id = ?",
+        "bindings": [
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.3": {
+    "id": "17.3",
+    "description": "Eliminare un pasto e i suoi figli per CASCADE",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM pasti\nWHERE id = ?",
+        "bindings": [
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.4": {
+    "id": "17.4",
+    "description": "Eliminare un prodotto mantenendo lo storico dei consumi",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM alimenti_prodotti\nWHERE id = ?",
+        "bindings": [
+          "prodotto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.5": {
+    "id": "17.5",
+    "description": "Eliminare una rilevazione corporea",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "rilevazione_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM peso_misure\nWHERE id = ?",
+        "bindings": [
+          "rilevazione_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.6": {
+    "id": "17.6",
+    "description": "Eliminare un'attività",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "attivita_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM attivita_allenamenti\nWHERE id = ?",
+        "bindings": [
+          "attivita_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.7": {
+    "id": "17.7",
+    "description": "Eliminare una singola assunzione",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "assunzione_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM assunzioni\nWHERE id = ?",
+        "bindings": [
+          "assunzione_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.8": {
+    "id": "17.8",
+    "description": "Eliminare un integratore mantenendo le assunzioni storiche",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "integratore_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM integratori\nWHERE id = ?",
+        "bindings": [
+          "integratore_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.9": {
+    "id": "17.9",
+    "description": "Eliminare un'osservazione",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "osservazione_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM osservazioni_apprendimenti\nWHERE id = ?",
+        "bindings": [
+          "osservazione_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.10": {
+    "id": "17.10",
+    "description": "Eliminare una giornata intera con tutte le dipendenze",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM diario_giornaliero\nWHERE id = ?",
+        "bindings": [
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.11": {
+    "id": "17.11",
+    "description": "Eliminare voci potenzialmente duplicate conservando l'ID minore",
+    "ability": "nutrition:delete",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "DELETE v1\nFROM voci_alimentari v1\nJOIN voci_alimentari v2\n  ON v1.id > v2.id\n  AND v1.giornata_id <=> v2.giornata_id\n  AND v1.pasto_id <=> v2.pasto_id\n  AND v1.voce = v2.voce\n  AND v1.data_ora <=> v2.data_ora\n  AND v1.quantita <=> v2.quantita\n  AND v1.unita = v2.unita",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "17.12": {
+    "id": "17.12",
+    "description": "Cancellazione sicura in transazione con controllo preventivo",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  d.id,\n  d.data,\n  (\n    SELECT COUNT(*)\n    FROM pasti p\n    WHERE p.giornata_id = d.id\n  ) AS pasti,\n  (\n    SELECT COUNT(*)\n    FROM voci_alimentari v\n    WHERE v.giornata_id = d.id\n  ) AS voci,\n  (\n    SELECT COUNT(*)\n    FROM attivita_allenamenti a\n    WHERE a.giornata_id = d.id\n  ) AS attivita\nFROM diario_giornaliero d\nWHERE d.id = ?\nFOR UPDATE",
+        "bindings": [
+          "giornata_id"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "DELETE FROM diario_giornaliero WHERE id = ?",
+        "bindings": [
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "17.13": {
+    "id": "17.13",
+    "description": "Eliminare dati di test per intervallo di date",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "arg_1_1": {
+        "type": "string",
+        "default": "2099-01-01",
+        "description": "SQL value: DELETE FROM diario_giornaliero\nWHERE data BETWEEN '2099-01-01' AND '2099-12-31'"
+      },
+      "arg_1_2": {
+        "type": "string",
+        "default": "2099-12-31",
+        "description": "SQL value: LETE FROM diario_giornaliero\nWHERE data BETWEEN '2099-01-01' AND '2099-12-31'"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM diario_giornaliero\nWHERE data BETWEEN ? AND ?",
+        "bindings": [
+          "arg_1_1",
+          "arg_1_2"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "18.1": {
+    "id": "18.1",
+    "description": "Elenco tabelle",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SHOW TABLES",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "18.2": {
+    "id": "18.2",
+    "description": "Struttura di una tabella",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "DESCRIBE diario_giornaliero",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "18.3": {
+    "id": "18.3",
+    "description": "DDL effettivo",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SHOW CREATE TABLE voci_alimentari",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "18.4": {
+    "id": "18.4",
+    "description": "Elenco indici",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SHOW INDEX FROM voci_alimentari",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "18.5": {
+    "id": "18.5",
+    "description": "Dimensione delle tabelle",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  table_name,\n  table_rows,\n  ROUND(data_length / 1024 / 1024, 2) AS data_mb,\n  ROUND(index_length / 1024 / 1024, 2) AS index_mb,\n  ROUND((data_length + index_length) / 1024 / 1024, 2) AS totale_mb\nFROM information_schema.tables\nWHERE table_schema = DATABASE()\nORDER BY totale_mb DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "18.6": {
+    "id": "18.6",
+    "description": "Foreign key del database",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  table_name,\n  column_name,\n  constraint_name,\n  referenced_table_name,\n  referenced_column_name\nFROM information_schema.key_column_usage\nWHERE table_schema = DATABASE()\n  AND referenced_table_name IS NOT NULL\nORDER BY table_name, column_name",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "18.7": {
+    "id": "18.7",
+    "description": "Conteggio record per tabella",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT 'diario_giornaliero' AS tabella, COUNT(*) AS righe\nFROM diario_giornaliero\nUNION ALL\nSELECT 'pasti', COUNT(*) FROM pasti\nUNION ALL\nSELECT 'voci_alimentari', COUNT(*) FROM voci_alimentari\nUNION ALL\nSELECT 'alimenti_prodotti', COUNT(*) FROM alimenti_prodotti\nUNION ALL\nSELECT 'peso_misure', COUNT(*) FROM peso_misure\nUNION ALL\nSELECT 'attivita_allenamenti', COUNT(*) FROM attivita_allenamenti\nUNION ALL\nSELECT 'integratori', COUNT(*) FROM integratori\nUNION ALL\nSELECT 'osservazioni_apprendimenti', COUNT(*) FROM osservazioni_apprendimenti\nUNION ALL\nSELECT 'assunzioni', COUNT(*) FROM assunzioni",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "18.8": {
+    "id": "18.8",
+    "description": "Analizzare le tabelle dopo import massivo",
+    "ability": "nutrition:maintenance",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "ANALYZE TABLE\n  diario_giornaliero,\n  pasti,\n  voci_alimentari,\n  alimenti_prodotti,\n  peso_misure,\n  attivita_allenamenti,\n  integratori,\n  osservazioni_apprendimenti,\n  assunzioni",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "19.1": {
+    "id": "19.1",
+    "description": "Recuperare ID giornata da data",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT id\nFROM diario_giornaliero\nWHERE data = ?",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "19.2": {
+    "id": "19.2",
+    "description": "Creare la giornata solo se manca e ottenere sempre l'ID",
+    "ability": "nutrition:write",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "%Y-%m-%d",
+        "description": "SQL value: rno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO diario_giornaliero (\n  giorno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(?, ?),\n  ?,\n  ?\n)\nON DUPLICATE KEY UPDATE\n  id = LAST_INSERT_ID(id)",
+        "bindings": [
+          "data_rif",
+          "arg_1_1",
+          "data_rif",
+          "tipo_giornata"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "giornata_id"
+      }
+    ]
+  },
+  "19.3": {
+    "id": "19.3",
+    "description": "Recuperare un prodotto per ID",
+    "ability": "nutrition:read",
+    "parameters": {
+      "prodotto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nWHERE id = ?",
+        "bindings": [
+          "prodotto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "19.4": {
+    "id": "19.4",
+    "description": "Ricerca prodotto per nome/marca",
+    "ability": "nutrition:read",
+    "parameters": {
+      "nome_prodotto": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "",
+        "description": "SQL value: HERE alimento_prodotto LIKE @nome_prodotto\n  AND COALESCE(marca, '') LIKE @marca\nORDER BY verificato D"
+      },
+      "marca": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM alimenti_prodotti\nWHERE alimento_prodotto LIKE ?\n  AND COALESCE(marca, ?) LIKE ?\nORDER BY verificato DESC, alimento_prodotto",
+        "bindings": [
+          "nome_prodotto",
+          "arg_1_1",
+          "marca"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "19.5": {
+    "id": "19.5",
+    "description": "Paginazione cursor-based per pasti",
+    "ability": "nutrition:read",
+    "parameters": {
+      "ultimo_id": {
+        "type": "integer"
+      },
+      "page_size": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM pasti\nWHERE id < ?\nORDER BY id DESC\nLIMIT ?",
+        "bindings": [
+          "ultimo_id",
+          "page_size"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "19.6": {
+    "id": "19.6",
+    "description": "Paginazione offset-based",
+    "ability": "nutrition:read",
+    "parameters": {
+      "page_size": {
+        "type": "integer"
+      },
+      "offset": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT *\nFROM voci_alimentari\nORDER BY id DESC\nLIMIT ? OFFSET ?",
+        "bindings": [
+          "page_size",
+          "offset"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "19.7": {
+    "id": "19.7",
+    "description": "ETag-like timestamp per capire se una giornata è cambiata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  id,\n  data,\n  aggiornato\nFROM diario_giornaliero\nWHERE id = ?",
+        "bindings": [
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "19.8": {
+    "id": "19.8",
+    "description": "Query JSON: giornata + pasti + voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT JSON_OBJECT(\n  'id', d.id,\n  'data', d.data,\n  'giorno', d.giorno,\n  'tipo_giornata', d.tipo_giornata,\n  'giornata_chiusa', d.giornata_chiusa,\n  'pasti', (\n    SELECT COALESCE(\n      JSON_ARRAYAGG(\n        JSON_OBJECT(\n          'id', x.pasto_id,\n          'pasto', x.pasto,\n          'tipo', x.tipo,\n          'data_ora', x.data_ora,\n          'totale_kcal', x.totale_kcal\n        )\n      ),\n      JSON_ARRAY()\n    )\n    FROM v_pasti_totali x\n    WHERE x.giornata_id = d.id\n  )\n) AS giornata_json\nFROM diario_giornaliero d\nWHERE d.id = ?",
+        "bindings": [
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "19.9": {
+    "id": "19.9",
+    "description": "Query JSON dettagliata del pasto con voci",
+    "ability": "nutrition:read",
+    "parameters": {
+      "pasto_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT JSON_OBJECT(\n  'id', p.id,\n  'pasto', p.pasto,\n  'tipo', p.tipo,\n  'contesto', p.contesto,\n  'data_ora', p.data_ora,\n  'voci', (\n    SELECT COALESCE(\n      JSON_ARRAYAGG(\n        JSON_OBJECT(\n          'id', v.id,\n          'voce', v.voce,\n          'quantita', v.quantita,\n          'unita', v.unita,\n          'kcal', v.kcal,\n          'proteine_g', v.proteine_g,\n          'carboidrati_g', v.carboidrati_g,\n          'grassi_g', v.grassi_g,\n          'fibre_g', v.fibre_g,\n          'prodotto_id', v.prodotto_id\n        )\n      ),\n      JSON_ARRAY()\n    )\n    FROM voci_alimentari v\n    WHERE v.pasto_id = p.id\n  )\n) AS pasto_json\nFROM pasti p\nWHERE p.id = ?",
+        "bindings": [
+          "pasto_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "20.1": {
+    "id": "20.1",
+    "description": "Export logico tabellare della giornata",
+    "ability": "nutrition:read",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      }
+    },
+    "steps": [
+      {
+        "sql": "SELECT\n  d.data,\n  p.tipo AS tipo_pasto,\n  p.pasto,\n  v.voce,\n  v.quantita,\n  v.unita,\n  v.kcal,\n  v.proteine_g,\n  v.carboidrati_g,\n  v.grassi_g,\n  v.fibre_g,\n  v.zuccheri_g,\n  v.alcol_g,\n  ap.alimento_prodotto,\n  ap.marca\nFROM diario_giornaliero d\nLEFT JOIN pasti p\n  ON p.giornata_id = d.id\nLEFT JOIN voci_alimentari v\n  ON v.pasto_id = p.id\nLEFT JOIN alimenti_prodotti ap\n  ON ap.id = v.prodotto_id\nWHERE d.data = ?\nORDER BY p.data_ora, v.data_ora, v.id",
+        "bindings": [
+          "data_rif"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "20.2": {
+    "id": "20.2",
+    "description": "Snapshot delle regole attive",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  id,\n  data,\n  osservazione,\n  tipo,\n  dettaglio,\n  apprendimento,\n  azione_futura,\n  valutazione_0_10,\n  regola_stabile\nFROM osservazioni_apprendimenti\nWHERE attiva = 1\nORDER BY regola_stabile DESC, data DESC, id DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.1": {
+    "id": "21.1",
+    "description": "Quartili approssimati delle kcal giornaliere usando NTILE",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "WITH ranked AS (\n  SELECT\n    data,\n    totale_kcal,\n    NTILE(4) OVER (ORDER BY totale_kcal) AS quartile\n  FROM v_diario_nutrizione\n  WHERE totale_kcal IS NOT NULL\n)\nSELECT\n  quartile,\n  COUNT(*) AS giorni,\n  MIN(totale_kcal) AS kcal_min,\n  MAX(totale_kcal) AS kcal_max,\n  ROUND(AVG(totale_kcal), 2) AS kcal_media\nFROM ranked\nGROUP BY quartile\nORDER BY quartile",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.2": {
+    "id": "21.2",
+    "description": "Ranking dei giorni più calorici",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  data,\n  totale_kcal,\n  DENSE_RANK() OVER (ORDER BY totale_kcal DESC) AS ranking_kcal\nFROM v_diario_nutrizione\nORDER BY ranking_kcal, data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.3": {
+    "id": "21.3",
+    "description": "Ranking dei pasti più sazianti a parità di kcal",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  pasto_id,\n  pasto,\n  tipo,\n  totale_kcal,\n  sazieta_dopo_0_10,\n  ROUND(\n    sazieta_dopo_0_10 * 100 / NULLIF(totale_kcal, 0),\n    3\n  ) AS sazieta_per_100_kcal\nFROM v_pasti_totali\nWHERE sazieta_dopo_0_10 IS NOT NULL\n  AND totale_kcal > 0\nORDER BY sazieta_per_100_kcal DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.4": {
+    "id": "21.4",
+    "description": "Frequenza dei contesti dei pasti",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  contesto,\n  COUNT(*) AS pasti,\n  ROUND(\n    100 * COUNT(*) / SUM(COUNT(*)) OVER (),\n    2\n  ) AS percentuale\nFROM pasti\nGROUP BY contesto\nORDER BY pasti DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.5": {
+    "id": "21.5",
+    "description": "Frequenza degli alimenti nel tempo: ultimi 30 giorni",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  ap.alimento_prodotto,\n  ap.marca,\n  COUNT(v.id) AS consumi_30g,\n  ROUND(SUM(v.kcal), 2) AS kcal_30g\nFROM voci_alimentari v\nJOIN alimenti_prodotti ap\n  ON ap.id = v.prodotto_id\nJOIN diario_giornaliero d\n  ON d.id = v.giornata_id\nWHERE d.data >= CURRENT_DATE - INTERVAL 30 DAY\nGROUP BY ap.id, ap.alimento_prodotto, ap.marca\nORDER BY consumi_30g DESC, kcal_30g DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.6": {
+    "id": "21.6",
+    "description": "Giorni consecutivi registrati: segmentazione per gap",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "WITH x AS (\n  SELECT\n    data,\n    DATE_SUB(\n      data,\n      INTERVAL ROW_NUMBER() OVER (ORDER BY data) DAY\n    ) AS grp\n  FROM diario_giornaliero\n),\nstreaks AS (\n  SELECT\n    MIN(data) AS inizio,\n    MAX(data) AS fine,\n    COUNT(*) AS giorni\n  FROM x\n  GROUP BY grp\n)\nSELECT *\nFROM streaks\nORDER BY giorni DESC, fine DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.7": {
+    "id": "21.7",
+    "description": "Giorni senza dati nutrizionali ma con giornata creata",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  d.id,\n  d.data,\n  d.giorno\nFROM diario_giornaliero d\nLEFT JOIN voci_alimentari v\n  ON v.giornata_id = d.id\nGROUP BY d.id, d.data, d.giorno\nHAVING COUNT(v.id) = 0\nORDER BY d.data DESC",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "21.8": {
+    "id": "21.8",
+    "description": "Correlazione \"grezza\" esportabile: peso vs media kcal ultimi 7 giorni",
+    "ability": "nutrition:read",
+    "parameters": {},
+    "steps": [
+      {
+        "sql": "SELECT\n  pm.data,\n  pm.peso_kg,\n  (\n    SELECT AVG(n.totale_kcal)\n    FROM v_diario_nutrizione n\n    WHERE n.data BETWEEN pm.data - INTERVAL 6 DAY AND pm.data\n  ) AS media_kcal_7g\nFROM peso_misure pm\nWHERE pm.peso_kg IS NOT NULL\nORDER BY pm.data",
+        "bindings": [],
+        "capture": null
+      }
+    ]
+  },
+  "23.1": {
+    "id": "23.1",
+    "description": "sp_get_or_create_giornata",
+    "ability": "nutrition:write",
+    "parameters": {
+      "data_rif": {
+        "type": "string"
+      },
+      "arg_1_1": {
+        "type": "string",
+        "default": "%Y-%m-%d",
+        "description": "SQL value: rno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)"
+      },
+      "tipo_giornata": {
+        "type": "string",
+        "default": "Non definita",
+        "description": "tipo_giornata: ) VALUES (\n  DATE_FORMAT(@data_rif, '%Y-%m-%d'),\n  @data_rif,\n  'Non definita'\n)\nON DUPLICATE KEY UPDATE\n  id = L"
+      }
+    },
+    "steps": [
+      {
+        "sql": "INSERT INTO diario_giornaliero (\n  giorno,\n  data,\n  tipo_giornata\n) VALUES (\n  DATE_FORMAT(?, ?),\n  ?,\n  ?\n)\nON DUPLICATE KEY UPDATE\n  id = LAST_INSERT_ID(id)",
+        "bindings": [
+          "data_rif",
+          "arg_1_1",
+          "data_rif",
+          "tipo_giornata"
+        ],
+        "capture": null
+      },
+      {
+        "sql": "SELECT LAST_INSERT_ID() AS value",
+        "bindings": [],
+        "capture": "giornata_id"
+      }
+    ]
+  },
+  "23.2": {
+    "id": "23.2",
+    "description": "sp_ricalcola_voce_da_prodotto",
+    "ability": "nutrition:write",
+    "parameters": {
+      "voce_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "UPDATE voci_alimentari v\nJOIN alimenti_prodotti ap\n  ON ap.id = v.prodotto_id\nSET\n  v.kcal = ROUND(ap.kcal_100g * v.quantita / 100, 3),\n  v.proteine_g = ROUND(ap.proteine_100g * v.quantita / 100, 3),\n  v.carboidrati_g = ROUND(ap.carboidrati_100g * v.quantita / 100, 3),\n  v.grassi_g = ROUND(ap.grassi_100g * v.quantita / 100, 3),\n  v.fibre_g = ROUND(ap.fibre_100g * v.quantita / 100, 3),\n  v.zuccheri_g = ROUND(ap.zuccheri_100g * v.quantita / 100, 3),\n  v.fonte_valori = 'Prodotto registrato',\n  v.affidabilita = CASE\n    WHEN ap.verificato = 1 THEN 'Alta'\n    ELSE 'Media'\n  END\nWHERE v.id = ?\n  AND v.unita = 'g'\n  AND v.quantita IS NOT NULL",
+        "bindings": [
+          "voce_id"
+        ],
+        "capture": null
+      }
+    ]
+  },
+  "23.3": {
+    "id": "23.3",
+    "description": "sp_delete_giornata",
+    "ability": "nutrition:delete",
+    "parameters": {
+      "giornata_id": {
+        "type": "integer"
+      }
+    },
+    "steps": [
+      {
+        "sql": "DELETE FROM diario_giornaliero\nWHERE id = ?",
+        "bindings": [
+          "giornata_id"
+        ],
+        "capture": null
+      }
+    ]
+  }
+}

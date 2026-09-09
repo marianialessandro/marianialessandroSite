@@ -52,3 +52,16 @@ Route::get('/health', function () {
         'database' => 'connected',
     ]);
 });
+
+Route::middleware(['auth:sanctum', 'admin', 'throttle:60,1'])->prefix('nutrition')->group(function () {
+    Route::get('/openapi.json', [\App\Http\Controllers\NutritionController::class, 'openapi']);
+    Route::get('/queries', [\App\Http\Controllers\NutritionController::class, 'index']);
+    Route::get('/queries/{operation}', [\App\Http\Controllers\NutritionController::class, 'show']);
+    Route::post('/queries/{operation}/execute', [\App\Http\Controllers\NutritionController::class, 'execute']);
+});
+
+Route::middleware(['auth:web', 'admin', 'throttle:10,1'])->prefix('nutrition/tokens')->group(function () {
+    Route::get('/', [\App\Http\Controllers\NutritionTokenController::class, 'index']);
+    Route::post('/', [\App\Http\Controllers\NutritionTokenController::class, 'store']);
+    Route::delete('/{token}', [\App\Http\Controllers\NutritionTokenController::class, 'destroy']);
+});
