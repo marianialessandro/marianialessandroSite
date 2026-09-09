@@ -7,7 +7,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 
-def run(image):
+def run(image, schema_file=None):
     container = subprocess.check_output(['docker', 'run', '-d', '--rm', '-e', 'MYSQL_ALLOW_EMPTY_PASSWORD=yes', '-p', '127.0.0.1::3306', image], text=True).strip()
     try:
         for _ in range(120):
@@ -17,7 +17,7 @@ def run(image):
             time.sleep(0.5)
         else:
             raise RuntimeError('MySQL did not become ready within 60 seconds.')
-        schema = (ROOT / 'resources/nutrition/nutrizionista_schema_mysql.sql').read_bytes()
+        schema = (schema_file or (ROOT / 'resources/nutrition/nutrizionista_schema_mysql.sql')).read_bytes()
         subprocess.run(['docker', 'exec', '-i', container, 'mysql', '-uroot'], input=schema, check=True)
         port = subprocess.check_output(['docker', 'port', container, '3306'], text=True).strip().rsplit(':', 1)[1]
         environment = dict(os.environ, NUTRITION_MYSQL_TEST='1', NUTRITION_MYSQL_TEST_PORT=port, APP_KEY='base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=')
@@ -28,4 +28,6 @@ def run(image):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--image', default='mysql:8.0', help='MySQL 8 Docker image used exclusively for disposable tests.')
-    run(parser.parse_args().image)
+    parser.add_argument('--schema-file', type=Path, help='Optional replacement installation SQL; executed only inside the disposable container.')
+    args = parser.parse_args()
+    run(args.image, args.schema_file)

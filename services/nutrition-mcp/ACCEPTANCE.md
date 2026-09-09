@@ -1,5 +1,7 @@
 # Stato di implementazione e collaudo — 9 settembre 2026
 
+Questo documento registra la versione Python iniziale. Dopo la conferma di hosting solo PHP/FTP è stato aggiunto [`../nutrition-mcp-php`](../nutrition-mcp-php/README.md), che è ora il target del dominio e usa Passport locale; lo stato qui sotto rimane storico.
+
 Branch: `feat/nutrition-mcp-oauth`, derivata da `mcp_api` (`a6174232af5da46b51087b591e2da1c21f724334`). Worktree: `/Users/marianialessandro/repository/marianialessandroSite-mcp-oauth`. Server nuovo: `services/nutrition-mcp`.
 
 ## Verificato localmente

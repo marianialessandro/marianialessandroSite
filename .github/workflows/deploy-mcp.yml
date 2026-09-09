@@ -1,0 +1,92 @@
+name: CD - Deploy mcp.marianialessandro.com
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-mcp
+  cancel-in-progress: false
+
+jobs:
+  deploy-mcp:
+    name: Deploy mcp.marianialessandro.com
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, sqlite, pdo_sqlite, openssl
+          coverage: none
+
+      - name: 📦 Install PHP dependencies
+        run: composer install --working-dir services/nutrition-mcp-php --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+      - name: 🧪 Test MCP and local OAuth
+        working-directory: services/nutrition-mcp-php
+        run: vendor/bin/phpunit --no-progress
+
+      - name: 🔎 Audit production dependencies
+        working-directory: services/nutrition-mcp-php
+        run: composer audit --locked --no-dev
+
+      - name: 📦 Remove development dependencies
+        run: composer install --working-dir services/nutrition-mcp-php --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+      - name: 🏗️ Prepare shared-hosting artifact
+        run: bash services/nutrition-mcp-php/deploy/build.sh services/nutrition-mcp-php "$RUNNER_TEMP/mcp-deploy"
+
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ${{ runner.temp }}/mcp-deploy/
+          server-dir: mcp.marianialessandro.com/
+          dangerous-clean-slate: false
+          log-level: verbose
+          timeout: 60000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .env
+            .well-known/**
+            storage/*.key
+            storage/app/private/**
+            storage/framework/cache/**
+            storage/framework/sessions/**
+            storage/framework/views/**
+            storage/logs/**
+
+      - name: 🩺 Verify deployment
+        env:
+          MCP_ORIGIN: https://mcp.marianialessandro.com
+        run: |
+          curl --fail --silent --show-error --retry 5 --retry-delay 10 --max-time 15 "$MCP_ORIGIN/health" > "$RUNNER_TEMP/mcp-health.json"
+          php -r '$data=json_decode(file_get_contents($argv[1]), true); exit(($data["status"] ?? null) === "ok" ? 0 : 1);' "$RUNNER_TEMP/mcp-health.json"
+          curl --fail --silent --show-error --max-time 15 "$MCP_ORIGIN/.well-known/oauth-protected-resource/mcp" > "$RUNNER_TEMP/mcp-discovery.json"
+          php -r '$data=json_decode(file_get_contents($argv[1]), true); exit(($data["resource"] ?? null) === getenv("MCP_ORIGIN")."/mcp" ? 0 : 1);' "$RUNNER_TEMP/mcp-discovery.json"
+          for private_path in .env storage/oauth-private.key config/app.php vendor/composer/installed.json; do
+            status_code="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 15 "$MCP_ORIGIN/$private_path")"
+            if [ "$status_code" != "403" ] && [ "$status_code" != "404" ]; then
+              echo "::error::Private MCP path is not protected: $private_path ($status_code)."
+              exit 1
+            fi
+          done
+          status_code="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 15 -H 'Content-Type: application/json' --data '{}' "$MCP_ORIGIN/mcp")"
+          if [ "$status_code" != "401" ] && [ "$status_code" != "503" ]; then
+            echo "::error::MCP must reject unauthenticated requests ($status_code)."
+            exit 1
+          fi

@@ -1,9 +1,9 @@
 name: Nutrition MCP
 on:
   pull_request:
-    paths: ['services/nutrition-mcp/**', 'apps/api.marianialessandro.com/**', '.github/workflows/nutrition-mcp.yml']
+    paths: ['services/nutrition-mcp/**', 'services/nutrition-mcp-php/**', '.github/workflows/deploy-mcp.yml', 'apps/api.marianialessandro.com/**', '.github/workflows/nutrition-mcp.yml']
   push:
-    paths: ['services/nutrition-mcp/**', 'apps/api.marianialessandro.com/**', '.github/workflows/nutrition-mcp.yml']
+    paths: ['services/nutrition-mcp/**', 'services/nutrition-mcp-php/**', '.github/workflows/deploy-mcp.yml', 'apps/api.marianialessandro.com/**', '.github/workflows/nutrition-mcp.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,3 +34,17 @@ jobs:
       - run: python services/nutrition-mcp/export_contracts.py
       - run: git diff --exit-code -- services/nutrition-mcp/contracts
       - run: docker build -t nutrition-mcp:test services/nutrition-mcp
+
+  verify-php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, openssl
+          coverage: none
+      - run: composer install --working-dir services/nutrition-mcp-php --no-interaction --prefer-dist
+      - run: vendor/bin/phpunit --no-progress
+        working-directory: services/nutrition-mcp-php
+      - run: bash services/nutrition-mcp-php/deploy/build.sh services/nutrition-mcp-php "$RUNNER_TEMP/mcp-deploy"

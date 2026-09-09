@@ -1,5 +1,7 @@
 # Nutrition MCP remoto
 
+**Aggiornamento hosting:** per il dominio PHP/FTP usare [`../nutrition-mcp-php`](../nutrition-mcp-php/README.md), con OAuth locale e workflow FTP. Questo server Python resta disponibile per stdio o runtime ASGI.
+
 Processo Python indipendente in `services/nutrition-mcp`, derivato dal bridge della branch `mcp_api`. Laravel rimane in `apps/api.marianialessandro.com`. Il bridge storico mantiene `python server.py`, trasporto stdio e `NUTRITION_API_URL`/`NUTRITION_API_TOKEN`.
 
 L'implementazione locale è disponibile; la connessione reale ChatGPT, la scelta definitiva del provider/piano, DNS, TLS e il collaudo operativo richiedono gli account e l'infrastruttura. Non sono stati creati tenant, credenziali o servizi online. L'archivio nutrizionale resta personale e condiviso: non offre isolamento multiutente.

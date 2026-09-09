@@ -207,4 +207,8 @@ admin account interface or `php artisan users:create-admin`.
 
 ## MCP nutrizionale remoto
 
-Il server remoto è nella nuova directory [`services/nutrition-mcp`](services/nutrition-mcp/README.md), con OAuth, identità personale consentita, credenziali API di servizio e container indipendente. Il bridge stdio mantiene il percorso storico. Stato delle prove e prerequisiti di collegamento online in [`ACCEPTANCE.md`](services/nutrition-mcp/ACCEPTANCE.md).
+Per l'hosting PHP/FTP il server è nella directory indipendente [`services/nutrition-mcp-php`](services/nutrition-mcp-php/README.md), con OAuth Passport sulla propria infrastruttura e deploy FTP tramite `CD - Deploy mcp.marianialessandro.com`. Le API nutrizionali e il loro login Sanctum rimangono separati.
+
+Lo script `INSTALLAZIONE_NUTRIZIONE_MCP.sql` sul Desktop aggiunge le tabelle nutrizionali e OAuth al database Laravel già installato; il generatore versionato è `services/nutrition-mcp-php/deploy/export_sql.py`. Configurazione e collaudi ancora necessari sono documentati nel README del servizio PHP.
+
+La precedente implementazione [`services/nutrition-mcp`](services/nutrition-mcp/README.md) conserva il bridge Python e stdio. Il dominio PHP non usa il container Python.

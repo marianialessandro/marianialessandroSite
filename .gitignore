@@ -30,3 +30,6 @@ vite.config.ts.timestamp-*
 .venv/
 **/__pycache__/
 .pytest_cache/
+
+.phpunit.cache/
+**/.phpunit.result.cache
