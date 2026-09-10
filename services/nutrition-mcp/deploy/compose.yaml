@@ -1,0 +1,14 @@
+services:
+  mcp:
+    image: ${MCP_IMAGE:?Set an immutable image tag or digest}
+    env_file: ${MCP_ENV_FILE:?Set the private environment file path}
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    cpus: 1
+    ports:
+      - 127.0.0.1:8000:8000

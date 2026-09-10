@@ -56,3 +56,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Nutrition MySQL API
+
+API autenticate per il catalogo nutrizionale e bridge MCP: [configurazione, token, operazioni e test](docs/nutrition-api.md).

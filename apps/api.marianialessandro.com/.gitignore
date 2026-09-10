@@ -25,3 +25,7 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Local nutrition MCP Python environment.
+/integrations/nutrition-mcp/.venv/
+__pycache__/

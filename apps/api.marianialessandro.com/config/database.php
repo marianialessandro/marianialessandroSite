@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Str;
-use Pdo\Mysql;
 
 return [
 
@@ -31,6 +30,25 @@ return [
     */
 
     'connections' => [
+        'nutrition' => [
+            'driver' => 'mysql',
+            'host' => env('NUTRITION_DB_HOST', '127.0.0.1'),
+            'port' => env('NUTRITION_DB_PORT', '3306'),
+            'database' => env('NUTRITION_DB_DATABASE', 'nutrizionista'),
+            'username' => env('NUTRITION_DB_USERNAME', ''),
+            'password' => env('NUTRITION_DB_PASSWORD', ''),
+            'unix_socket' => env('NUTRITION_DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_0900_ai_ci',
+            'prefix' => '',
+            'strict' => true,
+            'timezone' => env('NUTRITION_DB_TIMEZONE', '+02:00'),
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::ATTR_EMULATE_PREPARES => false,
+                (class_exists(\Pdo\Mysql::class) ? \Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('NUTRITION_MYSQL_SSL_CA') ?: null,
+            ], fn ($value) => $value !== null) : [],
+        ],
+
 
         'sqlite' => [
             'driver' => 'sqlite',
@@ -60,7 +78,7 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                (class_exists(\Pdo\Mysql::class) ? \Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 
@@ -80,7 +98,7 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                (class_exists(\Pdo\Mysql::class) ? \Pdo\Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
 

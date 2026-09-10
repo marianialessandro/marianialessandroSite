@@ -26,3 +26,10 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .lh/
+
+.venv/
+**/__pycache__/
+.pytest_cache/
+
+.phpunit.cache/
+**/.phpunit.result.cache

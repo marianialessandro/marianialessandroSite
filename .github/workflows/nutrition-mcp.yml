@@ -1,0 +1,50 @@
+name: Nutrition MCP
+on:
+  pull_request:
+    paths: ['services/nutrition-mcp/**', 'services/nutrition-mcp-php/**', '.github/workflows/deploy-mcp.yml', 'apps/api.marianialessandro.com/**', '.github/workflows/nutrition-mcp.yml']
+  push:
+    paths: ['services/nutrition-mcp/**', 'services/nutrition-mcp-php/**', '.github/workflows/deploy-mcp.yml', 'apps/api.marianialessandro.com/**', '.github/workflows/nutrition-mcp.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, pdo_mysql
+          coverage: none
+      - run: pip install --require-hashes -r services/nutrition-mcp/requirements-dev.lock
+      - run: composer install --no-interaction --prefer-dist
+        working-directory: apps/api.marianialessandro.com
+      - run: php artisan test
+        working-directory: apps/api.marianialessandro.com
+        env:
+          APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      - run: python scripts/test_nutrition_mysql.py
+        working-directory: apps/api.marianialessandro.com
+      - run: python apps/api.marianialessandro.com/integrations/nutrition-mcp/test_server.py
+      - run: python -m pytest services/nutrition-mcp/tests -q
+      - run: python services/nutrition-mcp/export_contracts.py
+      - run: git diff --exit-code -- services/nutrition-mcp/contracts
+      - run: docker build -t nutrition-mcp:test services/nutrition-mcp
+
+  verify-php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, openssl
+          coverage: none
+      - run: composer install --working-dir services/nutrition-mcp-php --no-interaction --prefer-dist
+      - run: vendor/bin/phpunit --no-progress
+        working-directory: services/nutrition-mcp-php
+      - run: bash services/nutrition-mcp-php/deploy/build.sh services/nutrition-mcp-php "$RUNNER_TEMP/mcp-deploy"

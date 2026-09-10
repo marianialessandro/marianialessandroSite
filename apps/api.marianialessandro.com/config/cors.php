@@ -29,6 +29,7 @@ return [
 
     'allowed_headers' => [
         'Accept',
+        'Authorization',
         'Content-Type',
         'Origin',
         'X-Requested-With',
