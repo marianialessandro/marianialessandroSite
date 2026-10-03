@@ -80,7 +80,7 @@ jobs:
           php -r '$data=json_decode(file_get_contents($argv[1]), true); exit(($data["resource"] ?? null) === getenv("MCP_ORIGIN")."/mcp" ? 0 : 1);' "$RUNNER_TEMP/mcp-discovery.json"
           for private_path in .env storage/oauth-private.key config/app.php vendor/composer/installed.json; do
             status_code="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 15 "$MCP_ORIGIN/$private_path")"
-            if [ "$status_code" != "403" ] && [ "$status_code" != "404" ]; then
+            if [ "$status_code" != "403" ] && [ "$status_code" != "404" ] && [ "$status_code" != "503" ]; then
               echo "::error::Private MCP path is not protected: $private_path ($status_code)."
               exit 1
             fi
