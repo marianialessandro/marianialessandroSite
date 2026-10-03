@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -15,8 +16,8 @@ class Boundary
         $origin = $request->header('Origin');
         abort_if($origin && $origin !== config('app.url') && !in_array($origin, config('mcp_nutrition.origins'), true), 403);
         abort_if(strlen($request->getContent()) > config('mcp_nutrition.max_input'), 413);
-        if (!$request->is('health', '.well-known/*')) {
-            abort_unless(config('mcp_nutrition.enabled') && config('mcp_nutrition.allowed_user_id') && config('mcp_nutrition.client_id'), 503);
+        if (!$request->is('health', '.well-known/*') && (!config('mcp_nutrition.enabled') || !config('mcp_nutrition.allowed_user_id') || !config('mcp_nutrition.client_id'))) {
+            return new JsonResponse(['error' => 'service_unavailable'], 503, ['Cache-Control' => 'no-store']);
         }
         $request->attributes->set('request_id', (string) Str::uuid());
         $response = $next($request);
