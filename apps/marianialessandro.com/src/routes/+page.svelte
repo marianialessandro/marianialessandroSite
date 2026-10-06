@@ -82,9 +82,8 @@
 					</p>
 					<p>
 						As a core contributor, I work across feature ideation, database design and UI
-						development. I am also contributing to the Open Banking integration through Enable
-						Banking, with the goal of synchronizing bank accounts, transactions and net worth
-						automatically.
+						development. I am currently contributing to the implementation of Enable Banking,
+						with the goal of synchronizing bank accounts, transactions and net worth automatically.
 					</p>
 				</div>
 
@@ -369,7 +368,7 @@
 	}
 
 	.work-copy {
-		max-width: 700px;
+		max-width: 960px;
 		margin-top: 2rem;
 	}
 
