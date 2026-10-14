@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '@marianialessandro/shared/styles.css';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
@@ -89,7 +88,7 @@
 		display: grid;
 		place-items: center;
 		min-height: 100vh;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 
 	.admin-auth-error {
@@ -110,9 +109,9 @@
 	.admin-auth-error button {
 		min-height: 2.5rem;
 		border: 0;
-		border-radius: 999px;
+		border-radius: 8px;
 		padding: 0 1rem;
-		background: var(--accent, #ff3e00);
+		background: var(--accent, #303030);
 		color: #fff;
 		font-weight: 700;
 		cursor: pointer;
@@ -128,9 +127,9 @@
 		position: sticky;
 		top: 0;
 		z-index: 50;
-		border-bottom: 1px solid var(--line, #e5e7eb);
-		background: rgba(255, 255, 255, 0.94);
-		backdrop-filter: blur(14px);
+		border-bottom: 1px solid var(--line, #e4e4e4);
+		background: rgba(248, 248, 248, 0.92);
+		backdrop-filter: blur(18px);
 	}
 
 	.inner {
@@ -141,13 +140,15 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 0.75rem 1rem;
-		padding: 0.85rem 0;
+		min-height: 82px;
+		padding: 1rem 0;
 	}
 
 	.brand {
-		font-weight: 700;
+		font-weight: 760;
+		letter-spacing: -0.035em;
 		text-decoration: none;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 	}
 
 	nav {
@@ -160,18 +161,18 @@
 		display: inline-flex;
 		align-items: center;
 		min-height: 2rem;
-		border-radius: 999px;
+		border-radius: 8px;
 		padding: 0 0.75rem;
 		font-size: 0.92rem;
 		text-decoration: none;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 		white-space: nowrap;
 	}
 
 	nav a:hover,
 	nav a.active {
-		background: rgba(255, 62, 0, 0.08);
-		color: var(--fg, #0b0f14);
+		background: rgba(48, 48, 48, 0.08);
+		color: var(--fg, #202020);
 	}
 
 	.user-area {
@@ -181,31 +182,31 @@
 	}
 
 	.user-name {
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 		font-size: 0.88rem;
 	}
 
 	.user-area button {
 		min-height: 2.1rem;
-		border: 1px solid var(--line, #e5e7eb);
-		border-radius: 999px;
+		border: 1px solid var(--line, #e4e4e4);
+		border-radius: 8px;
 		padding: 0 0.9rem;
 		background: #fff;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 		font-size: 0.88rem;
 		font-weight: 600;
 		cursor: pointer;
 	}
 
 	.user-area button:hover {
-		border-color: rgba(255, 62, 0, 0.3);
-		color: var(--accent, #ff3e00);
+		border-color: rgba(48, 48, 48, 0.3);
+		color: var(--accent, #303030);
 	}
 
 	.admin-main {
 		flex: 1;
 		width: var(--container, min(1120px, calc(100% - 2rem)));
 		margin: 0 auto;
-		padding: clamp(1.5rem, 4vw, 2.25rem) 0 3.5rem;
+		padding: clamp(2.5rem, 5vw, 4rem) 0 5rem;
 	}
 </style>

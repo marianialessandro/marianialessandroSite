@@ -161,9 +161,9 @@
 		display: inline-flex;
 		align-items: center;
 		min-height: 2.4rem;
-		border-radius: 999px;
+		border-radius: 8px;
 		padding: 0 1rem;
-		background: var(--accent, #ff3e00);
+		background: var(--accent, #303030);
 		color: #fff;
 		font-weight: 700;
 		text-decoration: none;
@@ -171,7 +171,7 @@
 	}
 
 	.muted {
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 
 	.error {
@@ -193,7 +193,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 0.75rem;
-		border: 1px solid var(--line, #e5e7eb);
+		border: 1px solid var(--line, #e4e4e4);
 		border-radius: var(--radius, 16px);
 		padding: 0.9rem 1rem;
 		background: #fff;
@@ -209,7 +209,7 @@
 
 	.badge {
 		display: inline-flex;
-		border-radius: 999px;
+		border-radius: 8px;
 		padding: 0.15rem 0.6rem;
 		font-size: 0.72rem;
 		font-weight: 700;
@@ -240,11 +240,11 @@
 		display: inline-flex;
 		align-items: center;
 		min-height: 2.1rem;
-		border: 1px solid var(--line, #e5e7eb);
-		border-radius: 999px;
+		border: 1px solid var(--line, #e4e4e4);
+		border-radius: 8px;
 		padding: 0 0.85rem;
 		background: #fff;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 		font-size: 0.85rem;
 		font-weight: 600;
 		text-decoration: none;
@@ -253,8 +253,8 @@
 
 	.post-actions button:hover,
 	.post-actions a:hover {
-		border-color: rgba(255, 62, 0, 0.3);
-		color: var(--accent, #ff3e00);
+		border-color: rgba(48, 48, 48, 0.3);
+		color: var(--accent, #303030);
 	}
 
 	.post-actions button.danger:hover {

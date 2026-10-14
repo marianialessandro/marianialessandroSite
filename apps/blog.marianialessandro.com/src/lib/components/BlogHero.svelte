@@ -12,7 +12,7 @@
 <section class="hero" aria-labelledby="blog-title">
 	<div class="copy">
 		<p class="eyebrow">Notes and articles</p>
-		<h1 id="blog-title">marianialessandro.com</h1>
+		<h1 id="blog-title">Notes from<br />the workbench.</h1>
 		<p class="lede">
 			Technical notes, experiments, and reflections on systems, networking, programming, and
 			sustainability.
@@ -37,7 +37,7 @@
 		grid-template-columns: minmax(0, 1fr);
 		gap: 1.25rem;
 		align-items: end;
-		padding: clamp(1.7rem, 4vw, 3rem) 0 clamp(1.4rem, 3vw, 2.2rem);
+		padding: clamp(3rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4rem);
 		border-bottom: 1px solid var(--line);
 	}
 
@@ -49,21 +49,25 @@
 
 	.eyebrow {
 		color: var(--muted);
-		font-size: 0.94rem;
+		font-size: 11px;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
 	}
 
 	h1 {
-		margin: 0.2rem 0 0;
-		font-size: clamp(1.75rem, 7vw, 4.4rem);
+		margin: 1.2rem 0 0;
+		font-size: clamp(2.8rem, 6vw, 4.8rem);
+		font-weight: 780;
 		line-height: 0.98;
-		letter-spacing: 0;
+		letter-spacing: -0.065em;
 		overflow-wrap: anywhere;
 	}
 
 	.lede {
 		margin-top: 0.9rem;
 		max-width: 60ch;
-		color: var(--fg);
+		color: var(--muted);
 		font-size: clamp(1rem, 1.5vw, 1.12rem);
 		line-height: 1.75;
 	}
@@ -74,7 +78,7 @@
 		gap: 0.9rem;
 		flex-wrap: wrap;
 		justify-content: flex-start;
-		border-left: 2px solid var(--accent);
+		border-left: 1px solid var(--line);
 		padding: 0.1rem 0 0.1rem 1rem;
 	}
 

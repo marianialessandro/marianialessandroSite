@@ -232,7 +232,7 @@
 	}
 
 	.muted {
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 
 	.error {
@@ -250,7 +250,7 @@
 		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
 		gap: 0.75rem;
 		align-items: end;
-		border: 1px solid var(--line, #e5e7eb);
+		border: 1px solid var(--line, #e4e4e4);
 		border-radius: var(--radius, 16px);
 		padding: 1rem;
 		margin-bottom: 1rem;
@@ -260,7 +260,7 @@
 		display: grid;
 		gap: 0.3rem;
 		font-size: 0.85rem;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 
 	input {
@@ -269,7 +269,7 @@
 		border-radius: var(--radius, 16px);
 		padding: 0 0.75rem;
 		font: inherit;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 	}
 
 	.edit-actions {
@@ -283,7 +283,7 @@
 	}
 
 	.user-row {
-		border: 1px solid var(--line, #e5e7eb);
+		border: 1px solid var(--line, #e4e4e4);
 		border-radius: var(--radius, 16px);
 		padding: 0.9rem 1rem;
 		background: #fff;
@@ -310,18 +310,18 @@
 
 	button {
 		min-height: 2.4rem;
-		border: 1px solid var(--line, #e5e7eb);
-		border-radius: 999px;
+		border: 1px solid var(--line, #e4e4e4);
+		border-radius: 8px;
 		padding: 0 1rem;
 		background: #fff;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 		font-weight: 600;
 		cursor: pointer;
 	}
 
 	button.primary {
 		border-color: transparent;
-		background: var(--accent, #ff3e00);
+		background: var(--accent, #303030);
 		color: #fff;
 	}
 

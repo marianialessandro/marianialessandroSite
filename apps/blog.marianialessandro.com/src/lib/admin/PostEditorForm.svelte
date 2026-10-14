@@ -410,7 +410,7 @@
 		display: grid;
 		gap: 0.35rem;
 		font-size: 0.85rem;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 
 	.field-checkbox {
@@ -432,7 +432,7 @@
 	}
 
 	.field-hint {
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 		font-size: 0.78rem;
 	}
 
@@ -444,7 +444,7 @@
 		border-radius: var(--radius, 16px);
 		padding: 0 0.75rem;
 		font: inherit;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 	}
 
 	.field-title input {
@@ -463,11 +463,11 @@
 
 	.cover-row button {
 		min-height: 2.5rem;
-		border: 1px solid var(--line, #e5e7eb);
+		border: 1px solid var(--line, #e4e4e4);
 		border-radius: var(--radius, 16px);
 		padding: 0 1rem;
 		background: #fff;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 		font-weight: 600;
 		cursor: pointer;
 		white-space: nowrap;
@@ -495,7 +495,7 @@
 		border: none;
 		padding: 0.25rem;
 		font: inherit;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 	}
 
 	.tags-input input:focus {
@@ -506,17 +506,17 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 0.35rem;
-		border-radius: 999px;
+		border-radius: 8px;
 		padding: 0.15rem 0.35rem 0.15rem 0.7rem;
-		background: rgba(255, 62, 0, 0.08);
-		color: var(--fg, #0b0f14);
+		background: rgba(48, 48, 48, 0.08);
+		color: var(--fg, #202020);
 		font-size: 0.85rem;
 	}
 
 	.tag-chip button {
 		border: none;
 		background: transparent;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 		font-size: 1rem;
 		line-height: 1;
 		cursor: pointer;
@@ -531,18 +531,18 @@
 	}
 
 	.tag-suggestions button {
-		border: 1px dashed var(--line, #e5e7eb);
-		border-radius: 999px;
+		border: 1px dashed var(--line, #e4e4e4);
+		border-radius: 8px;
 		padding: 0.15rem 0.65rem;
 		background: #fff;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 		font-size: 0.8rem;
 		cursor: pointer;
 	}
 
 	.tag-suggestions button:hover {
-		border-color: rgba(255, 62, 0, 0.4);
-		color: var(--accent, #ff3e00);
+		border-color: rgba(48, 48, 48, 0.4);
+		color: var(--accent, #303030);
 	}
 
 	.markdown-source {
@@ -555,7 +555,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 0.75rem;
-		border-top: 1px solid var(--line, #e5e7eb);
+		border-top: 1px solid var(--line, #e4e4e4);
 		padding-top: 1rem;
 	}
 
@@ -567,18 +567,18 @@
 
 	.actions button {
 		min-height: 2.5rem;
-		border: 1px solid var(--line, #e5e7eb);
-		border-radius: 999px;
+		border: 1px solid var(--line, #e4e4e4);
+		border-radius: 8px;
 		padding: 0 1.1rem;
 		background: #fff;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 		font-weight: 600;
 		cursor: pointer;
 	}
 
 	.actions button.primary {
 		border-color: transparent;
-		background: var(--accent, #ff3e00);
+		background: var(--accent, #303030);
 		color: #fff;
 	}
 

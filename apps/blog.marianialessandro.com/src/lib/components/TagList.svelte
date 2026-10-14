@@ -33,15 +33,15 @@
 		align-items: center;
 		gap: 0.3rem;
 		max-width: 100%;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		border-radius: 999px;
+		border: 1px solid var(--line);
+		border-radius: 6px;
 		padding: 0.32rem 0.55rem;
-		background: rgba(255, 255, 255, 0.78);
-		color: var(--fg);
+		background: var(--surface-alt);
+		color: var(--muted);
 		font-size: 0.78rem;
 		line-height: 1;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
+		font-weight: 600;
+		letter-spacing: 0;
 		overflow-wrap: anywhere;
 	}
 

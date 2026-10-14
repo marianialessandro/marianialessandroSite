@@ -154,7 +154,7 @@
 	.page {
 		width: var(--container);
 		margin: 0 auto;
-		padding: clamp(1.5rem, 4vw, 2.5rem) 0 3.5rem;
+		padding: clamp(3rem, 6vw, 5rem) 0 5rem;
 	}
 
 	.archive-header {
@@ -187,7 +187,7 @@
 		font-size: clamp(2rem, 5vw, 3.5rem);
 		line-height: 1;
 		font-weight: 700;
-		letter-spacing: 0;
+		letter-spacing: -0.035em;
 	}
 
 	.archive-header span {
@@ -270,7 +270,7 @@
 		color: var(--muted);
 		font-size: 1rem;
 		font-weight: 700;
-		letter-spacing: 0;
+		letter-spacing: -0.035em;
 	}
 
 	.post-list {
@@ -284,11 +284,11 @@
 		gap: 0.8rem;
 		border: 1px solid rgba(0, 0, 0, 0.09);
 		border-radius: var(--radius);
-		padding: 1rem;
+		padding: 1.5rem;
 		background: #fff;
 		color: var(--fg);
 		text-decoration: none;
-		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+		box-shadow: none;
 		transition:
 			transform 140ms ease,
 			box-shadow 140ms ease,
@@ -297,7 +297,7 @@
 
 	.post-row:hover {
 		transform: translateY(-1px);
-		border-color: rgba(255, 62, 0, 0.3);
+		border-color: rgba(48, 48, 48, 0.3);
 		box-shadow: var(--shadow);
 	}
 
@@ -310,7 +310,7 @@
 		font-size: clamp(1.05rem, 2vw, 1.25rem);
 		line-height: 1.3;
 		font-weight: 700;
-		letter-spacing: 0;
+		letter-spacing: -0.035em;
 	}
 
 	.post-main p {
@@ -332,7 +332,7 @@
 		font-size: clamp(1.35rem, 2.4vw, 1.8rem);
 		line-height: 1.2;
 		font-weight: 700;
-		letter-spacing: 0;
+		letter-spacing: -0.035em;
 	}
 
 	.empty-state p {

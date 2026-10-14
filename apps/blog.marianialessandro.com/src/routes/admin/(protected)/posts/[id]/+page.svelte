@@ -120,7 +120,7 @@
 	}
 
 	.muted {
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 
 	.error {

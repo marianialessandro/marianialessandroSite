@@ -39,10 +39,10 @@
 
 <style>
 	.preview-banner {
-		position: sticky;
+		position: relative;
 		top: 0;
 		z-index: 60;
-		background: #1d4ed8;
+		background: var(--accent-strong);
 		color: #fff;
 		text-align: center;
 		font-size: 0.85rem;
@@ -60,6 +60,6 @@
 	}
 
 	.muted {
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 </style>

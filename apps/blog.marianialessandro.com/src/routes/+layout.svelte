@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Footer } from '@marianialessandro/shared';
 	import '@marianialessandro/shared/styles.css';
+	import '$lib/styles/blog.css';
 	import BlogHeader from '$lib/components/BlogHeader.svelte';
 	import { page } from '$app/state';
 
@@ -13,17 +13,23 @@
 	let isAdmin = $derived(page.url.pathname.startsWith('/admin'));
 </script>
 
+<svelte:head>
+	<meta name="color-scheme" content="light" />
+	<meta name="theme-color" content="#fafafa" />
+</svelte:head>
+
+<a class="skip" href="#main">Skip to content</a>
 <div class="app">
 	{#if !isAdmin}
 		<BlogHeader />
 	{/if}
 
-	<main>
+	<main id="main" tabindex="-1">
 		{@render children()}
 	</main>
 
 	{#if !isAdmin}
-		<Footer name="Alessandro Mariani"></Footer>
+		<footer class="blog-footer">© {new Date().getFullYear()} Alessandro Mariani</footer>
 	{/if}
 </div>
 

@@ -51,7 +51,7 @@
 		justify-content: space-between;
 		gap: 1.1rem;
 		min-height: 100%;
-		border: 1px solid rgba(0, 0, 0, 0.1);
+		border: 1px solid var(--line);
 		border-radius: var(--radius);
 		padding: 1rem;
 		background: #fff;
@@ -66,7 +66,7 @@
 
 	.post-card:hover {
 		transform: translateY(-1px);
-		border-color: rgba(255, 62, 0, 0.3);
+		border-color: rgba(48, 48, 48, 0.3);
 		box-shadow: var(--shadow);
 	}
 

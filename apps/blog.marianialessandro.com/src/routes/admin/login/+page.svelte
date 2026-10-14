@@ -65,7 +65,7 @@
 		display: grid;
 		gap: 0.9rem;
 		width: min(24rem, 100%);
-		border: 1px solid var(--line, #e5e7eb);
+		border: 1px solid var(--line, #e4e4e4);
 		border-radius: var(--radius, 16px);
 		box-shadow: var(--shadow, 0 1px 2px rgba(0, 0, 0, 0.06));
 		background: #fff;
@@ -74,7 +74,7 @@
 
 	.eyebrow {
 		margin: 0;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 		font-size: 0.85rem;
 		font-weight: 700;
 		letter-spacing: 0.08em;
@@ -92,7 +92,7 @@
 		display: grid;
 		gap: 0.35rem;
 		font-size: 0.9rem;
-		color: var(--muted, #4b5563);
+		color: var(--muted, #666666);
 	}
 
 	input {
@@ -101,7 +101,7 @@
 		border-radius: var(--radius, 16px);
 		padding: 0 0.85rem;
 		font: inherit;
-		color: var(--fg, #0b0f14);
+		color: var(--fg, #202020);
 	}
 
 	.error {
@@ -116,8 +116,8 @@
 	button {
 		min-height: 2.75rem;
 		border: none;
-		border-radius: 999px;
-		background: var(--accent, #ff3e00);
+		border-radius: 8px;
+		background: var(--accent, #303030);
 		color: #fff;
 		font-weight: 700;
 		cursor: pointer;

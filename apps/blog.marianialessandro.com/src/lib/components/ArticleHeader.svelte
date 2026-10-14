@@ -31,20 +31,22 @@
 	.article-header {
 		margin: 0 auto clamp(1.5rem, 3vw, 2.25rem);
 		max-width: var(--post-max-width);
-		text-align: center;
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--line);
+		text-align: left;
 	}
 
 	h1 {
 		margin: 0;
 		font-size: clamp(2rem, 5vw, 3.4rem);
-		line-height: 1.04;
+		line-height: 1.1;
 		font-weight: 700;
-		letter-spacing: 0;
+		letter-spacing: -0.055em;
 		text-wrap: balance;
 	}
 
 	p {
-		margin: 0.9rem auto 0;
+		margin: 1.25rem 0 0;
 		max-width: 60ch;
 		color: var(--muted);
 		font-size: clamp(1rem, 1.6vw, 1.15rem);
@@ -55,7 +57,7 @@
 	.meta-row {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 		gap: 0.85rem 1rem;
 		flex-wrap: wrap;
 		margin-top: 1rem;

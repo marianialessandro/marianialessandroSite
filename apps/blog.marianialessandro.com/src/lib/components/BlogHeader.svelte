@@ -1,38 +1,26 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import {
-		ArchiveOutline,
-		GlobeOutline,
-		HomeOutline,
-		NewspaperOutline
-	} from 'flowbite-svelte-icons';
-
-	const siteUrl = 'https://marianialessandro.com';
 </script>
 
 <header class="blog-header">
 	<div class="inner">
-		<a class="brand" href={resolve('/')} aria-label="Home blog marianialessandro.com">
-			<span class="brand-mark" aria-hidden="true">
-				<NewspaperOutline width="1rem" height="1rem" ariaLabel="marianialessandro.com" />
-			</span>
-			<span>marianialessandro.com</span>
+		<a class="brand" href={resolve('/')} aria-label="Alessandro Mariani — blog home">
+			<span class="brand-mark" aria-hidden="true">am.</span>
+			<span class="brand-name">Alessandro Mariani</span>
 		</a>
-
 		<nav aria-label="Blog navigation">
-			<a class:active={page.url.pathname === '/'} href={resolve('/')}>
-				<HomeOutline width="0.95rem" height="0.95rem" ariaLabel="Blog home" />
-				Home
-			</a>
-			<a class:active={page.url.pathname.startsWith('/archive')} href={resolve('/archive')}>
-				<ArchiveOutline width="0.95rem" height="0.95rem" ariaLabel="Archive" />
-				Archive
-			</a>
-			<a href={siteUrl}>
-				<GlobeOutline width="0.95rem" height="0.95rem" ariaLabel="Main website" />
-				About Me
-			</a>
+			<a
+				class:active={page.url.pathname === '/'}
+				aria-current={page.url.pathname === '/' ? 'page' : undefined}
+				href={resolve('/')}>Blog</a
+			>
+			<a
+				class:active={page.url.pathname.startsWith('/archive')}
+				aria-current={page.url.pathname.startsWith('/archive') ? 'page' : undefined}
+				href={resolve('/archive')}>Archive</a
+			>
+			<a href="https://marianialessandro.com">Portfolio <span aria-hidden="true">↗</span></a>
 		</nav>
 	</div>
 </header>
@@ -42,84 +30,74 @@
 		position: sticky;
 		top: 0;
 		z-index: 50;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-		background: rgba(255, 255, 255, 0.92);
-		backdrop-filter: blur(14px);
+		border-bottom: 1px solid var(--line);
+		background: rgba(248, 248, 248, 0.92);
+		backdrop-filter: blur(18px);
 	}
-
 	.inner {
 		width: var(--container);
 		margin: 0 auto;
+		min-height: 82px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
-		padding: 0.85rem 0;
+		gap: 25px;
 	}
-
-	.brand,
-	nav a {
-		display: inline-flex;
-		align-items: center;
-		text-decoration: none;
-		color: var(--fg);
-	}
-
 	.brand {
-		gap: 0.55rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		min-width: 0;
+		display: flex;
+		align-items: center;
+		gap: 13px;
+		text-decoration: none;
 	}
-
-	.brand span:last-child {
-		overflow-wrap: anywhere;
-	}
-
 	.brand-mark {
-		display: inline-grid;
+		display: grid;
 		place-items: center;
-		width: 2rem;
-		height: 2rem;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		border-radius: 999px;
-		background: #fff;
-		color: var(--accent);
+		width: 38px;
+		height: 38px;
+		color: #fff;
+		background: var(--accent-strong);
+		border-radius: 12px;
+		font-size: 15px;
+		letter-spacing: -0.9px;
+		font-weight: 800;
 	}
-
+	.brand-name {
+		font-size: 15px;
+		font-weight: 760;
+		letter-spacing: -0.55px;
+	}
 	nav {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
-		gap: 0.35rem;
+		gap: 32px;
 	}
-
 	nav a {
-		gap: 0.35rem;
-		min-height: 2rem;
-		border-radius: 999px;
-		padding: 0 0.65rem;
-		font-size: 0.92rem;
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
 		color: var(--muted);
-		white-space: nowrap;
+		font-size: 13px;
+		font-weight: 620;
+		text-decoration: none;
 	}
-
 	nav a:hover,
 	nav a.active {
-		background: rgba(255, 62, 0, 0.08);
 		color: var(--fg);
 	}
-
+	nav a.active {
+		text-decoration: underline;
+		text-underline-offset: 6px;
+	}
 	@media (max-width: 560px) {
 		.inner {
-			align-items: flex-start;
-			flex-direction: column;
-			padding: 0.75rem 0;
+			flex-wrap: wrap;
+			gap: 8px;
+			padding-block: 16px;
 		}
-
 		nav {
 			width: 100%;
 			justify-content: space-between;
+			gap: 16px;
 		}
 	}
 </style>

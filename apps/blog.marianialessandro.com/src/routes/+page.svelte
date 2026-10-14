@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { ArrowRightAltOutline } from 'flowbite-svelte-icons';
+	import BlogHero from '$lib/components/BlogHero.svelte';
 	import PostCard from '$lib/components/PostCard.svelte';
 	import PostMeta from '$lib/components/PostMeta.svelte';
 	import TagList from '$lib/components/TagList.svelte';
@@ -23,9 +24,8 @@
 	<meta name="description" content="Articles and notes" />
 </svelte:head>
 
-<section class="page" aria-labelledby="blog-title">
-	<h1 id="blog-title" class="visually-hidden">marianialessandro.com</h1>
-
+<BlogHero {postCount} />
+<section class="page" aria-label="Articles">
 	{#if postCount === 0}
 		<div class="empty-state">
 			<h2>No posts yet</h2>
@@ -39,7 +39,7 @@
 					<h2 id="featured-title">Start here</h2>
 				</header>
 
-				<div class="spotlight-grid">
+				<div class="spotlight-grid" class:single={!featuredPosts.length}>
 					<a
 						class="lead-post"
 						href={resolve('/[slug]', { slug: heroPost.slug })}
@@ -125,7 +125,7 @@
 	}
 
 	.section {
-		padding-top: clamp(1.5rem, 3vw, 2.4rem);
+		padding-top: clamp(2.5rem, 5vw, 4rem);
 	}
 
 	.section:first-of-type {
@@ -140,7 +140,7 @@
 		display: flex;
 		align-items: end;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: 1.5rem;
 	}
 
 	.section-heading p,
@@ -166,13 +166,13 @@
 		font-size: clamp(1.35rem, 2.4vw, 1.8rem);
 		line-height: 1.2;
 		font-weight: 700;
-		letter-spacing: 0;
+		letter-spacing: -0.035em;
 	}
 
 	.spotlight-grid {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 1rem;
+		gap: 1.5rem;
 	}
 
 	.lead-post {
@@ -180,7 +180,7 @@
 		grid-template-columns: 1fr;
 		min-height: 100%;
 		overflow: hidden;
-		border: 1px solid rgba(0, 0, 0, 0.1);
+		border: 1px solid var(--line);
 		border-radius: var(--radius);
 		background: #fff;
 		color: var(--fg);
@@ -193,7 +193,7 @@
 
 	.lead-post:hover {
 		transform: translateY(-1px);
-		border-color: rgba(255, 62, 0, 0.34);
+		border-color: rgba(48, 48, 48, 0.34);
 		color: var(--fg);
 	}
 
@@ -214,7 +214,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: clamp(1rem, 3vw, 1.5rem);
-		background: linear-gradient(135deg, rgba(255, 62, 0, 0.14), rgba(64, 117, 166, 0.18)), #f8fafc;
+		background: var(--surface-alt);
 	}
 
 	.lead-visual span {
@@ -226,17 +226,18 @@
 
 	.lead-visual strong {
 		max-width: 14ch;
-		font-size: clamp(2.1rem, 7vw, 4.8rem);
+		font-size: clamp(1.5rem, 3vw, 2.8rem);
 		line-height: 0.95;
 		font-weight: 800;
-		letter-spacing: 0;
-		overflow-wrap: anywhere;
+		letter-spacing: -0.035em;
+		overflow-wrap: break-word;
+		hyphens: auto;
 	}
 
 	.lead-copy {
 		display: flex;
 		flex-direction: column;
-		padding: clamp(1.1rem, 3vw, 1.6rem);
+		padding: clamp(1.5rem, 3vw, 2.5rem);
 	}
 
 	.lead-copy h2 {
@@ -245,7 +246,7 @@
 		font-size: clamp(2rem, 5vw, 3.8rem);
 		line-height: 0.98;
 		font-weight: 800;
-		letter-spacing: 0;
+		letter-spacing: -0.035em;
 		text-wrap: balance;
 	}
 
@@ -261,7 +262,7 @@
 		display: flex;
 		align-items: end;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: 1.5rem;
 		flex-wrap: wrap;
 		margin-top: auto;
 		padding-top: 1.4rem;
@@ -270,7 +271,7 @@
 	.supporting-posts {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 1rem;
+		gap: 1.5rem;
 	}
 
 	.read-more,
@@ -324,7 +325,7 @@
 
 	.latest-card:hover {
 		transform: translateY(-1px);
-		border-color: rgba(255, 62, 0, 0.3);
+		border-color: rgba(48, 48, 48, 0.3);
 		box-shadow: var(--shadow);
 		color: var(--fg);
 	}
@@ -334,7 +335,7 @@
 		font-size: clamp(1.08rem, 1.8vw, 1.28rem);
 		line-height: 1.25;
 		font-weight: 700;
-		letter-spacing: 0;
+		letter-spacing: -0.035em;
 	}
 
 	.latest-card:hover .latest-copy h3 {
@@ -380,6 +381,10 @@
 		.latest-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
+	}
+
+	.spotlight-grid.single {
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	@media (max-width: 640px) {
