@@ -1,521 +1,1504 @@
 <script lang="ts">
-	const name = 'Alessandro Mariani';
-	const role = 'Computer Science Student';
-	const bio =
-		'Currently an M.Sc. student in Computer Science at the University of Pisa, following my undergraduate studies there. I specialize in systems programming, networking, sustainable computing, and algorithmics. I am deeply interested in exploring how thoughtful design and optimization can drive both performance and energy efficiency. I enjoy the technical challenge of engineering efficient, working code.';
-
-	const thesisTitle = 'Guaranteed-latency network traffic: a declarative and sustainable approach';
-	const thesisDescription =
-		'For my B.Sc. thesis, I investigated a declarative approach to network routing that secures timing guarantees while simultaneously minimizing energy costs and carbon footprint.';
-
-	const photo = '/images/laureaMeSquare.png';
-	const cvIt = '/documents/cvita.pdf';
-	const cvEn = '/documents/cveng.pdf';
-	const email = 'mailto:alessandro@marianialessandro.com';
-	const github = 'https://github.com/marianialessandro';
-	const linkedin = 'https://www.linkedin.com/in/alessandro-mariani-7a53981aa/';
-	const sossoldi = 'https://github.com/RIP-Comm/sossoldi';
+	import { asset } from '$app/paths';
 </script>
 
 <svelte:head>
-	<title>{name} — Portfolio</title>
+	<title>Alessandro Mariani — Software Engineer</title>
 	<meta
 		name="description"
-		content={`${name} · ${role}. Portfolio, open source projects, research and contacts.`}
+		content="Alessandro Mariani — Software Engineer. Explore selected software engineering projects, open-source contributions, and experience."
 	/>
+	<meta name="color-scheme" content="light" />
+	<meta name="theme-color" content="#fafafa" />
 </svelte:head>
 
-<a class="skip-link" href="#content">Skip to content</a>
+<a href="#main" class="skip">Skip to content</a>
+<header class="header" id="top">
+	<div class="header-inner container">
+		<a class="brand" href="#top" aria-label="Alessandro Mariani — back to top">
+			<span class="brand-mark" aria-hidden="true">am.</span>
+			<span class="brand-name">Alessandro Mariani</span>
+		</a>
+		<nav class="nav" aria-label="Main navigation">
+			<a class="nav-link" href="#work">Work</a>
+			<a class="nav-link" href="#experience">Experience</a>
+			<a class="nav-link" href="#about">About</a>
+			<a class="nav-link" href="#contact">Contact</a>
+		</nav>
+	</div>
+</header>
 
-<main id="content" class="page-shell">
-	<section class="hero" aria-labelledby="hero-title">
-		<div class="hero-copy">
-			<p class="eyebrow">Hi! 👋 I&apos;m</p>
-			<h1 id="hero-title">{name}</h1>
-			<p class="role">{role}</p>
-			<p class="lede">{bio}</p>
-
-			<nav class="social" aria-label="Social links">
-				<a class="text-link" href={github} target="_blank" rel="noreferrer">
-					GitHub <span class="arrow" aria-hidden="true">↗</span>
-				</a>
-				<a class="text-link" href={linkedin} target="_blank" rel="noreferrer">
-					LinkedIn <span class="arrow" aria-hidden="true">↗</span>
-				</a>
-				<a class="text-link" href={email}>
-					Email <span class="arrow" aria-hidden="true">↗</span>
-				</a>
-			</nav>
-		</div>
-
-		<figure class="portrait">
-			<img src={photo} alt={name} width="640" height="800" loading="eager" />
-		</figure>
-	</section>
-
-	<section class="work" aria-labelledby="work-title">
-		<header class="work-intro">
-			<p class="section-kicker">Projects &amp; research</p>
-			<h2 id="work-title">A few things I&apos;ve worked on.</h2>
-			<p>Selected work across open source software, product development and academic research.</p>
-		</header>
-
-		<div class="work-list">
-			<article class="work-item">
-				<div class="work-item-topline">
-					<p class="work-item-type">Open source project</p>
-					<span class="work-item-index" aria-hidden="true">01</span>
+<main id="main">
+	<div class="container">
+		<section class="hero" aria-labelledby="hero-title">
+			<div class="hero-copy">
+				<div class="eyebrow">
+					<span class="dot" aria-hidden="true"></span> Software Engineer · Based in Italy
 				</div>
-
-				<h3 class="work-item-title">Sossoldi</h3>
-
-				<div class="work-meta" aria-label="Project details">
-					<span>FLUTTER</span>
-					<span>CORE CONTRIBUTOR</span>
-					<span>15K+ USERS</span>
+				<h1 id="hero-title">Hi, I'm <span>Alessandro Mariani.</span></h1>
+				<p class="hero-subhead">Software engineering, from products to algorithms.</p>
+				<p class="hero-description">
+					I work on full-stack applications, open-source software and algorithmic systems. I'm
+					currently pursuing an M.Sc. in Computer Science at the University of Pisa.
+				</p>
+				<div class="inline-links">
+					<a href="https://github.com/marianialessandro" target="_blank" rel="noopener noreferrer"
+						>GitHub <span aria-hidden="true">↗</span></a
+					>
+					<a
+						href="https://www.linkedin.com/in/alessandro-mariani-7a53981aa/"
+						target="_blank"
+						rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a
+					>
+					<a href="mailto:alessandro@marianialessandro.com"
+						>Email <span aria-hidden="true">↗</span></a
+					>
 				</div>
-
-				<div class="work-copy">
-					<p>
-						Sossoldi is an open-source personal finance application focused on making everyday
-						financial management simple and accessible.
-					</p>
-					<p>
-						As a core contributor, I work across feature ideation, database design and UI
-						development. I am currently contributing to the implementation of Enable Banking,
-						with the goal of synchronizing bank accounts, transactions and net worth automatically.
-					</p>
+			</div>
+			<div class="hero-media" aria-label="Portrait">
+				<div class="portrait">
+					<span class="portrait-fallback" aria-hidden="true">am.</span>
+					<img
+						src="/images/laureaMeSquare.png"
+						alt="Portrait of Alessandro Mariani"
+						width="800"
+						height="800"
+						loading="eager"
+						fetchpriority="high"
+					/>
 				</div>
-
-				<div class="work-actions">
-					<a class="text-link" href={sossoldi} target="_blank" rel="noreferrer">
-						View on GitHub <span class="arrow" aria-hidden="true">↗</span>
-					</a>
-				</div>
-			</article>
-
-			<article class="work-item">
-				<div class="work-item-topline">
-					<p class="work-item-type">B.Sc. Thesis</p>
-					<span class="work-item-index" aria-hidden="true">02</span>
-				</div>
-
-				<h3 class="work-item-title">{thesisTitle}</h3>
-
-				<div class="work-meta" aria-label="Research topics">
-					<span>NETWORKING</span>
-					<span>DECLARATIVE SYSTEMS</span>
-					<span>SUSTAINABILITY</span>
-				</div>
-
-				<div class="work-copy">
-					<p>{thesisDescription}</p>
-				</div>
-			</article>
-		</div>
-	</section>
-
-	<section class="contact-cv" aria-label="Contact and curriculum vitae">
-		<section class="final-block" aria-labelledby="contact-title">
-			<h2 id="contact-title">Get in touch</h2>
-			<p>Want to chat or collaborate? Message me on LinkedIn or send an email.</p>
-			<div class="actions">
-				<a class="text-link" href={email}>
-					Email me <span class="arrow" aria-hidden="true">→</span>
-				</a>
-				<a class="text-link" href={linkedin} target="_blank" rel="noreferrer">
-					LinkedIn <span class="arrow" aria-hidden="true">↗</span>
-				</a>
 			</div>
 		</section>
 
-		<section class="final-block" aria-labelledby="cv-title">
-			<h2 id="cv-title">Curriculum vitae</h2>
-			<p>Available as PDF in Italian and English.</p>
-			<div class="actions">
-				<a class="text-link" href={cvIt} target="_blank" rel="noreferrer">
-					Open CV (IT) <span class="arrow" aria-hidden="true">↗</span>
-				</a>
-				<a class="text-link" href={cvEn} target="_blank" rel="noreferrer">
-					Open CV (EN) <span class="arrow" aria-hidden="true">↗</span>
-				</a>
+		<section class="section" id="work" aria-labelledby="work-title">
+			<div class="section-header">
+				<div>
+					<span class="section-index">Selected work</span>
+					<h2 class="section-title" id="work-title">A few things I've built.</h2>
+				</div>
+				<p class="section-intro">
+					A selection of work across open source, product development and academic research.
+				</p>
+			</div>
+
+			<article class="featured" aria-labelledby="sossoldi-title">
+				<div class="feature-content">
+					<span class="project-meta">Open source · Featured project</span>
+					<h3 id="sossoldi-title">Sossoldi</h3>
+					<p>
+						An open-source personal finance app built with Flutter. As a core contributor, I work on
+						product features, database design and user interfaces, helping develop a tool used by
+						more than 15,000 people.
+					</p>
+					<div class="pill-row" aria-label="Technologies">
+						<span class="pill">Flutter</span><span class="pill">Dart</span><span class="pill"
+							>Mobile</span
+						><span class="pill">Open source</span>
+					</div>
+					<a
+						class="text-link"
+						href="https://github.com/RIP-Comm/sossoldi"
+						target="_blank"
+						rel="noopener noreferrer">Explore the project <span aria-hidden="true">↗</span></a
+					>
+				</div>
+				<div class="feature-visual">
+					<img
+						class="sossoldi-mockup"
+						src="/images/sossoldi/project-cover.jpg"
+						alt="Official Sossoldi mockups showing the dashboard, transactions and budget screens"
+						width="4944"
+						height="1720"
+						loading="lazy"
+					/>
+				</div>
+			</article>
+
+			<div class="project-grid">
+				<article class="project-card" aria-labelledby="ecom-title">
+					<div class="project-illustration dashboard-art" aria-hidden="true">
+						<div class="dashboard">
+							<div class="dash-sidebar"><i></i><i></i><i></i><i></i><i></i></div>
+							<div class="dash-main">
+								<div class="dash-heading"></div>
+								<div class="dash-stats">
+									<div class="dash-stat"><i></i><b></b></div>
+									<div class="dash-stat"><i></i><b></b></div>
+									<div class="dash-stat"><i></i><b></b></div>
+								</div>
+								<div class="dash-body">
+									<div class="dash-plot">
+										<svg viewBox="0 0 150 75" preserveAspectRatio="none"
+											><path d="M0 70H150M0 36H150M0 4H150" stroke="#eeeeee" /><path
+												d="M0 58L24 45 45 49 63 19 86 31 108 20 128 25 150 8"
+												fill="none"
+												stroke="#848484"
+												stroke-width="3"
+											/></svg
+										>
+									</div>
+									<div class="dash-list"><i></i><i></i><i></i><i></i></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-content">
+						<span class="project-meta">Professional work</span>
+						<h3 id="ecom-title">E-commerce &amp; internal tools</h3>
+						<p>
+							Developed a custom content-management system, a lead-tracking dashboard and deployment
+							infrastructure for an online business.
+						</p>
+						<div class="pill-row">
+							<span class="pill">Full stack</span><span class="pill">Next.js</span><span
+								class="pill">Deployment</span
+							>
+						</div>
+						<a href="#experience" class="text-link"
+							>Professional experience <span aria-hidden="true">↗</span></a
+						>
+					</div>
+				</article>
+
+				<article class="project-card" aria-labelledby="network-title">
+					<div class="project-illustration network-art" aria-hidden="true">
+						<svg class="network-svg" viewBox="0 0 500 220" role="presentation">
+							<defs
+								><linearGradient id="routeLine" x1="0" x2="1"
+									><stop offset="0" stop-color="#d1d1d1" /><stop
+										offset="1"
+										stop-color="#989898"
+									/></linearGradient
+								></defs
+							>
+							<g stroke="#a4a4a4" stroke-width="1.5" opacity=".37" fill="none"
+								><path
+									d="M44 116L146 46 245 108 354 54 450 117M44 116L162 176 245 108 351 181 450 117M146 46L162 176M354 54L351 181M245 108L146 46M245 108L450 117"
+								/></g
+							>
+							<path
+								d="M44 116L146 46 245 108 351 181 450 117"
+								stroke="url(#routeLine)"
+								stroke-width="4"
+								fill="none"
+								stroke-linejoin="round"
+								stroke-linecap="round"
+								stroke-dasharray="1 0"
+							/>
+							<g fill="#4a4a4a" stroke="#9e9e9e" stroke-width="2"
+								><circle cx="162" cy="176" r="13" /><circle cx="354" cy="54" r="13" /></g
+							>
+							<g fill="#cfcfcf" stroke="#3a3a3a" stroke-width="4"
+								><circle cx="44" cy="116" r="17" /><circle cx="146" cy="46" r="16" /><circle
+									cx="245"
+									cy="108"
+									r="17"
+								/><circle cx="351" cy="181" r="16" /><circle cx="450" cy="117" r="17" /></g
+							>
+							<g font-size="10" font-family="monospace" fill="#dadada"
+								><text x="25" y="156">SOURCE</text><text x="427" y="158">TARGET</text><text
+									x="195"
+									y="91">latency ≤ L</text
+								></g
+							>
+						</svg>
+					</div>
+					<div class="card-content">
+						<span class="project-meta">Research · B.Sc. thesis</span>
+						<h3 id="network-title">Carbon-aware networking</h3>
+						<p>
+							Extended a declarative network-routing framework to minimize carbon emissions while
+							preserving strict latency and bandwidth constraints.
+						</p>
+						<div class="pill-row">
+							<span class="pill">Prolog</span><span class="pill">Networking</span><span class="pill"
+								>Optimization</span
+							>
+						</div>
+						<a
+							href="https://github.com/marianialessandro/green_dgLBF"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="text-link">View research code <span aria-hidden="true">↗</span></a
+						>
+					</div>
+				</article>
 			</div>
 		</section>
-	</section>
+
+		<section class="section experience-section" id="experience" aria-labelledby="experience-title">
+			<div class="split">
+				<div>
+					<span class="section-index">Experience</span>
+					<h2 class="section-title" id="experience-title">In practice,<br />not just theory.</h2>
+					<p class="section-intro">
+						Experience developing software for a real business, from implementation to production
+						deployment.
+					</p>
+				</div>
+				<div class="exp-timeline">
+					<article class="exp-item">
+						<div class="exp-item-top">
+							<div>
+								<h3 class="exp-position">Software Engineer · Full stack</h3>
+								<p class="exp-company">Premium coffee &amp; liquor e-commerce business</p>
+							</div>
+							<span class="exp-dates">Feb 2024 — Jan 2025</span>
+						</div>
+						<ul>
+							<li>Built a dynamic company landing page and custom CMS for content management.</li>
+							<li>
+								Implemented an administration dashboard for tracking and managing incoming leads.
+							</li>
+							<li>
+								Configured the production environment and managed deployment to the hosting
+								provider.
+							</li>
+						</ul>
+						<div class="pill-row exp-tags">
+							<span class="pill">Web applications</span><span class="pill"
+								>Full-stack development</span
+							><span class="pill">Production deployment</span>
+						</div>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- Temporarily hidden. Remove this comment and restore the More projects CSS to show the section again.
+		<section class="section more-projects" id="more-work" aria-labelledby="more-title">
+			<div class="section-header">
+				<div>
+					<span class="section-index">More engineering work</span>
+					<h2 class="section-title" id="more-title">Other things I've explored.</h2>
+				</div>
+				<a
+					class="text-link"
+					href="https://github.com/marianialessandro?tab=repositories"
+					target="_blank"
+					rel="noopener noreferrer">GitHub repositories <span aria-hidden="true">↗</span></a
+				>
+			</div>
+			<div class="other-list">
+				<details class="other-item">
+					<summary
+						><span class="other-name">Multithreaded PageRank</span><span class="other-tech"
+							>C · Parallelism · Graph algorithms</span
+						><span class="other-arrow" aria-hidden="true">＋</span></summary
+					>
+					<div class="other-details">
+						A concurrent implementation of the PageRank algorithm in C, designed to process large
+						graph datasets efficiently. Reported a 1.4× speedup over baseline implementations in
+						project measurements.
+					</div>
+				</details>
+				<details class="other-item">
+					<summary
+						><span class="other-name">MyCAML interpreter</span><span class="other-tech"
+							>TypeScript · Interpreters · Languages</span
+						><span class="other-arrow" aria-hidden="true">＋</span></summary
+					>
+					<div class="other-details">
+						Designed a small programming language inspired by OCaml, implementing a dynamically
+						type-checked interpreter in TypeScript.
+					</div>
+				</details>
+				<details class="other-item">
+					<summary
+						><span class="other-name">School evaluation portal</span><span class="other-tech"
+							>PHP · Authentication · Backend</span
+						><span class="other-arrow" aria-hidden="true">＋</span></summary
+					>
+					<div class="other-details">
+						Built a back-end system with Google authentication to help teachers manage end-of-year
+						evaluations and reporting.
+					</div>
+				</details>
+				<details class="other-item">
+					<summary
+						><span class="other-name">Full-stack crypto exchange</span><span class="other-tech"
+							>Java · Concurrency · Transactions</span
+						><span class="other-arrow" aria-hidden="true">＋</span></summary
+					>
+					<div class="other-details">
+						A Java-based project involving concurrent offer processing and transaction consistency
+						in a multi-user trading environment.
+					</div>
+				</details>
+			</div>
+		</section>
+		-->
+
+		<section class="section about-section" id="about" aria-labelledby="about-title">
+			<div class="about-wrap">
+				<div class="about-main">
+					<span class="section-index">About me</span>
+					<h2 class="section-title" id="about-title">Curious about<br />how things work.</h2>
+					<p>
+						My interests range from building software products to understanding the systems and
+						algorithms behind them. I've worked on collaborative open-source development, business
+						applications and academic research.
+					</p>
+					<p>
+						I enjoy translating a problem into a clear technical design, reasoning about trade-offs
+						and working through the details of implementation.
+					</p>
+				</div>
+				<div class="about-education">
+					<div class="education-title">Education / University of Pisa</div>
+					<div class="degree">
+						<div class="degree-bar"></div>
+						<div>
+							<h3>M.Sc. in Computer Science</h3>
+							<p>University of Pisa</p>
+							<small>2025 — 2027 (expected)</small>
+						</div>
+					</div>
+					<div class="degree">
+						<div class="degree-bar"></div>
+						<div>
+							<h3>B.Sc. in Computer Science</h3>
+							<p>University of Pisa</p>
+							<small>2022 — 2025</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="contact-section" id="contact" aria-labelledby="contact-title">
+			<div class="contact">
+				<div class="contact-copy">
+					<span class="section-index">Contact</span>
+					<h2 id="contact-title">Let's get in touch.</h2>
+					<p>
+						For software engineering opportunities or technical conversations, feel free to get in
+						touch.
+					</p>
+					<a href="mailto:alessandro@marianialessandro.com" class="contact-email"
+						>alessandro@marianialessandro.com <span aria-hidden="true">↗</span></a
+					>
+				</div>
+				<div class="contact-social">
+					<a
+						href="https://www.linkedin.com/in/alessandro-mariani-7a53981aa/"
+						target="_blank"
+						rel="noopener noreferrer">LinkedIn ↗</a
+					>
+				</div>
+			</div>
+		</section>
+
+		<section class="cv-section" id="cv" aria-labelledby="cv-title">
+			<div>
+				<span class="section-index">Curriculum vitae</span>
+				<h2 id="cv-title">Download my CV.</h2>
+			</div>
+			<div class="cv-links" aria-label="CV downloads">
+				<a href={asset('/documents/cveng.pdf')} target="_blank" rel="noopener noreferrer"
+					>English PDF <span aria-hidden="true">↗</span></a
+				>
+				<a href={asset('/documents/cvita.pdf')} target="_blank" rel="noopener noreferrer"
+					>Italiano PDF <span aria-hidden="true">↗</span></a
+				>
+			</div>
+		</section>
+	</div>
 </main>
 
-<footer>
-	<div class="page-shell footer-row">
-		<span>{name}</span>
-		<span>marianialessandro.com</span>
-	</div>
+<footer class="container">
+	<span>© {new Date().getFullYear()} Alessandro Mariani</span>
 </footer>
 
 <style>
-	:global(:root) {
-		--portfolio-page-width: 1280px;
-		--portfolio-gutter: clamp(1.25rem, 4vw, 4.5rem);
-		--portfolio-section-y: clamp(4.5rem, 9vw, 8rem);
+	:global(html:root) {
+		--bg: #fafafa;
+		--surface: #ffffff;
+		--surface-alt: #f5f5f5;
+		--ink: #202020;
+		--ink-2: #383838;
+		--muted: #666666;
+		--quiet: #898989;
+		--line: #e4e4e4;
+		--accent: #303030;
+		--accent-strong: #222222;
+		--accent-soft: #f1f1f1;
+		--radius: 16px;
+		--max: 1152px;
+		--shadow: 0 16px 50px rgba(0, 0, 0, 0.04);
 	}
 
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
 	:global(html) {
 		scroll-behavior: smooth;
+		scroll-padding-top: 98px;
 	}
-
-	.skip-link {
-		position: fixed;
-		top: 1rem;
-		left: 1rem;
-		z-index: 10;
-		padding: 0.7rem 1rem;
+	:global(body) {
+		margin: 0;
+		color: var(--ink);
 		background: var(--bg);
-		border: 1px solid var(--line);
-		border-radius: 0.5rem;
-		transform: translateY(calc(-100% - 2rem));
-		transition: transform 160ms ease;
+		font-family:
+			Inter,
+			ui-sans-serif,
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			Helvetica,
+			Arial,
+			sans-serif;
+		font-size: 16px;
+		line-height: 1.6;
+		-webkit-font-smoothing: antialiased;
 	}
-
-	.skip-link:focus {
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+	a:hover {
+		color: var(--accent);
+	}
+	/* Restore summary:focus-visible alongside this selector when enabling More projects. */
+	a:focus-visible {
+		outline: 3px solid #909090;
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+	::selection {
+		color: var(--accent-strong);
+		background: #d8d8d8;
+	}
+	.container {
+		width: min(var(--max), calc(100% - 88px));
+		margin-inline: auto;
+	}
+	.skip {
+		position: fixed;
+		z-index: 100;
+		top: 12px;
+		left: 12px;
+		padding: 10px 15px;
+		background: var(--ink);
+		color: #ffffff;
+		transform: translateY(-170%);
+	}
+	.skip:focus {
 		transform: translateY(0);
 	}
 
-	.page-shell {
-		width: min(calc(100% - (var(--portfolio-gutter) * 2)), var(--portfolio-page-width));
-		margin-inline: auto;
+	/* Header */
+	.header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: rgba(248, 248, 248, 0.92);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+		border-bottom: 1px solid rgba(51, 51, 51, 0.08);
+	}
+	.header-inner {
+		height: 82px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 25px;
+	}
+	.brand {
+		display: flex;
+		align-items: center;
+		gap: 13px;
+		flex-shrink: 0;
+	}
+	.brand-mark {
+		display: grid;
+		place-items: center;
+		width: 38px;
+		height: 38px;
+		color: #ffffff;
+		background: var(--accent-strong);
+		border-radius: 12px;
+		font-size: 15px;
+		line-height: 1;
+		letter-spacing: -0.9px;
+		font-weight: 800;
+	}
+	.brand-name {
+		font-weight: 760;
+		font-size: 15px;
+		letter-spacing: -0.55px;
+	}
+	.nav {
+		display: flex;
+		align-items: center;
+		gap: 37px;
+	}
+	.nav-link {
+		font-weight: 620;
+		color: var(--ink-2);
+		font-size: 13px;
+		transition: color 0.15s;
 	}
 
-	.section-kicker {
-		margin: 0;
-		font-size: 0.78rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--muted);
+	/* Hero */
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+		gap: 55px;
+		align-items: center;
+		min-height: 616px;
+		padding-block: 82px 74px;
 	}
-
-	.text-link {
+	.eyebrow {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.4rem;
-		font-weight: 600;
-		letter-spacing: -0.02em;
-		text-decoration: none;
-	}
-
-	.arrow {
-		display: inline-block;
-		transition: transform 160ms ease;
-	}
-
-	.text-link:hover .arrow {
-		transform: translate(3px, -2px);
-	}
-
-	.hero {
-		min-height: min(860px, 88vh);
-		display: grid;
-		grid-template-columns: repeat(12, minmax(0, 1fr));
-		align-items: center;
-		gap: clamp(1.5rem, 3vw, 3rem);
-		padding-block: clamp(3rem, 8vw, 7rem);
-		border-bottom: 1px solid var(--line);
-	}
-
-	.hero-copy {
-		grid-column: 1 / span 8;
-		max-width: none;
-		min-width: 0;
-	}
-
-	.eyebrow {
-		margin: 0 0 1.5rem;
-		font-size: 0.92rem;
-		letter-spacing: 0.08em;
+		gap: 10px;
+		font-size: 11px;
+		line-height: 1.4;
+		letter-spacing: 0.16em;
 		text-transform: uppercase;
+		color: var(--accent);
+		font-weight: 800;
+	}
+	.dot {
+		width: 8px;
+		height: 8px;
+		flex: 0 0 auto;
+		border-radius: 100%;
+		background: #7d7d7d;
+		box-shadow: 0 0 0 5px #eaeaea;
+	}
+	h1,
+	h2,
+	h3,
+	p {
+		margin: 0;
+	}
+	p {
+		line-height: inherit;
+	}
+	.hero h1 {
+		font-size: clamp(47px, 5.4vw, 77px);
+		font-weight: 780;
+		line-height: 1.055;
+		letter-spacing: -0.075em;
+		max-width: 720px;
+		margin-top: 21px;
+	}
+	.hero h1 span {
+		color: var(--ink);
+	}
+	.hero-subhead {
+		margin-top: 21px;
+		color: var(--ink-2);
+		font-weight: 700;
+		font-size: 18px;
+		letter-spacing: -0.025em;
+	}
+	.hero-description {
+		max-width: 575px;
+		margin-top: 16px;
 		color: var(--muted);
+		line-height: 1.85;
+		font-size: 16px;
+	}
+	.inline-links {
+		display: flex;
+		gap: 23px;
+		margin-top: 27px;
+		align-items: center;
+	}
+	.inline-links a {
+		display: inline-flex;
+		gap: 7px;
+		align-items: center;
+		font-size: 12px;
+		color: var(--muted);
+		font-weight: 720;
+	}
+	.inline-links a:hover {
+		color: var(--accent);
+	}
+	.hero-media {
+		position: relative;
+		padding: 0;
+	}
+	.portrait {
+		position: relative;
+		overflow: hidden;
+		border-radius: 18px;
+		aspect-ratio: 0.94;
+		background: linear-gradient(143deg, #e2e2e2, #d1d1d1 45%, #b0b0b0);
+		border: 1px solid #d6d6d6;
+		box-shadow: 0 34px 55px -36px rgba(59, 59, 59, 0.3);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.portrait::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: linear-gradient(to top, rgba(49, 49, 49, 0.09), transparent 40%);
+	}
+	.portrait img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+		position: relative;
+		z-index: 2;
+	}
+	.portrait-fallback {
+		position: absolute;
+		color: #7d7d7d;
+		font-size: clamp(80px, 13vw, 170px);
+		line-height: 1;
+		letter-spacing: -0.11em;
+		font-weight: 800;
+		transform: translateX(-5%);
 	}
 
-	h1 {
-		margin: 0;
-		max-width: none;
-		font-size: clamp(3.8rem, 6.7vw, 6.5rem);
-		line-height: 0.94;
+	/* Sections */
+	.section {
+		padding-block: 112px 0;
+	}
+	.section-header {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 32px;
+		margin-bottom: 36px;
+	}
+	.section-index {
+		display: block;
+		color: var(--accent);
+		text-transform: uppercase;
+		font-size: 11px;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		margin-bottom: 10px;
+	}
+	.section-title {
+		font-size: clamp(32px, 3.7vw, 49px);
+		line-height: 1.18;
+		font-weight: 775;
 		letter-spacing: -0.065em;
-		font-weight: 650;
+	}
+	.section-intro {
+		max-width: 430px;
+		color: var(--muted);
+		font-size: 14px;
+		line-height: 1.8;
+	}
+	.text-link {
+		font-size: 12px;
+		font-weight: 770;
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		color: var(--accent-strong);
+		padding-bottom: 3px;
+		border-bottom: 1px solid #b0b0b0;
+		white-space: nowrap;
+	}
+	.text-link:hover {
+		gap: 13px;
+	}
+	.pill-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.pill {
+		background: rgba(255, 255, 255, 0.75);
+		color: #535353;
+		border: 1px solid rgba(93, 93, 93, 0.12);
+		padding: 6px 10px;
+		font-size: 10px;
+		font-weight: 700;
+		border-radius: 7px;
 		white-space: nowrap;
 	}
 
-	.role {
-		margin: 1.6rem 0 0;
-		font-size: clamp(1.15rem, 1.7vw, 1.5rem);
-		color: var(--muted);
-		letter-spacing: -0.025em;
+	/* Featured work */
+	.featured {
+		display: grid;
+		grid-template-columns: 1.03fr 0.97fr;
+		min-height: 417px;
+		border-radius: var(--radius);
+		overflow: hidden;
+		background: #e8e8e8;
+		border: 1px solid #e0e0e0;
 	}
-
-	.lede {
-		margin: 1.6rem 0 0;
-		max-width: 65ch;
-		font-size: clamp(1rem, 1.2vw, 1.08rem);
-		line-height: 1.75;
-		color: #222832;
-	}
-
-	.social {
+	.feature-content {
+		padding: 43px 43px 41px 45px;
 		display: flex;
-		flex-wrap: wrap;
-		gap: 1.4rem;
-		margin-top: 1.8rem;
+		flex-direction: column;
+		align-items: flex-start;
 	}
-
-	.portrait {
-		grid-column: 9 / span 4;
-		margin: 0;
+	.project-meta {
+		text-transform: uppercase;
+		color: var(--accent);
+		font-size: 10px;
+		font-weight: 820;
+		letter-spacing: 0.13em;
+	}
+	.featured h3 {
+		margin-top: 17px;
+		font-size: 39px;
+		letter-spacing: -0.06em;
+		line-height: 1.1;
+		font-weight: 780;
+	}
+	.featured p {
+		margin-top: 17px;
+		color: #585858;
+		max-width: 420px;
+		font-size: 14px;
+		line-height: 1.85;
+	}
+	.feature-content .pill-row {
+		margin-top: 23px;
+	}
+	.feature-content .text-link {
+		margin-top: auto;
+		padding-top: 30px;
+	}
+	.feature-visual {
+		position: relative;
 		min-width: 0;
+		overflow: hidden;
+		background: #f0f5fa;
 	}
-
-	.portrait img {
+	.sossoldi-mockup {
+		position: absolute;
+		inset: 0;
 		display: block;
 		width: 100%;
-		aspect-ratio: 4 / 5;
+		height: 100%;
 		object-fit: cover;
-		border-radius: 22px;
 	}
 
-	.work {
-		padding-block: var(--portfolio-section-y);
-		border-bottom: 1px solid var(--line);
+	.project-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+		margin-top: 20px;
 	}
-
-	.work-intro {
-		max-width: 1040px;
-		margin-bottom: clamp(3.5rem, 7vw, 6rem);
+	.project-card {
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		overflow: hidden;
+		background: #ffffff;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
 	}
-
-	.work-intro h2 {
-		margin: 0.9rem 0 0;
-		font-size: clamp(2.5rem, 5vw, 5rem);
-		line-height: 0.98;
-		letter-spacing: -0.055em;
-		font-weight: 620;
+	.project-card:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--shadow);
 	}
-
-	.work-intro p:last-child {
-		margin: 1.35rem 0 0;
-		max-width: 55ch;
-		font-size: clamp(1rem, 1.35vw, 1.12rem);
-		line-height: 1.75;
+	.project-illustration {
+		min-height: 225px;
+		height: 225px;
+		overflow: hidden;
+		position: relative;
+		display: grid;
+		place-items: center;
+	}
+	.dashboard-art {
+		background: #ececec;
+		padding: 27px 27px 0;
+	}
+	.dashboard {
+		display: grid;
+		grid-template-columns: 49px 1fr;
+		width: 100%;
+		max-width: 450px;
+		height: 215px;
+		border: 1px solid #dbdbdb;
+		border-radius: 10px 10px 0 0;
+		background: #ffffff;
+		box-shadow: 0 22px 35px rgba(69, 69, 69, 0.15);
+		overflow: hidden;
+		transform: rotate(-2deg) translateY(10px);
+	}
+	.dash-sidebar {
+		background: #383838;
+		padding: 13px 11px;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+	.dash-sidebar i {
+		display: block;
+		width: 15px;
+		height: 5px;
+		border-radius: 2px;
+		background: #828282;
+	}
+	.dash-sidebar i:first-child {
+		width: 19px;
+		height: 11px;
+		background: #bdbdbd;
+		border-radius: 4px;
+		margin-bottom: 10px;
+	}
+	.dash-main {
+		padding: 13px 17px;
+	}
+	.dash-heading {
+		height: 7px;
+		width: 86px;
+		background: #464646;
+		border-radius: 2px;
+		margin: 2px 0 15px;
+	}
+	.dash-stats {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 8px;
+	}
+	.dash-stat {
+		border: 1px solid #eeeeee;
+		border-radius: 6px;
+		height: 43px;
+		padding: 8px;
+	}
+	.dash-stat i {
+		display: block;
+		height: 5px;
+		width: 65%;
+		background: #d5d5d5;
+		border-radius: 2px;
+	}
+	.dash-stat b {
+		display: block;
+		height: 9px;
+		width: 42%;
+		background: #575757;
+		margin-top: 8px;
+		border-radius: 2px;
+	}
+	.dash-body {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr;
+		gap: 10px;
+		margin-top: 11px;
+	}
+	.dash-plot,
+	.dash-list {
+		border: 1px solid #eeeeee;
+		height: 99px;
+		border-radius: 6px;
+		padding: 10px;
+	}
+	.dash-plot svg {
+		height: 100%;
+		width: 100%;
+	}
+	.dash-list i {
+		display: block;
+		height: 6px;
+		margin-bottom: 13px;
+		width: 100%;
+		border-radius: 3px;
+		background: #eeeeee;
+	}
+	.dash-list i:nth-child(even) {
+		width: 72%;
+	}
+	.network-art {
+		background: #323232;
+	}
+	.network-art::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		opacity: 0.3;
+		background-image:
+			linear-gradient(#747474 1px, transparent 1px),
+			linear-gradient(90deg, #747474 1px, transparent 1px);
+		background-size: 29px 29px;
+		mask-image: linear-gradient(90deg, transparent, #000000 40%, #000000 70%, transparent);
+	}
+	.network-svg {
+		position: relative;
+		width: min(100%, 500px);
+		height: 100%;
+		padding: 16px;
+		overflow: visible;
+	}
+	.card-content {
+		padding: 28px 30px 27px;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		align-items: flex-start;
+	}
+	.card-content h3 {
+		font-weight: 760;
+		font-size: 23px;
+		letter-spacing: -0.05em;
+		line-height: 1.23;
+		margin: 12px 0 10px;
+	}
+	.card-content p {
+		font-size: 13px;
 		color: var(--muted);
+		line-height: 1.8;
+		margin-bottom: 21px;
+	}
+	.card-content .pill-row {
+		margin-top: auto;
+	}
+	.card-content .text-link {
+		margin-top: 24px;
 	}
 
-	.work-list {
-		max-width: 1120px;
+	/* Experience */
+	.experience-section {
+		padding-top: 115px;
 	}
-
-	.work-item {
-		padding-block: clamp(3.5rem, 7vw, 6rem);
+	.split {
+		display: grid;
+		grid-template-columns: 0.65fr 1.35fr;
+		gap: 80px;
+	}
+	.split .section-intro {
+		margin-top: 18px;
+	}
+	.exp-timeline {
 		border-top: 1px solid var(--line);
 	}
-
-	.work-item:first-child {
-		padding-top: 0;
-		border-top: 0;
+	.exp-item {
+		padding-block: 29px;
+		border-bottom: 1px solid var(--line);
+	}
+	.exp-item-top {
+		display: flex;
+		justify-content: space-between;
+		align-items: start;
+		gap: 20px;
+	}
+	.exp-position {
+		font-size: 21px;
+		font-weight: 770;
+		letter-spacing: -0.04em;
+		line-height: 1.35;
+	}
+	.exp-company {
+		margin-top: 5px;
+		font-size: 13px;
+		color: var(--muted);
+	}
+	.exp-dates {
+		color: var(--muted);
+		font-size: 11px;
+		font-weight: 740;
+		white-space: nowrap;
+		padding-top: 5px;
+	}
+	.exp-item ul {
+		padding-left: 19px;
+		margin: 24px 0 0;
+		font-size: 13px;
+		line-height: 1.95;
+		color: #626262;
+	}
+	.exp-item li {
+		padding-left: 4px;
+		margin-bottom: 7px;
+	}
+	.exp-tags {
+		margin-top: 22px;
 	}
 
-	.work-item-topline {
+	/* More projects. Restore these styles when enabling the section.
+
+	.more-projects {
+		padding-top: 108px;
+	}
+	.other-list {
+		border-top: 1px solid var(--line);
+	}
+	.other-item {
+		border-bottom: 1px solid var(--line);
+	}
+	.other-item summary {
+		cursor: pointer;
+		display: grid;
+		align-items: center;
+		grid-template-columns: minmax(0, 1fr) auto 24px;
+		gap: 22px;
+		padding: 21px 4px;
+		list-style: none;
+	}
+	.other-item summary::-webkit-details-marker {
+		display: none;
+	}
+	.other-name {
+		font-size: 19px;
+		font-weight: 730;
+		letter-spacing: -0.035em;
+	}
+	.other-tech {
+		color: var(--muted);
+		font-size: 12px;
+	}
+	.other-arrow {
+		color: var(--accent);
+		justify-self: end;
+		transition: transform 0.2s;
+	}
+	details[open] .other-arrow {
+		transform: rotate(45deg);
+	}
+	.other-details {
+		padding: 0 40px 23px 4px;
+		color: var(--muted);
+		font-size: 13px;
+		line-height: 1.85;
+		max-width: 700px;
+	}
+
+	*/
+
+	/* About */
+	.about-section {
+		padding-top: 113px;
+	}
+	.about-wrap {
+		background: #ededed;
+		border: 1px solid #e4e4e4;
+		border-radius: var(--radius);
+		display: grid;
+		grid-template-columns: 1.08fr 0.92fr;
+		gap: 0;
+		overflow: hidden;
+	}
+	.about-main {
+		padding: 49px 51px 53px;
+	}
+	.about-main h2 {
+		margin-bottom: 21px;
+	}
+	.about-main p {
+		color: #646464;
+		font-size: 14px;
+		line-height: 1.95;
+		margin-top: 14px;
+		max-width: 540px;
+	}
+	.about-education {
+		background: #e6e6e6;
+		padding: 47px 40px 43px;
+		border-left: 1px solid #dddddd;
+	}
+	.education-title {
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		font-size: 10px;
+		font-weight: 810;
+		color: var(--accent);
+		margin-bottom: 25px;
+	}
+	.degree {
+		display: flex;
+		gap: 13px;
+		padding-bottom: 25px;
+		margin-bottom: 25px;
+		border-bottom: 1px solid #d6d6d6;
+	}
+	.degree:last-child {
+		border-bottom: 0;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	.degree-bar {
+		width: 3px;
+		border-radius: 3px;
+		flex: 0 0 auto;
+		background: #8d8d8d;
+	}
+	.degree h3 {
+		font-size: 16px;
+		font-weight: 780;
+		letter-spacing: -0.035em;
+	}
+	.degree p {
+		font-size: 12px;
+		color: var(--muted);
+		margin-top: 4px;
+	}
+	.degree small {
+		color: #7a7a7a;
+		font-size: 11px;
+		margin-top: 9px;
+		display: block;
+	}
+
+	/* Contact and CV: no large calls-to-action or coloured banners. */
+	.contact-section {
+		padding-top: 105px;
+	}
+	.contact {
+		border-top: 1px solid var(--line);
+		padding: 53px 0 58px;
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 40px;
+	}
+	.contact-copy {
+		max-width: 700px;
+	}
+	.contact h2 {
+		font-size: clamp(32px, 4vw, 49px);
+		font-weight: 775;
+		line-height: 1.16;
+		letter-spacing: -0.06em;
+	}
+	.contact p {
+		margin-top: 16px;
+		font-size: 14px;
+		color: var(--muted);
+		line-height: 1.8;
+	}
+	.contact-email {
+		margin-top: 22px;
+		font-weight: 650;
+		font-size: 15px;
+		display: inline-block;
+		border-bottom: 1px solid #a6a6a6;
+		padding-bottom: 3px;
+		overflow-wrap: anywhere;
+	}
+	.contact-email:hover {
+		color: var(--ink);
+		border-color: var(--ink);
+	}
+	.contact-social {
+		display: flex;
+		gap: 23px;
+		padding-bottom: 5px;
+		flex: 0 0 auto;
+	}
+	.contact-social a {
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--muted);
+	}
+	.contact-social a:hover {
+		color: var(--ink);
+	}
+	.cv-section {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1.5rem;
-		margin-bottom: 1.1rem;
+		gap: 35px;
+		border-top: 1px solid var(--line);
+		padding: 42px 0 58px;
 	}
-
-	.work-item-type {
-		margin: 0;
-		font-size: 0.78rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--muted);
+	.cv-section h2 {
+		font-size: clamp(24px, 2.8vw, 35px);
+		line-height: 1.18;
+		font-weight: 730;
+		letter-spacing: -0.05em;
 	}
-
-	.work-item-index,
-	.work-meta {
-		font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-	}
-
-	.work-item-index {
-		font-size: 0.78rem;
-		color: var(--muted);
-	}
-
-	.work-item-title {
-		margin: 0;
-		max-width: 1100px;
-		font-size: clamp(2.4rem, 3.6vw, 3.75rem);
-		line-height: 1.02;
-		letter-spacing: -0.045em;
-		font-weight: 620;
-		text-wrap: balance;
-	}
-
-	.work-meta {
+	.cv-links {
 		display: flex;
+		gap: 28px;
 		flex-wrap: wrap;
-		gap: 0.5rem 1rem;
-		margin-top: 1.45rem;
-		font-size: 0.77rem;
-		color: var(--muted);
 	}
-
-	.work-copy {
-		max-width: 960px;
-		margin-top: 2rem;
+	.cv-links a {
+		font-size: 13px;
+		font-weight: 650;
+		color: var(--ink-2);
+		border-bottom: 1px solid #c7c7c7;
+		padding-bottom: 5px;
 	}
-
-	.work-copy p {
-		margin: 0;
-		font-size: clamp(1rem, 1.3vw, 1.1rem);
-		line-height: 1.8;
-		color: #303640;
+	.cv-links a:hover {
+		color: var(--ink);
+		border-color: var(--ink);
 	}
-
-	.work-copy p + p {
-		margin-top: 1.15rem;
-	}
-
-	.work-actions {
-		margin-top: 1.8rem;
-	}
-
-	.contact-cv {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		padding-block: var(--portfolio-section-y);
-		border-bottom: 1px solid var(--line);
-	}
-
-	.final-block:first-child {
-		padding-right: clamp(2rem, 5vw, 5rem);
-	}
-
-	.final-block:last-child {
-		padding-left: clamp(2rem, 5vw, 5rem);
-		border-left: 1px solid var(--line);
-	}
-
-	.final-block h2 {
-		margin: 0;
-		font-size: clamp(2rem, 4vw, 4.1rem);
-		line-height: 1.02;
-		letter-spacing: -0.055em;
-		font-weight: 600;
-	}
-
-	.final-block p {
-		max-width: 48ch;
-		margin: 1.5rem 0 0;
-		font-size: clamp(1rem, 1.35vw, 1.12rem);
-		line-height: 1.75;
-		color: #292f38;
-	}
-
-	.actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1.25rem 1.6rem;
-		margin-top: 2rem;
-	}
-
 	footer {
-		padding-block: 2rem 3rem;
-	}
-
-	.footer-row {
 		display: flex;
 		justify-content: space-between;
-		gap: 1rem;
-		color: var(--muted);
-		font-size: 0.9rem;
+		align-items: center;
+		gap: 20px;
+		padding-block: 25px 36px;
+		border-top: 1px solid var(--line);
+		color: var(--quiet);
+		font-size: 11px;
 	}
 
-	@media (max-width: 980px) {
+	/* Responsive */
+	@media (max-width: 1060px) {
+		.container {
+			width: min(var(--max), calc(100% - 64px));
+		}
 		.hero {
-			min-height: auto;
-			grid-template-columns: minmax(0, 1fr);
-			padding-top: 3rem;
+			gap: 32px;
+			min-height: unset;
+			padding-block: 76px 66px;
 		}
-
-		.hero-copy,
-		.portrait {
-			grid-column: auto;
+		.hero h1 {
+			font-size: clamp(50px, 5.7vw, 66px);
 		}
-
-		.portrait {
-			width: 100%;
-			max-width: 520px;
-			margin-top: 1rem;
+		.feature-content {
+			padding: 39px 35px;
 		}
-
-		.portrait img {
-			aspect-ratio: 5 / 4;
+		.split {
+			gap: 48px;
 		}
 	}
-
-	@media (max-width: 720px) {
-		:global(:root) {
-			--portfolio-gutter: 1.15rem;
-			--portfolio-section-y: 4rem;
+	@media (max-width: 760px) {
+		.container {
+			width: calc(100% - 40px);
 		}
-
-		h1 {
-			font-size: clamp(2.2rem, 11.5vw, 5rem);
+		.header-inner {
+			height: 68px;
 		}
-
-		.work-intro {
-			margin-bottom: 3rem;
+		.brand-name {
+			font-size: 13px;
 		}
-
-		.work-item-title {
-			font-size: clamp(2.2rem, 10vw, 3.4rem);
+		.brand-mark {
+			width: 34px;
+			height: 34px;
+			border-radius: 10px;
+			font-size: 13px;
 		}
-
-		.work-item-topline {
-			align-items: flex-start;
+		.nav {
+			gap: 15px;
 		}
-
-		.contact-cv {
+		.nav-link {
+			font-size: 12px;
+		}
+		.nav a[href='#experience'],
+		.nav a[href='#about'] {
+			display: none;
+		}
+		.hero {
+			grid-template-columns: minmax(0, 1fr);
+			padding-block: 63px 36px;
+			gap: 35px;
+		}
+		.hero h1 {
+			font-size: clamp(43px, 9vw, 67px);
+			max-width: 620px;
+		}
+		.hero-description {
+			max-width: 620px;
+		}
+		.hero-media {
+			width: min(100%, 355px);
+			justify-self: center;
+			padding: 0;
+		}
+		.portrait {
+			aspect-ratio: 1.25;
+		}
+		.portrait-fallback {
+			font-size: 120px;
+		}
+		.section {
+			padding-top: 85px;
+		}
+		.section-header {
+			align-items: start;
+			flex-direction: column;
+			gap: 17px;
+			margin-bottom: 28px;
+		}
+		.featured {
 			grid-template-columns: 1fr;
 		}
-
-		.final-block:first-child {
-			padding-right: 0;
-			padding-bottom: 3.5rem;
+		.feature-content {
+			min-height: 300px;
+		}
+		.feature-content .text-link {
+			margin-top: 15px;
+		}
+		.feature-visual {
+			min-height: 290px;
 		}
 
-		.final-block:last-child {
-			padding-top: 3.5rem;
-			padding-left: 0;
-			border-top: 1px solid var(--line);
+		.project-grid {
+			gap: 16px;
+		}
+		.project-illustration {
+			height: 175px;
+			min-height: 175px;
+		}
+		.card-content {
+			padding: 24px;
+		}
+		.card-content h3 {
+			font-size: 20px;
+		}
+		.split {
+			grid-template-columns: 1fr;
+			gap: 30px;
+		}
+		.exp-item {
+			padding-top: 21px;
+		}
+		.about-wrap {
+			grid-template-columns: 1fr;
+		}
+		.about-main {
+			padding: 38px 33px;
+		}
+		.about-education {
+			padding: 34px 33px;
 			border-left: 0;
+			border-top: 1px solid #dddddd;
 		}
-
-		.footer-row {
+		.contact {
+			align-items: start;
 			flex-direction: column;
+			gap: 23px;
+		}
+		.cv-section {
+			align-items: start;
+			flex-direction: column;
+			gap: 24px;
 		}
 	}
+	@media (max-width: 530px) {
+		.container {
+			width: calc(100% - 36px);
+		}
+		.header-inner {
+			gap: 9px;
+		}
+		.nav {
+			gap: 15px;
+		}
 
+		.hero {
+			padding-top: 51px;
+		}
+		.hero h1 {
+			letter-spacing: -0.064em;
+			font-size: clamp(40px, 10.3vw, 53px);
+		}
+		.hero-subhead {
+			font-size: 16px;
+		}
+		.hero-description {
+			font-size: 14px;
+			line-height: 1.85;
+		}
+		.inline-links {
+			gap: 19px;
+		}
+		.portrait {
+			aspect-ratio: 1.13;
+		}
+		.section {
+			padding-top: 74px;
+		}
+		.section-title {
+			font-size: 36px;
+		}
+		.featured h3 {
+			font-size: 34px;
+		}
+		.feature-content {
+			padding: 32px 27px;
+		}
+		.feature-visual {
+			min-height: 255px;
+		}
+
+		.project-grid {
+			grid-template-columns: 1fr;
+		}
+		.project-illustration {
+			height: 205px;
+			min-height: 205px;
+		}
+		.card-content h3 {
+			font-size: 22px;
+		}
+		.exp-item-top {
+			flex-direction: column;
+			gap: 8px;
+		}
+		.exp-dates {
+			padding: 0;
+		}
+		/*
+		.other-item summary {
+			grid-template-columns: minmax(0, 1fr) 19px;
+			gap: 9px;
+			padding-block: 19px;
+		}
+		*/
+		/*
+		.other-name {
+			font-size: 16px;
+		}
+		*/
+		/*
+		.other-tech {
+			grid-column: 1;
+			grid-row: 2;
+			font-size: 11px;
+		}
+		*/
+		/*
+		.other-arrow {
+			grid-column: 2;
+			grid-row: 1;
+		}
+		*/
+		/*
+		.other-details {
+			padding: 0 12px 20px 4px;
+		}
+		*/
+		.about-main,
+		.about-education {
+			padding-inline: 27px;
+		}
+		.contact {
+			padding-block: 38px 46px;
+			gap: 23px;
+		}
+		.contact h2 {
+			font-size: 36px;
+		}
+		.contact-social {
+			gap: 22px;
+		}
+		.cv-section {
+			padding-block: 34px 44px;
+		}
+		footer {
+			flex-direction: column;
+			align-items: start;
+			gap: 8px;
+		}
+	}
 	@media (prefers-reduced-motion: reduce) {
 		:global(html) {
 			scroll-behavior: auto;
 		}
-
-		.skip-link,
-		.arrow {
-			transition: none;
-		}
-
-		.text-link:hover .arrow {
-			transform: none;
+		*,
+		*::before,
+		*::after {
+			transition: none !important;
+			animation: none !important;
 		}
 	}
 </style>
