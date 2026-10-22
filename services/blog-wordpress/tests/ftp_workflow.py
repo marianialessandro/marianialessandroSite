@@ -87,7 +87,7 @@ def main() -> None:
                 raise RuntimeError('FTP deploy action failed: ' + result.stdout[-1500:] + result.stderr[-500:])
 
         try:
-            write(remote, {'blog/cms/blog-config.php': 'PRIVATE CONFIGURATION', 'blog/cms/wp-content/uploads/2026/image.jpg': 'USER UPLOAD'})
+            write(remote, {'blog/cms/blog-config.php': 'PRIVATE CONFIGURATION'})
             old = temporary / 'legacy'
             write(old, {'index.html': 'OLD HOME', 'old-post/index.html': 'OLD POST'})
             deploy(old, 'blog/', root_settings)
@@ -95,7 +95,8 @@ def main() -> None:
             write(cms, {'wp-config.php': 'CONFIGURATION LOADER', 'wp-content/mu-plugins/integration.php': 'PLUGIN v1', 'wp-content/uploads/.htaccess': 'UPLOAD EXECUTION GUARD'})
             deploy(cms, 'blog/cms/', cms_settings)
             assert (remote / 'blog/cms/wp-content/uploads/.htaccess').read_text() == 'UPLOAD EXECUTION GUARD'
-            print('PASS CMS exclusion uploads the guard while preserving user media', flush=True)
+            print('PASS first CMS deploy creates uploads and installs its execution guard', flush=True)
+            write(remote, {'blog/cms/wp-content/uploads/2026/image.jpg': 'USER UPLOAD'})
             frontend = temporary / 'frontend'
             write(frontend, {'index.php': 'DYNAMIC HOME', '.htaccess': 'DYNAMIC ROUTING', 'blog-assets/blog.css': 'DESIGN'})
             deploy(frontend, 'blog/', root_settings)
