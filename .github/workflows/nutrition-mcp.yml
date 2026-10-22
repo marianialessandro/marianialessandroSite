@@ -23,6 +23,8 @@ jobs:
       - run: pip install --require-hashes -r services/nutrition-mcp/requirements-dev.lock
       - run: composer install --no-interaction --prefer-dist
         working-directory: apps/api.marianialessandro.com
+      - run: composer audit --locked --no-dev
+        working-directory: apps/api.marianialessandro.com
       - run: php artisan test
         working-directory: apps/api.marianialessandro.com
         env:
@@ -45,6 +47,8 @@ jobs:
           extensions: pdo_sqlite, openssl
           coverage: none
       - run: composer install --working-dir services/nutrition-mcp-php --no-interaction --prefer-dist
+      - run: composer audit --locked --no-dev
+        working-directory: services/nutrition-mcp-php
       - run: vendor/bin/phpunit --no-progress
         working-directory: services/nutrition-mcp-php
       - run: bash services/nutrition-mcp-php/deploy/build.sh services/nutrition-mcp-php "$RUNNER_TEMP/mcp-deploy"
