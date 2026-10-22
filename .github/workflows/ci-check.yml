@@ -9,6 +9,28 @@ permissions:
   contents: read
 
 jobs:
+  workflow-check:
+    name: Validate GitHub workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install and run pinned actionlint
+        run: |
+          mkdir "$RUNNER_TEMP/actionlint"
+          cd "$RUNNER_TEMP/actionlint"
+          release=https://github.com/rhysd/actionlint/releases/download/v1.7.12
+          curl --fail --silent --show-error --location "$release/actionlint_1.7.12_linux_amd64.tar.gz" --output actionlint_1.7.12_linux_amd64.tar.gz
+          curl --fail --silent --show-error --location "$release/actionlint_1.7.12_checksums.txt" --output checksums.txt
+          sha256sum --check --ignore-missing checksums.txt
+          tar -xzf actionlint_1.7.12_linux_amd64.tar.gz actionlint
+          cd "$GITHUB_WORKSPACE"
+          "$RUNNER_TEMP/actionlint/actionlint" -color
+      - name: Verify trigger conditions and real FTP synchronization
+        run: |
+          python3 -m venv "$RUNNER_TEMP/workflow-tests"
+          "$RUNNER_TEMP/workflow-tests/bin/pip" install --disable-pip-version-check --requirement services/blog-wordpress/tests/requirements.txt
+          "$RUNNER_TEMP/workflow-tests/bin/python" services/blog-wordpress/tests/ftp_workflow.py
+
   wordpress-check:
     name: WordPress migration and dynamic blog
     runs-on: ubuntu-latest

@@ -12,6 +12,11 @@ on:
       - '.github/workflows/deploy-blog.yml'
       - '.github/workflows/deploy-wordpress.yml'
   workflow_call:
+    inputs:
+      after_api:
+        description: Called after the Laravel API deployment
+        type: boolean
+        default: false
   workflow_dispatch:
   schedule:
     # Only the legacy Laravel frontend needs periodic content rebuilds.
@@ -26,7 +31,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: (github.event_name != 'schedule' || vars.BLOG_CMS_PROVIDER == 'laravel') && (github.event_name != 'push' || vars.BLOG_CMS_PROVIDER != 'laravel')
+    if: (github.event_name != 'schedule' || vars.BLOG_CMS_PROVIDER == 'laravel') && (github.event_name != 'push' || vars.BLOG_CMS_PROVIDER != 'laravel' || inputs.after_api)
     name: Deploy blog.marianialessandro.com
     runs-on: ubuntu-latest
     env:
@@ -40,6 +45,13 @@ jobs:
 
       - name: Set artifact directory
         run: echo "BLOG_ARTIFACT_DIR=$RUNNER_TEMP/blog-deploy" >> "$GITHUB_ENV"
+
+      - name: Validate content provider
+        run: |
+          case "$PUBLIC_CMS_PROVIDER" in
+            wordpress|laravel) ;;
+            *) echo "::error::BLOG_CMS_PROVIDER must be wordpress or laravel"; exit 1 ;;
+          esac
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4

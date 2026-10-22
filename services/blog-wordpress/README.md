@@ -75,6 +75,8 @@ Il generatore versionato è `deploy/export_sql.php` (`--help` descrive l’inter
 
 Il workflow del blog esclude tutto `cms/**`. Il workflow CMS preserva configurazione, upload, cache e directory di aggiornamento. Prima di sostituire il frontend, il deploy controlla `/cms/?rest_route=/portfolio/v1/health` e la protezione dei file privati. L’endpoint espone solo lo stato di disponibilità, verificando versione dello schema, ruoli e PHP 8.3 con DOM/mbstring. Se la verifica fallisce, il frontend pubblico precedente resta al suo posto. Il deploy FTP non modifica il database e non esegue l’importazione. Non è previsto alcun endpoint pubblico di installazione o migrazione personalizzato.
 
+La CI valida i workflow con actionlint e collauda l’azione FTP 4.3.6 effettiva contro un server locale temporaneo (`tests/ftp_workflow.py`, dipendenze in `tests/requirements.txt`). Il test verifica trigger manuali, push, chiamata dal deploy API e cron, conservazione di configurazione e media, caricamento della protezione upload e rimozione del vecchio HTML gestito. Non usa credenziali né server di produzione. Il percorso Laravel viene chiamato dall’API con `after_api: true`, perché i workflow riutilizzabili ereditano l’evento del chiamante.
+
 ## Pubblicazione e aggiornamenti
 
 Una pubblicazione, modifica o rimozione aggiorna il blog senza chiamare GitHub. In WordPress l’opzione **Fissa in cima al blog** corrisponde agli articoli in evidenza; il box **Portfolio blog** aggiunge descrizione, ordine e copertina alternativa. WordPress gestisce tag e immagini in evidenza normalmente.
