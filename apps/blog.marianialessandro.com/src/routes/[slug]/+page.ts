@@ -1,6 +1,6 @@
 // src/routes/[slug]/+page.ts
 import { getAllPostSummaries, getPostById } from '$lib/posts';
-import { renderMarkdown } from '$lib/markdown';
+import { renderMarkdown, sanitizeContentHtml } from '$lib/markdown';
 import { error } from '@sveltejs/kit';
 import type { EntryGenerator, PageLoad } from './$types';
 
@@ -22,10 +22,10 @@ export const load: PageLoad = async ({ params, fetch }) => {
 	const summary = posts.find((p) => p.slug === params.slug);
 	if (!summary) throw error(404, 'Post not found');
 
-	const { content, ...meta } = await getPostById(fetch, summary.id);
+	const { content, contentFormat, ...meta } = await getPostById(fetch, summary.id);
 
 	return {
 		meta,
-		contentHtml: renderMarkdown(content)
+		contentHtml: contentFormat === 'html' ? sanitizeContentHtml(content) : renderMarkdown(content)
 	};
 };

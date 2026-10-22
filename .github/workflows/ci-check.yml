@@ -9,6 +9,35 @@ permissions:
   contents: read
 
 jobs:
+  wordpress-check:
+    name: WordPress migration and dynamic blog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0'
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring
+          coverage: none
+      - run: npm ci
+      - run: composer install --working-dir services/blog-wordpress --no-interaction --prefer-dist --no-progress
+      - run: python3 services/blog-wordpress/deploy/build.py --output services/blog-wordpress/build
+      - run: python3 services/blog-wordpress/deploy/build_frontend.py --output services/blog-wordpress/public/build
+      - run: docker compose -f services/blog-wordpress/compose.yml up -d --wait
+      - name: Test real WordPress authentication and migration
+        run: docker compose -f services/blog-wordpress/compose.yml exec -T wordpress php /var/www/tests/integration.php
+      - name: Test phpMyAdmin SQL bootstrap
+        run: python3 services/blog-wordpress/tests/sql_bootstrap.py
+      - run: npm test --workspace @marianialessandro/blog.marianialessandro.com
+      - name: Test dynamic pages without rebuilding
+        run: python3 services/blog-wordpress/tests/dynamic_blog.py
+      - if: always()
+        run: docker compose -f services/blog-wordpress/compose.yml down --volumes
+
   build-check:
     name: Check Build Integrity
     runs-on: ubuntu-latest

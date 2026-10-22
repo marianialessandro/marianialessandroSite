@@ -1,0 +1,50 @@
+name: CD - Deploy WordPress CMS
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-blog-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring
+          coverage: none
+      - name: Install CMS integration dependencies
+        run: composer install --working-dir services/blog-wordpress --no-dev --prefer-dist --no-progress --optimize-autoloader
+      - name: Audit CMS integration dependencies
+        run: composer audit --working-dir services/blog-wordpress --locked --no-dev
+      - name: Build verified WordPress release
+        run: python3 services/blog-wordpress/deploy/build.py --output services/blog-wordpress/build
+      - name: Sync CMS files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: services/blog-wordpress/build/
+          server-dir: blog.marianialessandro.com/cms/
+          state-name: .ftp-deploy-sync-state-wordpress.json
+          dangerous-clean-slate: false
+          timeout: 60000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            blog-config.php
+            wp-content/uploads/**
+            !wp-content/uploads/.htaccess
+            wp-content/cache/**
+            wp-content/upgrade/**
+            .well-known/**

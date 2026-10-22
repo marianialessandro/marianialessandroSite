@@ -33,3 +33,4 @@ vite.config.ts.timestamp-*
 
 .phpunit.cache/
 **/.phpunit.result.cache
+**/blog-config.php

@@ -22,7 +22,7 @@ This repository is an `npm` workspace monorepo for the public site, related Svel
 - `apps/marianialessandro.com`: the main SvelteKit personal website.
 - `apps/apps.marianialessandro.com`: the SvelteKit applications portal.
 - `apps/files.marianialessandro.com`: the SvelteKit files subdomain.
-- `apps/blog.marianialessandro.com`: the SvelteKit blog frontend.
+- `apps/blog.marianialessandro.com`: the original SvelteKit blog and shared design source; the WordPress blog uses the dynamic PHP frontend in `services/blog-wordpress`.
 - `apps/api.marianialessandro.com`: the Laravel API service — JSON endpoints only, no frontend/UI.
 - `packages/shared`: shared Svelte components, shared assets, and the global stylesheet.
 
@@ -126,7 +126,7 @@ import githubIcon from '@marianialessandro/shared/images/github.svg';
 
 - `CD - Deploy marianialessandro.com` publishes `apps/marianialessandro.com/build/` to `public_html/`.
 - `CD - Deploy files.marianialessandro.com` publishes `apps/files.marianialessandro.com/build/` to `files.marianialessandro.com/`.
-- `CD - Deploy blog.marianialessandro.com` publishes `apps/blog.marianialessandro.com/build/` to `blog.marianialessandro.com/`.
+- `CD - Deploy blog.marianialessandro.com` publishes the dynamic PHP frontend and WordPress CMS, preserving the existing blog design. Publishing content requires no GitHub token or rebuild. Set `BLOG_CMS_PROVIDER=laravel` only to deploy the original static frontend instead. Installation, existing-account migration and testing are documented in [services/blog-wordpress/README.md](services/blog-wordpress/README.md).
 - `CD - Deploy api.marianialessandro.com` builds a hardened shared-hosting
   artifact and publishes it to `api.marianialessandro.com/`.
 - `CD - Deploy apps.marianialessandro.com` publishes

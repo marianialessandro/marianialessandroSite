@@ -1,6 +1,8 @@
 // src/lib/posts.ts
 import { browser } from '$app/environment';
 import { PUBLIC_API_BASE_URL } from '$env/static/public';
+import { cmsProvider, wordpressUrl } from './cms';
+import { getWordPressPost, getWordPressSummaries } from './wordpress';
 
 export type PostMeta = {
 	title: string;
@@ -20,6 +22,7 @@ export type PostSummary = PostMeta & {
 
 export type Post = PostSummary & {
 	content: string;
+	contentFormat?: 'markdown' | 'html';
 };
 
 export type ApiPostSummary = {
@@ -83,34 +86,42 @@ export function fromApiSummary(api: ApiPostSummary): PostSummary {
 let summariesCache: Promise<PostSummary[]> | null = null;
 const postCache = new Map<number, Promise<Post>>();
 
-function publicApiFetch(fetchFn: typeof fetch, url: string) {
+function publicContentFetch(fetchFn: typeof fetch): typeof fetch {
 	// SvelteKit's universal fetch emulates browser CORS during prerendering.
 	// Server-side builds are not browser requests, so use Node's native fetch;
 	// real visitors still use the framework fetch and the API's CORS policy.
-	return (browser ? fetchFn : globalThis.fetch)(url);
+	return browser ? fetchFn : globalThis.fetch;
 }
 
 export function getAllPostSummaries(fetchFn: typeof fetch): Promise<PostSummary[]> {
 	if (!summariesCache) {
-		summariesCache = publicApiFetch(fetchFn, `${PUBLIC_API_BASE_URL}/posts`).then(async (res) => {
-			if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
-			const { data }: { data: ApiPostSummary[] } = await res.json();
-			return data.map(fromApiSummary);
-		});
+		const fetchPublic = publicContentFetch(fetchFn);
+		if (cmsProvider === 'wordpress') {
+			summariesCache = getWordPressSummaries(fetchPublic, wordpressUrl);
+		} else {
+			summariesCache = fetchPublic(`${PUBLIC_API_BASE_URL}/posts`).then(async (res) => {
+				if (!res.ok) throw new Error(`Failed to load posts (${res.status})`);
+				const { data }: { data: ApiPostSummary[] } = await res.json();
+				return data.map(fromApiSummary);
+			});
+		}
 	}
 	return summariesCache;
 }
 
 export function getPostById(fetchFn: typeof fetch, id: number): Promise<Post> {
 	if (!postCache.has(id)) {
-		postCache.set(
-			id,
-			publicApiFetch(fetchFn, `${PUBLIC_API_BASE_URL}/posts/${id}`).then(async (res) => {
+		const fetchPublic = publicContentFetch(fetchFn);
+		if (cmsProvider === 'wordpress') {
+			postCache.set(id, getWordPressPost(fetchPublic, wordpressUrl, id));
+		} else {
+			const request = fetchPublic(`${PUBLIC_API_BASE_URL}/posts/${id}`).then(async (res) => {
 				if (!res.ok) throw new Error(`Failed to load post ${id} (${res.status})`);
 				const { data: api }: { data: ApiPost } = await res.json();
 				return { ...fromApiSummary(api), content: api.content };
-			})
-		);
+			});
+			postCache.set(id, request);
+		}
 	}
 	return postCache.get(id)!;
 }

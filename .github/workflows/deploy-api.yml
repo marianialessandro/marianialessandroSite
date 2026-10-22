@@ -126,6 +126,7 @@ jobs:
 
   deploy-blog:
     name: Deploy blog after API
+    if: vars.BLOG_CMS_PROVIDER == 'laravel'
     needs: deploy-api
     uses: ./.github/workflows/deploy-blog.yml
     secrets: inherit

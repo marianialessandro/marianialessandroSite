@@ -1,0 +1,16 @@
+Options -Indexes
+DirectoryIndex index.php
+<FilesMatch "^(\.env.*|blog-config\.php|wp-config\.php)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^admin(?:/.*)?$ /cms/wp-admin/ [R=302,L]
+    # WordPress owns its entire subtree, including its own rewrite rules.
+    RewriteRule ^cms(?:/|$) - [L]
+    RewriteRule ^blog-assets(?:/|$) - [L]
+    RewriteRule ^\.well-known(?:/|$) - [L]
+    # Every public route uses fresh WordPress data, even if old HTML files remain on hosting.
+    RewriteRule ^index\.php$ - [END]
+    RewriteRule . /index.php [END]
+</IfModule>
