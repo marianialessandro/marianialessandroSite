@@ -1,0 +1,4 @@
+pyasynchat==1.0.5
+pyasyncore==1.0.5
+pyftpdlib==2.2.0
+PyYAML==6.0.3

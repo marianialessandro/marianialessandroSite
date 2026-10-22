@@ -9,6 +9,57 @@ permissions:
   contents: read
 
 jobs:
+  workflow-check:
+    name: Validate GitHub workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install and run pinned actionlint
+        run: |
+          mkdir "$RUNNER_TEMP/actionlint"
+          cd "$RUNNER_TEMP/actionlint"
+          release=https://github.com/rhysd/actionlint/releases/download/v1.7.12
+          curl --fail --silent --show-error --location "$release/actionlint_1.7.12_linux_amd64.tar.gz" --output actionlint_1.7.12_linux_amd64.tar.gz
+          curl --fail --silent --show-error --location "$release/actionlint_1.7.12_checksums.txt" --output checksums.txt
+          sha256sum --check --ignore-missing checksums.txt
+          tar -xzf actionlint_1.7.12_linux_amd64.tar.gz actionlint
+          cd "$GITHUB_WORKSPACE"
+          "$RUNNER_TEMP/actionlint/actionlint" -color
+      - name: Verify trigger conditions and real FTP synchronization
+        run: |
+          python3 -m venv "$RUNNER_TEMP/workflow-tests"
+          "$RUNNER_TEMP/workflow-tests/bin/pip" install --disable-pip-version-check --requirement services/blog-wordpress/tests/requirements.txt
+          "$RUNNER_TEMP/workflow-tests/bin/python" services/blog-wordpress/tests/ftp_workflow.py
+
+  wordpress-check:
+    name: WordPress migration and dynamic blog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0'
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring
+          coverage: none
+      - run: npm ci
+      - run: composer install --working-dir services/blog-wordpress --no-interaction --prefer-dist --no-progress
+      - run: python3 services/blog-wordpress/deploy/build.py --output services/blog-wordpress/build
+      - run: python3 services/blog-wordpress/deploy/build_frontend.py --output services/blog-wordpress/public/build
+      - run: docker compose -f services/blog-wordpress/compose.yml up -d --wait
+      - name: Test real WordPress authentication and migration
+        run: docker compose -f services/blog-wordpress/compose.yml exec -T wordpress php /var/www/tests/integration.php
+      - name: Test phpMyAdmin SQL bootstrap
+        run: python3 services/blog-wordpress/tests/sql_bootstrap.py
+      - run: npm test --workspace @marianialessandro/blog.marianialessandro.com
+      - name: Test dynamic pages without rebuilding
+        run: python3 services/blog-wordpress/tests/dynamic_blog.py
+      - if: always()
+        run: docker compose -f services/blog-wordpress/compose.yml down --volumes
+
   build-check:
     name: Check Build Integrity
     runs-on: ubuntu-latest
@@ -71,6 +122,7 @@ jobs:
               exit 0
             fi
 
+            echo "Waiting for temporary API (attempt $attempt/20)."
             sleep 1
           done
 

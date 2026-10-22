@@ -75,8 +75,11 @@ jobs:
           MCP_ORIGIN: https://mcp.marianialessandro.com
         run: |
           curl --fail --silent --show-error --retry 5 --retry-delay 10 --max-time 15 "$MCP_ORIGIN/health" > "$RUNNER_TEMP/mcp-health.json"
+          # PHP variables must remain literal to the shell.
+          # shellcheck disable=SC2016
           php -r '$data=json_decode(file_get_contents($argv[1]), true); exit(($data["status"] ?? null) === "ok" ? 0 : 1);' "$RUNNER_TEMP/mcp-health.json"
           curl --fail --silent --show-error --max-time 15 "$MCP_ORIGIN/.well-known/oauth-protected-resource/mcp" > "$RUNNER_TEMP/mcp-discovery.json"
+          # shellcheck disable=SC2016
           php -r '$data=json_decode(file_get_contents($argv[1]), true); exit(($data["resource"] ?? null) === getenv("MCP_ORIGIN")."/mcp" ? 0 : 1);' "$RUNNER_TEMP/mcp-discovery.json"
           for private_path in .env storage/oauth-private.key config/app.php vendor/composer/installed.json; do
             status_code="$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 15 "$MCP_ORIGIN/$private_path")"

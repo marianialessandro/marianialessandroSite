@@ -1,0 +1,15 @@
+{
+	"name": "marianialessandro/blog-wordpress",
+	"description": "Headless WordPress integration and legacy blog importer.",
+	"type": "project",
+	"require": {
+		"php": "^8.3",
+		"league/commonmark": "^2.7"
+	},
+	"config": {
+		"sort-packages": true,
+		"platform": {
+			"php": "8.3.0"
+		}
+	}
+}

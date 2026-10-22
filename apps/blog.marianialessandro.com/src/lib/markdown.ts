@@ -9,17 +9,28 @@ md.use(footnote);
 md.use(taskLists, { enabled: true, label: true });
 
 export function renderMarkdown(content: string): string {
-	return sanitizeHtml(md.render(content), {
+	return sanitizeContentHtml(md.render(content));
+}
+
+export function sanitizeContentHtml(content: string): string {
+	return sanitizeHtml(content, {
 		allowedTags: [
 			...sanitizeHtml.defaults.allowedTags,
 			'details',
 			'figcaption',
 			'figure',
 			'input',
+			'audio',
+			'video',
+			'source',
 			'section',
 			'summary'
 		],
 		allowedAttributes: {
+			'*': ['class', 'id'],
+			audio: ['controls', 'preload', 'src'],
+			video: ['controls', 'height', 'poster', 'preload', 'src', 'width'],
+			source: ['src', 'type'],
 			a: ['aria-label', 'href', 'id', 'name', 'rel', 'target', 'title'],
 			blockquote: ['cite'],
 			code: ['class'],

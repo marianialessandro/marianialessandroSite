@@ -1,26 +1,57 @@
 name: CD - Deploy blog.marianialessandro.com
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'services/blog-wordpress/**'
+      - 'apps/blog.marianialessandro.com/**'
+      - 'packages/shared/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/deploy-blog.yml'
+      - '.github/workflows/deploy-wordpress.yml'
   workflow_call:
+    inputs:
+      after_api:
+        description: Called after the Laravel API deployment
+        type: boolean
+        default: false
   workflow_dispatch:
   schedule:
-    # Safety net for scheduled/future-dated posts: catches a post becoming
-    # publicly visible even with no admin action on the day it goes live.
+    # Only the legacy Laravel frontend needs periodic content rebuilds.
     - cron: '0 * * * *'
 
 permissions:
   contents: read
 
+concurrency:
+  group: deploy-blog-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
+    if: (github.event_name != 'schedule' || vars.BLOG_CMS_PROVIDER == 'laravel') && (github.event_name != 'push' || vars.BLOG_CMS_PROVIDER != 'laravel' || inputs.after_api)
     name: Deploy blog.marianialessandro.com
     runs-on: ubuntu-latest
     env:
       PUBLIC_API_BASE_URL: https://api.marianialessandro.com/api
+      PUBLIC_CMS_PROVIDER: ${{ vars.BLOG_CMS_PROVIDER || 'wordpress' }}
+      PUBLIC_WORDPRESS_URL: https://blog.marianialessandro.com/cms
 
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
+
+      - name: Set artifact directory
+        run: echo "BLOG_ARTIFACT_DIR=$RUNNER_TEMP/blog-deploy" >> "$GITHUB_ENV"
+
+      - name: Validate content provider
+        run: |
+          case "$PUBLIC_CMS_PROVIDER" in
+            wordpress|laravel) ;;
+            *) echo "::error::BLOG_CMS_PROVIDER must be wordpress or laravel"; exit 1 ;;
+          esac
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
@@ -34,8 +65,67 @@ jobs:
       - name: 🔎 Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 
-      - name: 🔨 Build blog.marianialessandro.com
-        run: npm run build:blog
+      - name: Setup PHP for WordPress
+        if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring
+          coverage: none
+
+      - name: Prepare dynamic blog and WordPress
+        if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
+        run: |
+          composer install --working-dir services/blog-wordpress --no-dev --prefer-dist --no-progress --optimize-autoloader
+          composer audit --working-dir services/blog-wordpress --locked --no-dev
+          python3 services/blog-wordpress/deploy/build.py --output "$RUNNER_TEMP/blog-cms"
+          python3 services/blog-wordpress/deploy/build_frontend.py --output "$BLOG_ARTIFACT_DIR"
+
+      - name: Build legacy Laravel frontend
+        if: env.PUBLIC_CMS_PROVIDER == 'laravel'
+        run: |
+          npm run build:blog
+          cp -R apps/blog.marianialessandro.com/build "$BLOG_ARTIFACT_DIR"
+
+      - name: Sync WordPress runtime via FTP
+        if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ${{ runner.temp }}/blog-cms/
+          server-dir: blog.marianialessandro.com/cms/
+          state-name: .ftp-deploy-sync-state-wordpress.json
+          dangerous-clean-slate: false
+          timeout: 60000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            blog-config.php
+            wp-content/uploads/**
+            !wp-content/uploads/.htaccess
+            wp-content/cache/**
+            wp-content/upgrade/**
+            .well-known/**
+
+      - name: Verify WordPress before replacing the public frontend
+        if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
+        run: |
+          # PHP variables must remain literal to the shell.
+          # shellcheck disable=SC2016
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --retry-all-errors --max-time 20 \
+            'https://blog.marianialessandro.com/cms/?rest_route=/portfolio/v1/health' \
+            | php -r '$data = json_decode(stream_get_contents(STDIN), true); if (($data["status"] ?? null) !== "ok") { fwrite(STDERR, "WordPress is not ready. Check cms/blog-config.php, SQL installation and PHP extensions. The public frontend has not been replaced.\n"); exit(1); }'
+          for path in blog-config.php wp-config.php; do
+            status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 20 "https://blog.marianialessandro.com/cms/$path")"
+            if [ "$status" != 403 ] && [ "$status" != 404 ]; then
+              echo "::error::CMS configuration is not protected: $path ($status)"
+              exit 1
+            fi
+          done
 
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
@@ -47,9 +137,23 @@ jobs:
           protocol: ftp
           port: 21
 
-          local-dir: apps/blog.marianialessandro.com/build/
+          local-dir: ${{ env.BLOG_ARTIFACT_DIR }}/
           server-dir: blog.marianialessandro.com/
 
           dangerous-clean-slate: false
           log-level: verbose
           timeout: 60000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            cms/**
+            .well-known/**
+
+      - name: Verify dynamic frontend
+        if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
+        run: |
+          # PHP variables must remain literal to the shell.
+          # shellcheck disable=SC2016
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 --retry-all-errors --max-time 20 \
+            https://blog.marianialessandro.com/ \
+            | php -r '$html = stream_get_contents(STDIN); exit(str_contains($html, "data-blog-renderer=\"wordpress-php\"") ? 0 : 1);'
