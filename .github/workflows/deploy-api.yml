@@ -88,6 +88,8 @@ jobs:
           for attempt in {1..12}; do
             response="$(curl --fail --silent --show-error --max-time 15 "$API_HEALTH_URL" || true)"
 
+            # PHP variables must remain literal to the shell.
+            # shellcheck disable=SC2016
             if RESPONSE="$response" php -r '
               $payload = json_decode(getenv("RESPONSE"), true);
               $healthy = is_array($payload)

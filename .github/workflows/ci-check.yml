@@ -122,6 +122,7 @@ jobs:
               exit 0
             fi
 
+            echo "Waiting for temporary API (attempt $attempt/20)."
             sleep 1
           done
 
