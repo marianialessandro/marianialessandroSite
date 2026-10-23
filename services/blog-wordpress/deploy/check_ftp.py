@@ -15,7 +15,9 @@ class ExtendedPassive:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--timeout', type=float, default=10, help='Connection and data socket timeout in seconds (default: 10)')
+    parser.add_argument('--port', type=int, default=21, help='FTP control port (default: 21)')
     args = parser.parse_args()
+    successful = 0
     for encrypted in (False, True):
         for extended in (True, False):
             name = ('FTPS' if encrypted else 'FTP') + (' EPSV' if extended else ' PASV')
@@ -24,7 +26,7 @@ def main():
             client = client_type(timeout=args.timeout, **({'context': ssl.create_default_context()} if encrypted else {}))
             stage = 'connect'
             try:
-                client.connect(os.environ['FTP_SERVER'], 21)
+                client.connect(os.environ['FTP_SERVER'], args.port)
                 stage = 'login and TLS verification' if encrypted else 'login'
                 client.login(os.environ['FTP_USERNAME'], os.environ['FTP_PASSWORD'])
                 if encrypted:
@@ -40,12 +42,15 @@ def main():
 
                 client.retrbinary('RETR .ftp-deploy-sync-state.json', received)
                 print(f'{name}: PASS state downloaded ({size} bytes)', flush=True)
+                successful += 1
             except ftplib.error_perm as error:
                 print(f'{name}: FTP {str(error)[:3]} during {stage}', flush=True)
             except Exception as error:
                 print(f'{name}: {type(error).__name__} during {stage}', flush=True)
             finally:
                 client.close()
+    if not successful:
+        raise SystemExit('No protocol could download the deployment state; no remote files were changed.')
 
 
 if __name__ == '__main__':

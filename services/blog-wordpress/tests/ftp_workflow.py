@@ -13,7 +13,7 @@ import urllib.request
 
 import yaml
 from pyftpdlib.authorizers import DummyAuthorizer
-from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.handlers import TLS_FTPHandler
 from pyftpdlib.servers import FTPServer
 
 
@@ -54,6 +54,11 @@ def main() -> None:
     standalone_settings = next(step['with'] for step in standalone['jobs']['deploy']['steps'] if 'FTP-Deploy-Action' in step.get('uses', ''))
     assert cms_settings['exclude'] == standalone_settings['exclude']
     assert cms_settings['state-name'] == standalone_settings['state-name']
+    for settings in (root_settings, cms_settings, standalone_settings):
+        assert settings['protocol'] == 'ftps'
+        assert settings['security'] == 'strict'
+        assert settings['server'] == "${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}"
+    assert not enabled(condition, {'github.event_name': 'workflow_dispatch', 'vars.BLOG_CMS_PROVIDER': 'wordpress', 'inputs.after_api': False, 'inputs.diagnose_ftp': True})
     with tempfile.TemporaryDirectory(prefix='wordpress-ftp-test-') as temporary:
         temporary = Path(temporary)
         action = temporary / 'ftp-action.js'
@@ -61,9 +66,12 @@ def main() -> None:
         assert hashlib.sha256(action.read_bytes()).hexdigest() == 'dcacab0087a5b1f4c82bc0fbf3440f4639eed945c1b4deb5c219cb202bc1742a'
         remote = temporary / 'remote'
         remote.mkdir()
+        certificate = temporary / 'ftp-cert.pem'
+        key = temporary / 'ftp-key.pem'
+        subprocess.run(['openssl', 'req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-keyout', str(key), '-out', str(certificate), '-days', '1', '-subj', '/CN=localhost', '-addext', 'subjectAltName=IP:127.0.0.1'], check=True, capture_output=True)
         authorizer = DummyAuthorizer()
         authorizer.add_user('fixture', 'fixture-password', str(remote), perm='elradfmwMT')
-        handler = type('FixtureFTPHandler', (FTPHandler,), {'authorizer': authorizer})
+        handler = type('FixtureFTPHandler', (TLS_FTPHandler,), {'authorizer': authorizer, 'certfile': str(certificate), 'keyfile': str(key), 'tls_control_required': True, 'tls_data_required': True})
         server = FTPServer(('127.0.0.1', 0), handler)
         stopped = threading.Event()
 
@@ -80,18 +88,27 @@ def main() -> None:
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_text(contents)
 
-        def deploy(source: Path, destination: str, settings: dict) -> None:
+        def deploy(source: Path, destination: str, settings: dict, trusted: bool = True) -> None:
             values = dict(settings) | {'server': '127.0.0.1', 'port': server.socket.getsockname()[1], 'username': 'fixture', 'password': 'fixture-password', 'local-dir': str(source) + '/', 'server-dir': destination, 'log-level': 'minimal'}
             environment = os.environ | {'GITHUB_WORKSPACE': str(Path.cwd())}
+            if trusted:
+                environment['NODE_EXTRA_CA_CERTS'] = str(certificate)
+            else:
+                environment.pop('NODE_EXTRA_CA_CERTS', None)
             environment.update({'INPUT_' + key.upper(): str(value).lower() if isinstance(value, bool) else str(value) for key, value in values.items()})
             result = subprocess.run(['node', str(action)], env=environment, text=True, capture_output=True, timeout=45)
-            if result.returncode:
+            if not trusted:
+                assert result.returncode != 0, 'Untrusted FTPS certificate must be rejected'
+                assert not (remote / destination / '.ftp-deploy-sync-state.json').exists()
+                print('PASS strict FTPS rejects untrusted certificates before remote changes', flush=True)
+            elif result.returncode:
                 raise RuntimeError('FTP deploy action failed: ' + result.stdout[-1500:] + result.stderr[-500:])
 
         try:
             write(remote, {'blog/cms/blog-config.php': 'PRIVATE CONFIGURATION'})
             old = temporary / 'legacy'
             write(old, {'index.html': 'OLD HOME', 'old-post/index.html': 'OLD POST'})
+            deploy(old, 'blog/', root_settings, trusted=False)
             deploy(old, 'blog/', root_settings)
             cms = temporary / 'cms'
             write(cms, {'wp-config.php': 'CONFIGURATION LOADER', 'wp-content/mu-plugins/integration.php': 'PLUGIN v1', 'wp-content/uploads/.htaccess': 'UPLOAD EXECUTION GUARD'})
