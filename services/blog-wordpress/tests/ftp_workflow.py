@@ -25,6 +25,8 @@ def main() -> None:
     def enabled(node, context):
         if isinstance(node, ast.Expression):
             return enabled(node.body, context)
+        if isinstance(node, ast.Name) and node.id in ('true', 'false'):
+            return node.id == 'true'
         if isinstance(node, ast.Constant):
             return node.value
         if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
@@ -41,7 +43,7 @@ def main() -> None:
         raise ValueError('Unsupported workflow condition')
 
     for event, provider, after_api, expected in [('push', '', False, True), ('push', 'wordpress', False, True), ('push', 'laravel', False, False), ('push', 'laravel', True, True), ('schedule', 'wordpress', False, False), ('schedule', 'laravel', False, True), ('workflow_dispatch', 'wordpress', False, True), ('workflow_dispatch', 'laravel', False, True)]:
-        assert enabled(condition, {'github.event_name': event, 'vars.BLOG_CMS_PROVIDER': provider, 'inputs.after_api': after_api}) == expected
+        assert enabled(condition, {'github.event_name': event, 'vars.BLOG_CMS_PROVIDER': provider, 'inputs.after_api': after_api, 'inputs.diagnose_ftp': False}) == expected
     api = yaml.safe_load(Path('.github/workflows/deploy-api.yml').read_text())
     assert api['jobs']['deploy-blog']['with']['after_api'] is True
     print('PASS push, reusable API call, schedule and manual trigger conditions', flush=True)
