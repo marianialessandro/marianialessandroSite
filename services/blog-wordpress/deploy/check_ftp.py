@@ -58,8 +58,8 @@ def main():
                 print(f'{name}: {type(error).__name__} during {stage}', flush=True)
             finally:
                 client.close()
-    if not successful:
-        raise SystemExit('No protocol could download the deployment state; no remote files were changed.')
+    if successful != 4:
+        raise SystemExit('At least one FTP data channel failed; no remote files were changed.')
 
 
 if __name__ == '__main__':
