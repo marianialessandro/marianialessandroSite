@@ -9,7 +9,16 @@ import ssl
 
 class ExtendedPassive:
     def makepasv(self):
-        return ftplib.parse229(self.sendcmd('EPSV'), self.sock.getpeername())
+        target = ftplib.parse229(self.sendcmd('EPSV'), self.sock.getpeername())
+        print(f'Data port: {target[1]}', flush=True)
+        return target
+
+
+class StandardPassive:
+    def makepasv(self):
+        target = super().makepasv()
+        print(f'Data port: {target[1]}', flush=True)
+        return target
 
 
 def main():
@@ -22,7 +31,7 @@ def main():
         for extended in (True, False):
             name = ('FTPS' if encrypted else 'FTP') + (' EPSV' if extended else ' PASV')
             base = ftplib.FTP_TLS if encrypted else ftplib.FTP
-            client_type = type('Probe', (ExtendedPassive, base), {}) if extended else base
+            client_type = type('Probe', (ExtendedPassive if extended else StandardPassive, base), {})
             client = client_type(timeout=args.timeout, **({'context': ssl.create_default_context()} if encrypted else {}))
             stage = 'connect'
             try:
