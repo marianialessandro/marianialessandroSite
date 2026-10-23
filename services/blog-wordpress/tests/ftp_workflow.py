@@ -47,8 +47,17 @@ def main() -> None:
     api = yaml.safe_load(Path('.github/workflows/deploy-api.yml').read_text())
     assert api['jobs']['deploy-blog']['with']['after_api'] is True
     print('PASS push, reusable API call, schedule and manual trigger conditions', flush=True)
+    assert document['jobs']['verify-cms']['needs'] == 'deploy'
+    assert document['jobs']['deploy-frontend']['needs'] == ['deploy', 'verify-cms']
+    for job_name, job in document['jobs'].items():
+        if any('blog-config.php wp-config.php' in step.get('run', '') for step in job['steps']):
+            assert not any('FTP-Deploy-Action' in step.get('uses', '') for step in job['steps']), f'{job_name} combines sensitive HTTP probes and FTP transfers'
+    artifact = next(step['with'] for step in document['jobs']['deploy']['steps'] if 'upload-artifact' in step.get('uses', ''))
+    assert artifact['include-hidden-files'] is True
+    print('PASS protected configuration probes use a separate runner and the frontend artifact includes .htaccess', flush=True)
     steps = document['jobs']['deploy']['steps']
-    root_settings = next(step['with'] for step in steps if step.get('name') == '📂 Sync files via FTP')
+    frontend_job = document['jobs']['deploy-frontend']
+    root_settings = next(step['with'] for step in frontend_job['steps'] if step.get('name') == '📂 Sync files via FTP')
     cms_settings = next(step['with'] for step in steps if step.get('name') == 'Sync WordPress runtime via FTP')
     standalone = yaml.safe_load(Path('.github/workflows/deploy-wordpress.yml').read_text())
     standalone_settings = next(step['with'] for step in standalone['jobs']['deploy']['steps'] if 'FTP-Deploy-Action' in step.get('uses', ''))

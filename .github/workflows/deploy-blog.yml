@@ -47,43 +47,10 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: python3 services/blog-wordpress/deploy/check_ftp.py
-      - name: Compare the deploy action without remote changes
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          security: strict
-          local-dir: services/blog-wordpress/frontend/
-          server-dir: blog.marianialessandro.com/
-          dry-run: true
-          timeout: 10000
-          log-level: verbose
-          exclude: |
-            cms/**
-            .well-known/**
-      - name: Compare Python after the deploy action
-        env:
-          FTP_SERVER: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        run: python3 services/blog-wordpress/deploy/check_ftp.py
-      - name: Reproduce the current HTTP protection probes
-        run: |
-          for path in blog-config.php wp-config.php; do
-            curl --silent --show-error --output /dev/null --write-out "$path %{http_code}\n" --max-time 20 "https://blog.marianialessandro.com/cms/$path"
-          done
-      - name: Check data connectivity after the HTTP protection probes
-        env:
-          FTP_SERVER: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        run: python3 services/blog-wordpress/deploy/check_ftp.py
 
   deploy:
     if: (inputs.diagnose_ftp != true) && (github.event_name != 'schedule' || vars.BLOG_CMS_PROVIDER == 'laravel') && (github.event_name != 'push' || vars.BLOG_CMS_PROVIDER != 'laravel' || inputs.after_api)
-    name: Deploy blog.marianialessandro.com
+    name: Prepare blog and deploy WordPress runtime
     runs-on: ubuntu-latest
     env:
       PUBLIC_API_BASE_URL: https://api.marianialessandro.com/api
@@ -164,8 +131,26 @@ jobs:
             wp-content/upgrade/**
             .well-known/**
 
+      - name: Preserve the public frontend for the deploy runner
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-frontend
+          path: ${{ env.BLOG_ARTIFACT_DIR }}/
+          include-hidden-files: true
+          retention-days: 1
+
+  verify-cms:
+    name: Verify CMS on an isolated runner
+    needs: deploy
+    if: vars.BLOG_CMS_PROVIDER != 'laravel'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      # Protected configuration probes can trigger the hosting firewall, so no FTP transfer may run on this runner afterward.
       - name: Verify WordPress before replacing the public frontend
-        if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
         run: |
           # PHP variables must remain literal to the shell.
           # shellcheck disable=SC2016
@@ -179,6 +164,25 @@ jobs:
               exit 1
             fi
           done
+
+  deploy-frontend:
+    name: Deploy public blog frontend
+    needs: [deploy, verify-cms]
+    if: always() && needs.deploy.result == 'success' && (needs.verify-cms.result == 'success' || needs.verify-cms.result == 'skipped')
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_CMS_PROVIDER: ${{ vars.BLOG_CMS_PROVIDER || 'wordpress' }}
+      BLOG_ARTIFACT_DIR: ${{ runner.temp }}/blog-deploy
+    steps:
+      - name: Restore verified frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: blog-frontend
+          path: ${{ env.BLOG_ARTIFACT_DIR }}/
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
 
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
@@ -196,20 +200,12 @@ jobs:
 
           dangerous-clean-slate: false
           log-level: verbose
-          timeout: 10000
+          timeout: 60000
           exclude: |
             **/.git*
             **/.git*/**
             cms/**
             .well-known/**
-
-      - name: Diagnose the same runner after a failed transfer
-        if: failure()
-        env:
-          FTP_SERVER: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        run: python3 services/blog-wordpress/deploy/check_ftp.py
 
       - name: Verify dynamic frontend
         if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
