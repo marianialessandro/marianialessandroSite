@@ -172,13 +172,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLIC_CMS_PROVIDER: ${{ vars.BLOG_CMS_PROVIDER || 'wordpress' }}
-      BLOG_ARTIFACT_DIR: ${{ runner.temp }}/blog-deploy
     steps:
       - name: Restore verified frontend
         uses: actions/download-artifact@v4
         with:
           name: blog-frontend
-          path: ${{ env.BLOG_ARTIFACT_DIR }}/
+          path: ${{ runner.temp }}/blog-deploy/
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
@@ -195,7 +194,7 @@ jobs:
           security: strict
           port: 21
 
-          local-dir: ${{ env.BLOG_ARTIFACT_DIR }}/
+          local-dir: ${{ runner.temp }}/blog-deploy/
           server-dir: blog.marianialessandro.com/
 
           dangerous-clean-slate: false
