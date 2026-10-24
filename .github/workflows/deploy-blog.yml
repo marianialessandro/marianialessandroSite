@@ -18,6 +18,11 @@ on:
         type: boolean
         default: false
   workflow_dispatch:
+    inputs:
+      diagnose_ftp:
+        description: Only diagnose FTP and FTPS connectivity without changing remote files
+        type: boolean
+        default: false
   schedule:
     # Only the legacy Laravel frontend needs periodic content rebuilds.
     - cron: '0 * * * *'
@@ -30,9 +35,22 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  diagnose-ftp:
+    if: github.event_name == 'workflow_dispatch' && inputs.diagnose_ftp
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check FTP data connections without modifying the server
+        env:
+          FTP_SERVER: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: python3 services/blog-wordpress/deploy/check_ftp.py
+
   deploy:
-    if: (github.event_name != 'schedule' || vars.BLOG_CMS_PROVIDER == 'laravel') && (github.event_name != 'push' || vars.BLOG_CMS_PROVIDER != 'laravel' || inputs.after_api)
-    name: Deploy blog.marianialessandro.com
+    if: (inputs.diagnose_ftp != true) && (github.event_name != 'schedule' || vars.BLOG_CMS_PROVIDER == 'laravel') && (github.event_name != 'push' || vars.BLOG_CMS_PROVIDER != 'laravel' || inputs.after_api)
+    name: Prepare blog and deploy WordPress runtime
     runs-on: ubuntu-latest
     env:
       PUBLIC_API_BASE_URL: https://api.marianialessandro.com/api
@@ -91,10 +109,11 @@ jobs:
         if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
+          protocol: ftps
+          security: strict
           port: 21
           local-dir: ${{ runner.temp }}/blog-cms/
           server-dir: blog.marianialessandro.com/cms/
@@ -112,8 +131,26 @@ jobs:
             wp-content/upgrade/**
             .well-known/**
 
+      - name: Preserve the public frontend for the deploy runner
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-frontend
+          path: ${{ env.BLOG_ARTIFACT_DIR }}/
+          include-hidden-files: true
+          retention-days: 1
+
+  verify-cms:
+    name: Verify CMS on an isolated runner
+    needs: deploy
+    if: vars.BLOG_CMS_PROVIDER != 'laravel'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      # Protected configuration probes can trigger the hosting firewall, so no FTP transfer may run on this runner afterward.
       - name: Verify WordPress before replacing the public frontend
-        if: env.PUBLIC_CMS_PROVIDER == 'wordpress'
         run: |
           # PHP variables must remain literal to the shell.
           # shellcheck disable=SC2016
@@ -128,17 +165,36 @@ jobs:
             fi
           done
 
+  deploy-frontend:
+    name: Deploy public blog frontend
+    needs: [deploy, verify-cms]
+    if: always() && needs.deploy.result == 'success' && (needs.verify-cms.result == 'success' || needs.verify-cms.result == 'skipped')
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_CMS_PROVIDER: ${{ vars.BLOG_CMS_PROVIDER || 'wordpress' }}
+    steps:
+      - name: Restore verified frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: blog-frontend
+          path: ${{ runner.temp }}/blog-deploy/
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
       - name: 📂 Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
 
-          protocol: ftp
+          protocol: ftps
+          security: strict
           port: 21
 
-          local-dir: ${{ env.BLOG_ARTIFACT_DIR }}/
+          local-dir: ${{ runner.temp }}/blog-deploy/
           server-dir: blog.marianialessandro.com/
 
           dangerous-clean-slate: false

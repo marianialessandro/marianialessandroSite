@@ -29,10 +29,11 @@ jobs:
       - name: Sync CMS files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ vars.BLOG_FTP_SERVER || 'biff.dnshigh.com' }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
+          protocol: ftps
+          security: strict
           port: 21
           local-dir: services/blog-wordpress/build/
           server-dir: blog.marianialessandro.com/cms/
