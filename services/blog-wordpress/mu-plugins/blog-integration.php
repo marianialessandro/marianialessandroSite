@@ -7,6 +7,7 @@
 defined('ABSPATH') || exit;
 
 require_once __DIR__ . '/blog-integration/legacy-import.php';
+require_once __DIR__ . '/blog-integration/books.php';
 
 add_action('rest_api_init', function () {
     $definition = [
@@ -37,10 +38,10 @@ add_action('init', function () {
 add_action('add_meta_boxes', function () {
     add_meta_box('portfolio-blog', 'Portfolio blog', function ($post) {
         wp_nonce_field('portfolio_blog_meta', 'portfolio_blog_nonce');
-        foreach (['blog_description' => 'Descrizione breve', 'blog_cover' => 'URL copertina (alternativa all’immagine in evidenza)', 'blog_featured_rank' => 'Ordine in evidenza (1 = primo, 0 = automatico)'] as $key => $label) {
+        foreach (['blog_description' => 'Short description', 'blog_cover' => 'Cover URL (alternative to the featured image)', 'blog_featured_rank' => 'Featured order (1 = first, 0 = automatic)'] as $key => $label) {
             echo '<p><label>' . esc_html($label) . '<br><input class="widefat" name="' . esc_attr($key) . '" value="' . esc_attr(get_post_meta($post->ID, $key, true)) . '" type="' . ($key === 'blog_featured_rank' ? 'number' : 'text') . '"></label></p>';
         }
-        echo '<p>Per mettere un articolo in evidenza usa l’opzione WordPress “Fissa in cima al blog”.</p>';
+        echo '<p>To feature an article, use the WordPress “Stick to the top of the blog” option.</p>';
     }, 'post', 'side');
 });
 

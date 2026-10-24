@@ -7,14 +7,14 @@ function portfolio_import_legacy_batch(): array
 {
     global $wpdb;
     if (!current_user_can('manage_options')) {
-        throw new RuntimeException('Accesso negato.');
+        throw new RuntimeException('Access denied.');
     }
     if (!defined('BLOG_ALLOW_LEGACY_IMPORT') || !BLOG_ALLOW_LEGACY_IMPORT) {
-        throw new RuntimeException('Importazione disabilitata nella configurazione del CMS.');
+        throw new RuntimeException('Import is disabled in the CMS configuration.');
     }
     $prefix = defined('BLOG_LEGACY_TABLE_PREFIX') ? BLOG_LEGACY_TABLE_PREFIX : '';
     if (!preg_match('/^[a-zA-Z0-9_]*$/D', $prefix) || $prefix === $wpdb->prefix) {
-        throw new RuntimeException('Prefisso delle tabelle legacy non valido.');
+        throw new RuntimeException('Invalid legacy table prefix.');
     }
     $state = get_option('portfolio_legacy_import', ['users' => 0, 'posts' => 0, 'users_done' => false, 'done' => false]);
     if ($state['done']) {
@@ -27,7 +27,7 @@ function portfolio_import_legacy_batch(): array
     $filter = $table === 'users' ? ' AND is_admin = 1' : '';
     $rows = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$prefix}{$table}` WHERE id > %d{$filter} ORDER BY id LIMIT 20", $state[$table]));
     if ($wpdb->last_error) {
-        throw new RuntimeException('Lettura delle tabelle legacy fallita. Verifica che il CMS usi lo stesso database dell’API e il prefisso corretto.');
+        throw new RuntimeException('Could not read the legacy tables. Check that the CMS uses the same database as the API and the correct table prefix.');
     }
     foreach ($rows as $row) {
         if ($table === 'users') {
@@ -53,24 +53,24 @@ function portfolio_import_legacy_user(object $row): void
         return;
     }
     if (email_exists($row->email)) {
-        throw new RuntimeException('Esiste già un utente WordPress con la stessa email di un account legacy. Usa un’email diversa per l’amministratore temporaneo di installazione.');
+        throw new RuntimeException('A WordPress user already has the same email as a legacy account. Use a different email for the temporary setup administrator.');
     }
     if (!preg_match('/^\$2[aby]\$|^\$argon2(id|i)\$/', $row->password)) {
-        throw new RuntimeException('Hash password legacy non compatibile per l’utente ' . (int) $row->id . '. Nessuna credenziale è stata modificata.');
+        throw new RuntimeException('Incompatible legacy password hash for user ' . (int) $row->id . '. No credentials were changed.');
     }
     $login = 'legacy-' . (int) $row->id;
     if (username_exists($login)) {
-        throw new RuntimeException('Nome utente riservato all’importazione già occupato: ' . $login);
+        throw new RuntimeException('Reserved import username already in use: ' . $login);
     }
     $id = wp_insert_user(['user_login' => $login, 'user_email' => $row->email, 'display_name' => $row->name, 'user_pass' => wp_generate_password(64), 'role' => 'administrator']);
     if (is_wp_error($id)) {
-        throw new RuntimeException('Creazione utente legacy fallita: ' . $id->get_error_message());
+        throw new RuntimeException('Could not create legacy user: ' . $id->get_error_message());
     }
     // wp_insert_user hashes input, so copy the existing one-way hash directly afterwards.
     if ($wpdb->update($wpdb->users, ['user_pass' => $row->password], ['ID' => $id]) === false) {
         require_once ABSPATH . 'wp-admin/includes/user.php';
         wp_delete_user($id);
-        throw new RuntimeException('Copia hash password fallita. Puoi riprovare l’importazione.');
+        throw new RuntimeException('Could not copy the password hash. You can retry the import.');
     }
     clean_user_cache($id);
     update_user_meta($id, '_portfolio_legacy_user_id', (int) $row->id);
@@ -83,8 +83,8 @@ function portfolio_import_legacy_post(object $row, League\CommonMark\GithubFlavo
         return;
     }
     $collision = get_page_by_path($row->slug, OBJECT, 'post');
-    if ($collision || in_array($row->slug, ['admin', 'archive', 'preview', 'cms'], true)) {
-        throw new RuntimeException('Slug già occupato o riservato: ' . $row->slug . '. Risolvi il conflitto prima di riprovare.');
+    if ($collision || in_array($row->slug, ['admin', 'archive', 'preview', 'cms', 'libri'], true)) {
+        throw new RuntimeException('Slug already in use or reserved: ' . $row->slug . '. Resolve the conflict before trying again.');
     }
     $date = substr($row->date, 0, 10) . ' 00:00:00';
     $status = $row->draft ? 'draft' : ($date > current_time('mysql') ? 'future' : 'publish');
@@ -103,12 +103,12 @@ function portfolio_import_legacy_post(object $row, League\CommonMark\GithubFlavo
     ];
     $id = wp_insert_post(wp_slash($payload), true);
     if (is_wp_error($id)) {
-        throw new RuntimeException('Importazione articolo fallita: ' . $id->get_error_message());
+        throw new RuntimeException('Could not import article: ' . $id->get_error_message());
     }
     $result = wp_set_post_tags($id, $tags, false);
     if (is_wp_error($result)) {
         wp_delete_post($id, true);
-        throw new RuntimeException('Importazione tag fallita. Puoi riprovare il lotto.');
+        throw new RuntimeException('Could not import tags. You can retry the batch.');
     }
     if ($row->featured) {
         stick_post($id);
@@ -116,23 +116,23 @@ function portfolio_import_legacy_post(object $row, League\CommonMark\GithubFlavo
 }
 
 add_action('admin_menu', function () {
-    add_management_page('Importa blog Laravel', 'Importa blog Laravel', 'manage_options', 'portfolio-import', function () {
+    add_management_page('Import Laravel blog', 'Import Laravel blog', 'manage_options', 'portfolio-import', function () {
         if (!current_user_can('manage_options')) {
-            wp_die('Accesso negato.', '', ['response' => 403]);
+            wp_die('Access denied.', '', ['response' => 403]);
         }
-        echo '<div class="wrap"><h1>Importa blog Laravel</h1><p>Importa gli amministratori con la loro password attuale e gli articoli a lotti di 20. I dati Laravel restano intatti. Gli account e gli articoli già importati non vengono sovrascritti.</p>';
+        echo '<div class="wrap"><h1>Import Laravel blog</h1><p>Import administrators with their existing passwords and articles in batches of 20. Laravel data remains intact. Previously imported accounts and articles are not overwritten.</p>';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             check_admin_referer('portfolio_import');
             try {
                 $state = portfolio_import_legacy_batch();
-                echo '<div class="notice notice-success"><p>' . ($state['done'] ? 'Importazione completata. Verifica gli articoli e il login con email e password attuali, poi disabilita BLOG_ALLOW_LEGACY_IMPORT.' : 'Lotto completato. Continua con il prossimo lotto.') . '</p></div>';
+                echo '<div class="notice notice-success"><p>' . ($state['done'] ? 'Import complete. Check the articles and sign in with your existing email and password, then disable BLOG_ALLOW_LEGACY_IMPORT.' : 'Batch complete. Continue with the next batch.') . '</p></div>';
             } catch (Throwable $error) {
                 echo '<div class="notice notice-error"><p>' . esc_html($error->getMessage()) . '</p></div>';
             }
         }
         echo '<form method="post">';
         wp_nonce_field('portfolio_import');
-        submit_button('Importa il prossimo lotto');
+        submit_button('Import next batch');
         echo '</form></div>';
     });
 });

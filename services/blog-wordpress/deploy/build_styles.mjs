@@ -25,7 +25,7 @@ const components = [
 ];
 const base = postcss.parse(await readFile('packages/shared/src/styles/app.css', 'utf8'));
 base.walkAtRules((rule) => { if (['import', 'plugin'].includes(rule.name)) rule.remove(); });
-const styles = [base.toString(), await readFile(`${blog}/lib/styles/blog.css`, 'utf8')];
+const styles = [base.toString(), await readFile(`${blog}/lib/styles/blog.css`, 'utf8'), await readFile('services/blog-wordpress/frontend/blog-assets/books.css', 'utf8')];
 for (const [path, scope] of components) {
 	const source = await readFile(path, 'utf8');
 	const css = source.match(/<style[^>]*>([\s\S]*?)<\/style>/)?.[1];

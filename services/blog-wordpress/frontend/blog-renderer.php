@@ -182,6 +182,50 @@ function portfolio_article(WP_Post $post): void
     wp_reset_postdata();
 }
 
+function portfolio_book_entry(WP_Post $book, bool $in_series = false): void
+{
+    $heading = $in_series ? 'h4' : 'h3';
+    $reading = get_post_meta($book->ID, 'book_status', true) === 'reading';
+    $number = $in_series ? (int) get_post_meta($book->ID, 'book_series_order', true) : 0;
+    $url = get_post_meta($book->ID, 'book_url', true);
+    $author = get_post_meta($book->ID, 'book_author', true);
+    ?>
+    <li class="book-entry"><?php if ($in_series) : ?><span class="book-number" aria-label="<?php echo $number ? 'Book ' . $number : 'Unnumbered volume'; ?>"><?php echo $number ? sprintf('%02d', $number) : '—'; ?></span><?php endif; ?><div class="book-details"><div class="book-heading"><<?php echo $heading; ?> class="book-title"><?php if ($url && esc_url($url, ['http', 'https'])) : ?><a href="<?php echo esc_url($url, ['http', 'https']); ?>" rel="noopener noreferrer"><?php echo esc_html(get_the_title($book)); ?><span class="book-arrow" aria-hidden="true"> ↗</span></a><?php else : ?><?php echo esc_html(get_the_title($book)); ?><?php endif; ?></<?php echo $heading; ?>></div>
+        <?php if ($author) : ?><p class="book-author"><?php echo esc_html($author); ?></p><?php endif; ?>
+        <div class="book-meta"><span class="reading-status<?php echo $reading ? ' is-reading' : ''; ?>"><?php echo $reading ? 'Currently reading' : 'Read'; ?></span><?php if (get_post_meta($book->ID, 'book_recommended', true)) : ?><span class="book-favourite" aria-label="One of my favourites" title="One of my favourites">★</span><?php endif; ?></div>
+        <?php if (trim($book->post_content) !== '') : ?><div class="book-note"><?php echo wp_kses_post(apply_filters('the_content', $book->post_content)); ?></div><?php endif; ?>
+    </div></li>
+    <?php
+}
+
+function portfolio_books(): void
+{
+    $books = get_posts(['post_type' => 'portfolio_book', 'post_status' => 'publish', 'has_password' => false, 'numberposts' => -1, 'orderby' => 'date', 'order' => 'DESC']);
+    $groups = portfolio_book_groups($books);
+    ?>
+    <div class="portfolio-books" lang="en">
+        <header class="books-intro"><h1 lang="en">My Books</h1></header>
+        <?php if (!$books) : ?>
+            <section class="books-empty"><h2>The first page is still waiting to be written.</h2><p>This is where I will collect my reading notes and the books that stayed with me.</p></section>
+        <?php else : ?>
+            <div class="books-layout"><aside><nav aria-label="Reading categories"><p>Explore the bookshelf</p><?php foreach ($groups as $key => $group) : ?><a href="#<?php echo esc_attr($key); ?>"><?php echo esc_html($group['label']); ?><span><?php echo count($group['books']); ?></span></a><?php endforeach; ?></nav><p class="books-key"><span aria-hidden="true">★</span> My favourites</p></aside>
+                <div class="books-groups"><?php foreach ($groups as $key => $group) : ?>
+                    <section class="books-group" id="<?php echo esc_attr($key); ?>" aria-labelledby="title-<?php echo esc_attr($key); ?>"><h2 id="title-<?php echo esc_attr($key); ?>"><?php echo esc_html($group['label']); ?><span><?php echo count($group['books']); ?></span></h2><ul>
+                        <?php foreach ($group['entries'] as $entry) : ?>
+                            <?php if ($entry['label'] !== '') : ?>
+                                <li class="book-series"><div class="series-header"><p class="series-label">Series</p><h3 class="series-title"><?php echo esc_html($entry['label']); ?></h3></div><ul><?php foreach ($entry['books'] as $book) { portfolio_book_entry($book, true); } ?></ul></li>
+                            <?php else : ?>
+                                <?php portfolio_book_entry($entry['books'][0]); ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul></section>
+                <?php endforeach; ?></div>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php
+}
+
 function portfolio_render_blog(): void
 {
     $path = trim(rawurldecode(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/'), '/');
@@ -189,26 +233,30 @@ function portfolio_render_blog(): void
     $post = null;
     if ($path === '' || $path === 'archive') {
         $posts = get_posts(['post_type' => 'post', 'post_status' => 'publish', 'has_password' => false, 'numberposts' => -1, 'orderby' => 'date', 'order' => 'DESC']);
-    } elseif (!str_contains($path, '/')) {
+    } elseif ($path !== 'libri' && !str_contains($path, '/')) {
         $candidate = get_page_by_path($path, OBJECT, 'post');
         if ($candidate && $candidate->post_status === 'publish' && !$candidate->post_password && $candidate->post_date_gmt <= gmdate('Y-m-d H:i:s')) {
             $post = $candidate;
         }
     }
-    $found = $path === '' || $path === 'archive' || $post;
+    $found = $path === '' || $path === 'archive' || $path === 'libri' || $post;
     status_header($found ? 200 : 404);
     nocache_headers();
     header('Content-Type: text/html; charset=utf-8');
     $title = $post ? get_the_title($post) : ($path === 'archive' ? 'Archive - marianialessandro.com' : ($found ? 'marianialessandro.com - Alessandro Mariani' : 'Post not found'));
     $description = $post ? portfolio_description($post) : 'Articles and notes from Alessandro Mariani';
+    if ($path === 'libri') {
+        $title = 'My Books - Alessandro Mariani';
+        $description = 'Books I have read and am currently reading, grouped by topic, with notes and favourites.';
+    }
     $version = require __DIR__ . '/blog-assets/version.php';
     ?>
     <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title><?php echo esc_html($title); ?></title><meta name="description" content="<?php echo esc_attr($description); ?>"><meta name="color-scheme" content="light"><meta name="theme-color" content="#fafafa">
     <?php if ($found) : ?><link rel="canonical" href="<?php echo esc_url($post ? get_permalink($post) : portfolio_url($path ? $path . '/' : '')); ?>"><?php else : ?><meta name="robots" content="noindex"><?php endif; ?>
     <meta property="og:title" content="<?php echo esc_attr($title); ?>"><meta property="og:description" content="<?php echo esc_attr($description); ?>"><meta property="og:type" content="<?php echo $post ? 'article' : 'website'; ?>">
     <link rel="icon" href="/blog-assets/favicon.png"><link rel="stylesheet" href="<?php echo esc_url(includes_url('css/dist/block-library/style.min.css')); ?>"><link rel="stylesheet" href="/blog-assets/blog.css?v=<?php echo esc_attr($version); ?>"></head><body class="portfolio-site" data-blog-renderer="wordpress-php"><a class="skip" href="#main">Skip to content</a><div class="app">
-    <div class="portfolio-header"><header class="blog-header"><div class="inner"><a class="brand" href="<?php echo esc_url(portfolio_url()); ?>" aria-label="Alessandro Mariani — blog home"><span class="brand-mark" aria-hidden="true">am.</span><span class="brand-name">Alessandro Mariani</span></a><nav aria-label="Blog navigation"><a <?php echo $path === '' ? 'class="active" aria-current="page"' : ''; ?> href="<?php echo esc_url(portfolio_url()); ?>">Blog</a><a <?php echo $path === 'archive' ? 'class="active" aria-current="page"' : ''; ?> href="<?php echo esc_url(portfolio_url('archive/')); ?>">Archive</a><a href="https://marianialessandro.com">Portfolio <span aria-hidden="true">↗</span></a></nav></div></header></div>
-    <main id="main" tabindex="-1"><?php if ($post) { portfolio_article($post); } elseif ($path === '') { portfolio_home($posts); } elseif ($path === 'archive') { portfolio_archive($posts); } else { echo '<div class="portfolio-archive"><section class="page"><h1>Post not found</h1><p>The article is unavailable.</p><a href="' . esc_url(portfolio_url('archive/')) . '">Browse the archive</a></section></div>'; } ?></main>
+    <div class="portfolio-header"><header class="blog-header"><div class="inner"><a class="brand" href="<?php echo esc_url(portfolio_url()); ?>" aria-label="Alessandro Mariani — blog home"><span class="brand-mark" aria-hidden="true">am.</span><span class="brand-name">Alessandro Mariani</span></a><nav aria-label="Blog navigation"><a <?php echo $path === '' ? 'class="active" aria-current="page"' : ''; ?> href="<?php echo esc_url(portfolio_url()); ?>">Blog</a><a <?php echo $path === 'archive' ? 'class="active" aria-current="page"' : ''; ?> href="<?php echo esc_url(portfolio_url('archive/')); ?>">Archive</a><a <?php echo $path === 'libri' ? 'class="active" aria-current="page"' : ''; ?> href="<?php echo esc_url(portfolio_url('libri/')); ?>">Books</a><a href="https://marianialessandro.com">Portfolio <span aria-hidden="true">↗</span></a></nav></div></header></div>
+    <main id="main" tabindex="-1"><?php if ($post) { portfolio_article($post); } elseif ($path === '') { portfolio_home($posts); } elseif ($path === 'archive') { portfolio_archive($posts); } elseif ($path === 'libri') { portfolio_books(); } else { echo '<div class="portfolio-archive"><section class="page"><h1>Post not found</h1><p>The article is unavailable.</p><a href="' . esc_url(portfolio_url('archive/')) . '">Browse the archive</a></section></div>'; } ?></main>
     <footer class="blog-footer">© <?php echo gmdate('Y'); ?> Alessandro Mariani</footer></div><script src="/blog-assets/site.js" defer></script></body></html>
     <?php
 }

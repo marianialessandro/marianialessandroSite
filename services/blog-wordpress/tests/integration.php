@@ -21,6 +21,7 @@ if (!is_blog_installed()) {
 }
 $setup = get_user_by('login', 'setup-admin');
 wp_set_current_user($setup->ID);
+require __DIR__ . '/books.php';
 global $wpdb;
 $wpdb->query('CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255), is_admin TINYINT NOT NULL)');
 $wpdb->query('CREATE TABLE IF NOT EXISTS posts (id BIGINT PRIMARY KEY, slug VARCHAR(255), title VARCHAR(255), description VARCHAR(255), content LONGTEXT, date DATE, tags JSON, draft TINYINT, cover VARCHAR(255), featured TINYINT, featured_rank INT)');
@@ -70,7 +71,7 @@ try {
     portfolio_import_legacy_batch();
     throw new RuntimeException('Anonymous import unexpectedly succeeded');
 } catch (RuntimeException $error) {
-    verify($error->getMessage() === 'Accesso negato.', 'anonymous import is denied');
+    verify($error->getMessage() === 'Access denied.', 'anonymous import is denied');
 }
 verify(!wp_next_scheduled('portfolio_deploy_blog'), 'publishing does not queue a GitHub rebuild');
 verify(!has_action('portfolio_deploy_blog'), 'no GitHub dispatch handler is registered');
