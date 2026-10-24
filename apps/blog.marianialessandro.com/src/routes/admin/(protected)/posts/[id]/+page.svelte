@@ -29,7 +29,7 @@
 				authedFetch('/admin/posts')
 			]);
 
-			if (!postRes.ok) throw new Error('Post non trovato.');
+			if (!postRes.ok) throw new Error('Post not found.');
 			const { data } = await postRes.json();
 
 			initial = {
@@ -50,7 +50,7 @@
 				existingPosts = all.map(fromApiSummary);
 			}
 		} catch (err) {
-			loadError = err instanceof Error ? err.message : 'Errore imprevisto.';
+			loadError = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			loading = false;
 		}
@@ -71,7 +71,7 @@
 	}
 
 	async function handleDelete() {
-		if (!confirm('Eliminare definitivamente questo post?')) return;
+		if (!confirm('Permanently delete this post?')) return;
 
 		submitting = true;
 		try {
@@ -85,11 +85,11 @@
 </script>
 
 <svelte:head>
-	<title>Modifica post - Admin</title>
+	<title>Edit post - Admin</title>
 </svelte:head>
 
 <div class="page-header">
-	<h1>Modifica post</h1>
+	<h1>Edit post</h1>
 </div>
 
 {#if loadError}
@@ -97,7 +97,7 @@
 {/if}
 
 {#if loading}
-	<p class="muted">Caricamento…</p>
+	<p class="muted">Loading…</p>
 {:else if initial}
 	<PostEditorForm
 		{initial}

@@ -40,11 +40,11 @@
 </script>
 
 <svelte:head>
-	<title>Nuovo post - Admin</title>
+	<title>New post - Admin</title>
 </svelte:head>
 
 <div class="page-header">
-	<h1>Nuovo post</h1>
+	<h1>New post</h1>
 </div>
 
 <PostEditorForm {submitting} {existingPosts} onSave={handleSave} />

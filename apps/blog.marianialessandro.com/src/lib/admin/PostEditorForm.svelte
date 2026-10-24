@@ -97,7 +97,7 @@
 					name: 'upload-image',
 					action: handleContentImageUpload,
 					className: 'fa fa-upload',
-					title: 'Carica immagine'
+					title: 'Upload image'
 				},
 				'table',
 				'horizontal-rule',
@@ -134,7 +134,7 @@
 			const url = await uploadImage(file);
 			editor.codemirror.getDoc().replaceSelection(`![](${url})`);
 		} catch (err) {
-			topError = err instanceof Error ? err.message : 'Caricamento immagine non riuscito.';
+			topError = err instanceof Error ? err.message : 'Image upload failed.';
 		}
 	}
 
@@ -146,7 +146,7 @@
 		try {
 			cover = await uploadImage(file);
 		} catch (err) {
-			topError = err instanceof Error ? err.message : 'Caricamento immagine non riuscito.';
+			topError = err instanceof Error ? err.message : 'Image upload failed.';
 		} finally {
 			uploadingCover = false;
 		}
@@ -205,7 +205,7 @@
 			if (err instanceof ApiValidationError) {
 				fieldErrors = err.fieldErrors;
 			} else {
-				topError = err instanceof Error ? err.message : 'Errore imprevisto.';
+				topError = err instanceof Error ? err.message : 'An unexpected error occurred.';
 			}
 		}
 	}
@@ -218,7 +218,7 @@
 			await onDelete();
 		} catch (err) {
 			suppressGuard = false;
-			topError = err instanceof Error ? err.message : 'Eliminazione non riuscita.';
+			topError = err instanceof Error ? err.message : 'Deletion failed.';
 		}
 	}
 
@@ -239,7 +239,7 @@
 	beforeNavigate((navigation) => {
 		if (suppressGuard) return;
 		if (snapshot() === initialSnapshot) return;
-		if (!confirm('Ci sono modifiche non salvate. Vuoi davvero uscire?')) {
+		if (!confirm('You have unsaved changes. Are you sure you want to leave?')) {
 			navigation.cancel();
 		}
 	});
@@ -260,15 +260,15 @@
 
 	<div class="fields">
 		<label class="field-title">
-			<span>Titolo</span>
-			<input type="text" bind:value={title} placeholder="Titolo del post" required />
+			<span>Title</span>
+			<input type="text" bind:value={title} placeholder="Post title" required />
 		</label>
 
 		<label>
 			<span>Slug</span>
 			<input type="text" bind:value={slug} on:input={handleSlugInput} required />
 			{#if slugConflict}
-				<span class="field-warning">Questo slug è già in uso da un altro post.</span>
+				<span class="field-warning">This slug is already used by another post.</span>
 			{/if}
 			{#if fieldErrors.slug}
 				<span class="field-error">{fieldErrors.slug}</span>
@@ -276,17 +276,17 @@
 		</label>
 
 		<label>
-			<span>Data</span>
+			<span>Date</span>
 			<input type="date" bind:value={date} required />
-			<span class="field-hint">Una data futura programma la pubblicazione.</span>
+			<span class="field-hint">A future date schedules publication.</span>
 			{#if fieldErrors.date}
 				<span class="field-error">{fieldErrors.date}</span>
 			{/if}
 		</label>
 
 		<label class="field-wide">
-			<span>Descrizione</span>
-			<input type="text" bind:value={description} placeholder="Breve sommario per l'archivio" />
+			<span>Description</span>
+			<input type="text" bind:value={description} placeholder="Short summary for the archive" />
 		</label>
 
 		<div class="field-wide">
@@ -295,7 +295,7 @@
 				{#each tags as tag (tag)}
 					<span class="tag-chip">
 						{tag}
-						<button type="button" aria-label={`Rimuovi tag ${tag}`} on:click={() => removeTag(tag)}
+						<button type="button" aria-label={`Remove tag ${tag}`} on:click={() => removeTag(tag)}
 							>×</button
 						>
 					</span>
@@ -304,7 +304,7 @@
 					type="text"
 					bind:value={tagInput}
 					on:keydown={handleTagKeydown}
-					placeholder="Aggiungi un tag…"
+					placeholder="Add a tag…"
 				/>
 			</div>
 			{#if tagSuggestions.length}
@@ -319,27 +319,27 @@
 		</div>
 
 		<label>
-			<span>Copertina (URL)</span>
+			<span>Cover (URL)</span>
 			<div class="cover-row">
 				<input type="text" bind:value={cover} placeholder="https://…" />
 				<button type="button" disabled={uploadingCover} on:click={handleCoverUpload}>
-					{uploadingCover ? 'Carico…' : 'Carica'}
+					{uploadingCover ? 'Uploading…' : 'Upload'}
 				</button>
 			</div>
 		</label>
 
 		<label class="field-checkbox">
 			<input type="checkbox" bind:checked={featured} />
-			<span>In evidenza in home</span>
+			<span>Featured on the homepage</span>
 		</label>
 
 		{#if featured}
 			<label>
-				<span>Ordine in evidenza</span>
+				<span>Featured order</span>
 				<input type="number" bind:value={featuredRank} min="0" />
 				{#if otherFeatured.length}
 					<span class="field-hint">
-						Altri in evidenza:
+						Other featured posts:
 						{#each otherFeatured as post, i (post.id)}
 							{i > 0 ? ', ' : ''}{post.featuredRank ?? '—'}·{post.title}
 						{/each}
@@ -356,17 +356,17 @@
 	<textarea bind:this={textareaEl} class="markdown-source"></textarea>
 
 	<div class="actions">
-		<button type="button" on:click={handlePreview}>Anteprima</button>
+		<button type="button" on:click={handlePreview}>Preview</button>
 
 		{#if onDelete}
 			<button type="button" class="danger" disabled={submitting} on:click={handleDeleteClick}>
-				Elimina
+				Delete
 			</button>
 		{/if}
 
 		<div class="save-actions">
 			<button type="button" disabled={submitting} on:click={() => handleSaveClick(true)}>
-				Salva come bozza
+				Save as draft
 			</button>
 			<button
 				type="button"
@@ -374,7 +374,7 @@
 				disabled={submitting}
 				on:click={() => handleSaveClick(false)}
 			>
-				Pubblica
+				Publish
 			</button>
 		</div>
 	</div>

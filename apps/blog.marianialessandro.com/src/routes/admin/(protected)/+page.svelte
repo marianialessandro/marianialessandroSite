@@ -15,11 +15,11 @@
 
 		try {
 			const res = await authedFetch('/admin/posts');
-			if (!res.ok) throw new Error('Impossibile caricare i post.');
+			if (!res.ok) throw new Error('Could not load posts.');
 			const { data }: { data: ApiPostSummary[] } = await res.json();
 			posts = data.map(fromApiSummary);
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Errore imprevisto.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			loading = false;
 		}
@@ -33,16 +33,16 @@
 	}
 
 	const statusLabel: Record<'draft' | 'scheduled' | 'published', string> = {
-		draft: 'Bozza',
-		scheduled: 'Programmato',
-		published: 'Pubblicato'
+		draft: 'Draft',
+		scheduled: 'Scheduled',
+		published: 'Published'
 	};
 
 	async function togglePublish(post: PostSummary) {
 		busyId = post.id;
 		try {
 			const current = await authedFetch(`/posts/${post.id}`);
-			if (!current.ok) throw new Error('Impossibile leggere il post.');
+			if (!current.ok) throw new Error('Could not load the post.');
 			const { data: full } = await current.json();
 
 			const res = await authedFetch(`/posts/${post.id}`, {
@@ -60,25 +60,25 @@
 					content: full.content
 				})
 			});
-			if (!res.ok) throw new Error('Aggiornamento non riuscito.');
+			if (!res.ok) throw new Error('Update failed.');
 			await loadPosts();
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Errore imprevisto.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			busyId = null;
 		}
 	}
 
 	async function deletePost(post: PostSummary) {
-		if (!confirm(`Eliminare definitivamente "${post.title}"?`)) return;
+		if (!confirm(`Permanently delete "${post.title}"?`)) return;
 
 		busyId = post.id;
 		try {
 			const res = await authedFetch(`/posts/${post.id}`, { method: 'DELETE' });
-			if (!res.ok) throw new Error('Eliminazione non riuscita.');
+			if (!res.ok) throw new Error('Deletion failed.');
 			await loadPosts();
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Errore imprevisto.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			busyId = null;
 		}
@@ -92,7 +92,7 @@
 <div class="dashboard">
 	<header class="dashboard-header">
 		<h1>Post</h1>
-		<a class="new-post" href={resolve('/admin/(protected)/posts/new')}>Nuovo post</a>
+		<a class="new-post" href={resolve('/admin/(protected)/posts/new')}>New post</a>
 	</header>
 
 	{#if error}
@@ -100,9 +100,9 @@
 	{/if}
 
 	{#if loading}
-		<p class="muted">Caricamento…</p>
+		<p class="muted">Loading…</p>
 	{:else if posts.length === 0}
-		<p class="muted">Nessun post ancora. Crea il primo.</p>
+		<p class="muted">No posts yet. Create your first one.</p>
 	{:else}
 		<div class="post-table">
 			{#each posts as post (post.id)}
@@ -121,16 +121,16 @@
 							disabled={busyId === post.id}
 							on:click={() => togglePublish(post)}
 						>
-							{post.draft ? 'Pubblica' : 'Nascondi'}
+							{post.draft ? 'Publish' : 'Unpublish'}
 						</button>
-						<a href={resolve('/admin/(protected)/posts/[id]', { id: String(post.id) })}>Modifica</a>
+						<a href={resolve('/admin/(protected)/posts/[id]', { id: String(post.id) })}>Edit</a>
 						<button
 							type="button"
 							class="danger"
 							disabled={busyId === post.id}
 							on:click={() => deletePost(post)}
 						>
-							Elimina
+							Delete
 						</button>
 					</div>
 				</div>

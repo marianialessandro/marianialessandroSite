@@ -16,7 +16,7 @@
 			await login(email, password);
 			await goto(resolve('/admin'));
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Accesso non riuscito.';
+			error = err instanceof Error ? err.message : 'Sign-in failed.';
 		} finally {
 			loading = false;
 		}
@@ -24,13 +24,13 @@
 </script>
 
 <svelte:head>
-	<title>Accedi - Admin</title>
+	<title>Sign in - Admin</title>
 </svelte:head>
 
 <div class="login-page">
 	<form class="login-card" on:submit|preventDefault={handleSubmit}>
 		<p class="eyebrow">marianialessandro.com</p>
-		<h1>Accedi all'area admin</h1>
+		<h1>Sign in to the admin area</h1>
 
 		<label>
 			<span>Email</span>
@@ -47,7 +47,7 @@
 		{/if}
 
 		<button type="submit" disabled={loading}>
-			{loading ? 'Accesso in corso…' : 'Accedi'}
+			{loading ? 'Signing in…' : 'Sign in'}
 		</button>
 	</form>
 </div>

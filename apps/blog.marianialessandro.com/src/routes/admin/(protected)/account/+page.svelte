@@ -26,11 +26,11 @@
 		error = '';
 		try {
 			const res = await authedFetch('/users');
-			if (!res.ok) throw new Error('Impossibile caricare gli account.');
+			if (!res.ok) throw new Error('Could not load accounts.');
 			const { data } = await res.json();
 			users = data;
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Errore imprevisto.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			loading = false;
 		}
@@ -50,7 +50,7 @@
 				const body = await res.json().catch(() => null);
 				const message = body?.errors
 					? Object.values(body.errors).flat().join(' ')
-					: (body?.message ?? 'Creazione non riuscita.');
+					: (body?.message ?? 'Creation failed.');
 				throw new Error(message);
 			}
 			createName = '';
@@ -59,7 +59,7 @@
 			showCreate = false;
 			await loadUsers();
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Errore imprevisto.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			creating = false;
 		}
@@ -91,31 +91,31 @@
 				const body = await res.json().catch(() => null);
 				const message = body?.errors
 					? Object.values(body.errors).flat().join(' ')
-					: (body?.message ?? 'Aggiornamento non riuscito.');
+					: (body?.message ?? 'Update failed.');
 				throw new Error(message);
 			}
 			editingId = null;
 			await loadUsers();
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Errore imprevisto.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			saving = false;
 		}
 	}
 
 	async function deleteUser(user: AccountUser) {
-		if (!confirm(`Eliminare l'account "${user.name}"?`)) return;
+		if (!confirm(`Delete account "${user.name}"?`)) return;
 
 		busyId = user.id;
 		try {
 			const res = await authedFetch(`/users/${user.id}`, { method: 'DELETE' });
 			if (!res.ok) {
 				const body = await res.json().catch(() => null);
-				throw new Error(body?.message ?? 'Eliminazione non riuscita.');
+				throw new Error(body?.message ?? 'Deletion failed.');
 			}
 			await loadUsers();
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'Errore imprevisto.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
 		} finally {
 			busyId = null;
 		}
@@ -129,7 +129,7 @@
 <div class="account-header">
 	<h1>Account</h1>
 	<button type="button" on:click={() => (showCreate = !showCreate)}>
-		{showCreate ? 'Annulla' : 'Nuovo account'}
+		{showCreate ? 'Cancel' : 'New account'}
 	</button>
 </div>
 
@@ -140,7 +140,7 @@
 {#if showCreate}
 	<form class="create-form" on:submit|preventDefault={handleCreate}>
 		<label>
-			<span>Nome</span>
+			<span>Name</span>
 			<input type="text" bind:value={createName} required />
 		</label>
 		<label>
@@ -158,13 +158,13 @@
 			/>
 		</label>
 		<button type="submit" class="primary" disabled={creating}>
-			{creating ? 'Creazione…' : 'Crea account'}
+			{creating ? 'Creating…' : 'Create account'}
 		</button>
 	</form>
 {/if}
 
 {#if loading}
-	<p class="muted">Caricamento…</p>
+	<p class="muted">Loading…</p>
 {:else}
 	<div class="user-table">
 		{#each users as user (user.id)}
@@ -172,7 +172,7 @@
 				{#if editingId === user.id}
 					<form class="edit-form" on:submit|preventDefault={() => saveEdit(user.id)}>
 						<label>
-							<span>Nome</span>
+							<span>Name</span>
 							<input type="text" bind:value={editName} required />
 						</label>
 						<label>
@@ -180,7 +180,7 @@
 							<input type="email" bind:value={editEmail} required />
 						</label>
 						<label>
-							<span>Nuova password (opzionale)</span>
+							<span>New password (optional)</span>
 							<input
 								type="password"
 								bind:value={editPassword}
@@ -189,9 +189,9 @@
 							/>
 						</label>
 						<div class="edit-actions">
-							<button type="button" on:click={cancelEdit}>Annulla</button>
+							<button type="button" on:click={cancelEdit}>Cancel</button>
 							<button type="submit" class="primary" disabled={saving}>
-								{saving ? 'Salvataggio…' : 'Salva'}
+								{saving ? 'Saving…' : 'Save'}
 							</button>
 						</div>
 					</form>
@@ -201,14 +201,14 @@
 						<span class="muted">{user.email}</span>
 					</div>
 					<div class="user-actions">
-						<button type="button" on:click={() => startEdit(user)}>Modifica</button>
+						<button type="button" on:click={() => startEdit(user)}>Edit</button>
 						<button
 							type="button"
 							class="danger"
 							disabled={busyId === user.id}
 							on:click={() => deleteUser(user)}
 						>
-							Elimina
+							Delete
 						</button>
 					</div>
 				{/if}

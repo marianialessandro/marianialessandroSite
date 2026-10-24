@@ -22,7 +22,7 @@
 			user = await fetchMe();
 			if (!user) await goto(resolve('/admin/login'));
 		} catch (error) {
-			authError = error instanceof Error ? error.message : 'Impossibile verificare la sessione.';
+			authError = error instanceof Error ? error.message : 'Could not verify your session.';
 		} finally {
 			checked = true;
 		}
@@ -35,7 +35,7 @@
 			await logout();
 			await goto(resolve('/admin/login'));
 		} catch (error) {
-			authError = error instanceof Error ? error.message : 'Disconnessione non riuscita.';
+			authError = error instanceof Error ? error.message : 'Sign-out failed.';
 		}
 	}
 
@@ -47,7 +47,7 @@
 {#if checked && authError}
 	<div class="admin-auth-error" role="alert">
 		<p>{authError}</p>
-		<button type="button" onclick={checkSession}>Riprova</button>
+		<button type="button" onclick={checkSession}>Try again</button>
 	</div>
 {:else if checked && user}
 	<div class="admin-shell">
@@ -59,7 +59,7 @@
 					<a class:active={isActive('/admin')} href={resolve('/admin')}>Post</a>
 					<a
 						class:active={isActive('/admin/posts/new')}
-						href={resolve('/admin/(protected)/posts/new')}>Nuovo post</a
+						href={resolve('/admin/(protected)/posts/new')}>New post</a
 					>
 					<a class:active={isActive('/admin/account')} href={resolve('/admin/(protected)/account')}
 						>Account</a
@@ -68,7 +68,7 @@
 
 				<div class="user-area">
 					<span class="user-name">{user.name}</span>
-					<button type="button" onclick={handleLogout}>Esci</button>
+					<button type="button" onclick={handleLogout}>Sign out</button>
 				</div>
 			</div>
 		</header>
@@ -80,7 +80,7 @@
 {:else if checked}
 	<!-- redirecting to login, render nothing -->
 {:else}
-	<div class="admin-loading">Verifica sessione…</div>
+	<div class="admin-loading">Checking your session…</div>
 {/if}
 
 <style>
