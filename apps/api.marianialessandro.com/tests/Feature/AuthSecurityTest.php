@@ -69,10 +69,10 @@ class AuthSecurityTest extends TestCase
 
         $nonAdmin
             ->assertUnprocessable()
-            ->assertJsonPath('errors.email.0', 'Le credenziali fornite non sono corrette.');
+            ->assertJsonPath('errors.email.0', 'The provided credentials are incorrect.');
         $unknown
             ->assertUnprocessable()
-            ->assertJsonPath('errors.email.0', 'Le credenziali fornite non sono corrette.');
+            ->assertJsonPath('errors.email.0', 'The provided credentials are incorrect.');
         $this->assertGuest('web');
     }
 

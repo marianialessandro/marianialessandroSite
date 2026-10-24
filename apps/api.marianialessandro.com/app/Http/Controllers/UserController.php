@@ -81,13 +81,13 @@ class UserController extends Controller
     {
         if (request()->user()->is($user)) {
             return response()->json([
-                'message' => 'Non puoi eliminare l’account con cui hai effettuato l’accesso.',
+                'message' => 'You cannot delete the account you are currently signed in with.',
             ], 422);
         }
 
         if ($user->is_admin && User::where('is_admin', true)->count() <= 1) {
             return response()->json([
-                'message' => 'Non puoi eliminare l’ultimo account amministratore.',
+                'message' => 'You cannot delete the last administrator account.',
             ], 422);
         }
 

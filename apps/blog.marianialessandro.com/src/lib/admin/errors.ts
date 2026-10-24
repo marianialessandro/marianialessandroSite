@@ -2,7 +2,7 @@
 export class ApiValidationError extends Error {
 	fieldErrors: Record<string, string>;
 
-	constructor(fieldErrors: Record<string, string>, message = 'Dati non validi.') {
+	constructor(fieldErrors: Record<string, string>, message = 'Invalid data.') {
 		super(message);
 		this.name = 'ApiValidationError';
 		this.fieldErrors = fieldErrors;
@@ -26,5 +26,5 @@ export async function throwIfError(res: Response): Promise<void> {
 		throw new ApiValidationError(fieldErrors, body.message);
 	}
 
-	throw new Error(body?.message ?? `Richiesta non riuscita (${res.status}).`);
+	throw new Error(body?.message ?? `Request failed (${res.status}).`);
 }

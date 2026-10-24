@@ -9,7 +9,7 @@ export async function uploadImage(file: File): Promise<string> {
 
 	if (!res.ok) {
 		const body = await res.json().catch(() => null);
-		throw new Error(body?.message ?? 'Caricamento immagine non riuscito.');
+		throw new Error(body?.message ?? 'Image upload failed.');
 	}
 
 	const body: { url: string } = await res.json();

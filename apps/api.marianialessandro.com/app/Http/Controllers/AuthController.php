@@ -34,7 +34,7 @@ class AuthController extends Controller
             || ! $user->is_admin
         ) {
             throw ValidationException::withMessages([
-                'email' => ['Le credenziali fornite non sono corrette.'],
+                'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 

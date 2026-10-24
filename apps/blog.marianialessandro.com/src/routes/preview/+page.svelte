@@ -22,17 +22,17 @@
 </script>
 
 <svelte:head>
-	<title>{draft ? `Anteprima: ${draft.title}` : 'Anteprima'}</title>
+	<title>{draft ? `Preview: ${draft.title}` : 'Preview'}</title>
 </svelte:head>
 
 {#if checked}
 	{#if draft}
-		<div class="preview-banner">Anteprima — non pubblicato</div>
+		<div class="preview-banner">Preview — unpublished</div>
 		<PostLayout contentHtml={renderMarkdown(draft.content)} meta={draft} />
 	{:else}
 		<div class="empty-state">
-			<p>Nessuna bozza da visualizzare.</p>
-			<p class="muted">Torna all'editor e clicca "Anteprima" per vedere qui il post.</p>
+			<p>No draft to preview.</p>
+			<p class="muted">Return to the editor and click "Preview" to see the post here.</p>
 		</div>
 	{/if}
 {/if}

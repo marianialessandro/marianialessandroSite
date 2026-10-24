@@ -30,7 +30,7 @@ function readCookie(name: string): string | null {
 }
 
 async function ensureCsrfCookie(force = false): Promise<void> {
-	if (!browser) throw new Error('Autenticazione disponibile solo nel browser.');
+	if (!browser) throw new Error('Authentication is only available in the browser.');
 	if (!force && readCookie('XSRF-TOKEN')) return;
 
 	if (!csrfRequest || force) {
@@ -42,7 +42,7 @@ async function ensureCsrfCookie(force = false): Promise<void> {
 				'X-Requested-With': 'XMLHttpRequest'
 			}
 		}).then((response) => {
-			if (!response.ok) throw new Error('Impossibile inizializzare la sessione sicura.');
+			if (!response.ok) throw new Error('Could not initialize a secure session.');
 		});
 	}
 
@@ -71,7 +71,7 @@ async function apiFetch(path: string, init: RequestInit = {}, retryCsrf = true):
 	if (!isReadRequest(method)) {
 		await ensureCsrfCookie();
 		const token = readCookie('XSRF-TOKEN');
-		if (!token) throw new Error('Token CSRF non disponibile.');
+		if (!token) throw new Error('CSRF token is unavailable.');
 		headers.set('X-XSRF-TOKEN', token);
 	}
 
@@ -100,7 +100,7 @@ export async function login(email: string, password: string): Promise<AuthUser> 
 	if (!response.ok) {
 		const message = body?.errors
 			? Object.values(body.errors).flat().join(' ')
-			: (body?.message ?? 'Accesso non riuscito.');
+			: (body?.message ?? 'Sign-in failed.');
 		throw new Error(message);
 	}
 
@@ -111,7 +111,7 @@ export async function logout(): Promise<void> {
 	const response = await apiFetch('/auth/logout', { method: 'POST' });
 
 	if (!response.ok && response.status !== 401) {
-		throw new Error('Disconnessione non riuscita. Riprova.');
+		throw new Error('Sign-out failed. Please try again.');
 	}
 }
 
@@ -119,7 +119,7 @@ export async function fetchMe(): Promise<AuthUser | null> {
 	const response = await apiFetch('/auth/me');
 
 	if (response.status === 401) return null;
-	if (!response.ok) throw new Error('Impossibile verificare la sessione.');
+	if (!response.ok) throw new Error('Could not verify your session.');
 
 	const body = await response.json();
 	return body.data;
