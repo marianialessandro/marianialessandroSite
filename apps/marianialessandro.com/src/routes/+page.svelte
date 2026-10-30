@@ -21,7 +21,6 @@
 		</a>
 		<nav class="nav" aria-label="Main navigation">
 			<a class="nav-link" href="#work">Work</a>
-			<a class="nav-link" href="#experience">Experience</a>
 			<a class="nav-link" href="#about">About</a>
 			<a class="nav-link" href="#contact">Contact</a>
 		</nav>
@@ -32,14 +31,12 @@
 	<div class="container">
 		<section class="hero" aria-labelledby="hero-title">
 			<div class="hero-copy">
-				<div class="eyebrow">
-					<span class="dot" aria-hidden="true"></span> Software Engineer · Based in Italy
-				</div>
 				<h1 id="hero-title">Hi, I'm <span>Alessandro Mariani.</span></h1>
 				<p class="hero-subhead">Software engineering, from products to algorithms.</p>
 				<p class="hero-description">
-					I work on full-stack applications, open-source software and algorithmic systems. I'm
-					currently pursuing an M.Sc. in Computer Science at the University of Pisa.
+					I'm a software engineer based in Italy, working on full-stack applications, open-source
+					software and algorithmic systems. I'm currently pursuing an M.Sc. in Computer Science at
+					the University of Pisa.
 				</p>
 				<div class="inline-links">
 					<a href="https://github.com/marianialessandro" target="_blank" rel="noopener noreferrer"
@@ -73,27 +70,24 @@
 		<section class="section" id="work" aria-labelledby="work-title">
 			<div class="section-header">
 				<div>
-					<span class="section-index">Selected work</span>
 					<h2 class="section-title" id="work-title">A few things I've built.</h2>
+					<p class="section-intro">
+						A selection of work across open source, product development and academic research.
+					</p>
 				</div>
-				<p class="section-intro">
-					A selection of work across open source, product development and academic research.
-				</p>
 			</div>
 
 			<article class="featured" aria-labelledby="sossoldi-title">
 				<div class="feature-content">
-					<span class="project-meta">Open source · Featured project</span>
+					<span class="project-meta">Open-source contributor</span>
 					<h3 id="sossoldi-title">Sossoldi</h3>
 					<p>
 						An open-source personal finance app built with Flutter. As a core contributor, I work on
 						product features, database design and user interfaces, helping develop a tool used by
 						more than 15,000 people.
 					</p>
-					<div class="pill-row" aria-label="Technologies">
-						<span class="pill">Flutter</span><span class="pill">Dart</span><span class="pill"
-							>Mobile</span
-						><span class="pill">Open source</span>
+					<div class="tech-list" aria-label="Technologies">
+						<span>Flutter</span><span>Dart</span>
 					</div>
 					<a
 						class="text-link"
@@ -145,18 +139,13 @@
 					<div class="card-content">
 						<span class="project-meta">Professional work</span>
 						<h3 id="ecom-title">E-commerce &amp; internal tools</h3>
+						<div class="project-context">Freelance software engineer · Feb 2024–Jan 2025</div>
 						<p>
-							Developed a custom content-management system, a lead-tracking dashboard and deployment
-							infrastructure for an online business.
+							Built a company landing page, a custom CMS and a lead-tracking dashboard for a premium
+							coffee and liquor e-commerce business. Configured the production environment and
+							managed deployment.
 						</p>
-						<div class="pill-row">
-							<span class="pill">Full stack</span><span class="pill">Next.js</span><span
-								class="pill">Deployment</span
-							>
-						</div>
-						<a href="#experience" class="text-link"
-							>Professional experience <span aria-hidden="true">↗</span></a
-						>
+						<div class="tech-list" aria-label="Technologies"><span>Next.js</span></div>
 					</div>
 				</article>
 
@@ -206,14 +195,14 @@
 					<div class="card-content">
 						<span class="project-meta">Research · B.Sc. thesis</span>
 						<h3 id="network-title">Carbon-aware networking</h3>
+						<div class="project-context">University of Pisa · Apr–Dec 2025</div>
 						<p>
-							Extended a declarative network-routing framework to minimize carbon emissions while
-							preserving strict latency and bandwidth constraints.
+							Developed Green dgLBF for carbon- and cost-aware network routing under latency and
+							bandwidth constraints. Compared heuristic and Branch and Bound strategies, evaluating
+							scalability, execution times, emissions and energy costs.
 						</p>
-						<div class="pill-row">
-							<span class="pill">Prolog</span><span class="pill">Networking</span><span class="pill"
-								>Optimization</span
-							>
+						<div class="tech-list" aria-label="Technologies">
+							<span>Prolog</span><span>Python</span>
 						</div>
 						<a
 							href="https://github.com/marianialessandro/green_dgLBF"
@@ -223,45 +212,6 @@
 						>
 					</div>
 				</article>
-			</div>
-		</section>
-
-		<section class="section experience-section" id="experience" aria-labelledby="experience-title">
-			<div class="split">
-				<div>
-					<span class="section-index">Experience</span>
-					<h2 class="section-title" id="experience-title">In practice,<br />not just theory.</h2>
-					<p class="section-intro">
-						Experience developing software for a real business, from implementation to production
-						deployment.
-					</p>
-				</div>
-				<div class="exp-timeline">
-					<article class="exp-item">
-						<div class="exp-item-top">
-							<div>
-								<h3 class="exp-position">Software Engineer · Full stack</h3>
-								<p class="exp-company">Premium coffee &amp; liquor e-commerce business</p>
-							</div>
-							<span class="exp-dates">Feb 2024 — Jan 2025</span>
-						</div>
-						<ul>
-							<li>Built a dynamic company landing page and custom CMS for content management.</li>
-							<li>
-								Implemented an administration dashboard for tracking and managing incoming leads.
-							</li>
-							<li>
-								Configured the production environment and managed deployment to the hosting
-								provider.
-							</li>
-						</ul>
-						<div class="pill-row exp-tags">
-							<span class="pill">Web applications</span><span class="pill"
-								>Full-stack development</span
-							><span class="pill">Production deployment</span>
-						</div>
-					</article>
-				</div>
 			</div>
 		</section>
 
@@ -332,7 +282,6 @@
 		<section class="section about-section" id="about" aria-labelledby="about-title">
 			<div class="about-wrap">
 				<div class="about-main">
-					<span class="section-index">About me</span>
 					<h2 class="section-title" id="about-title">Curious about<br />how things work.</h2>
 					<p>
 						My interests range from building software products to understanding the systems and
@@ -345,7 +294,6 @@
 					</p>
 				</div>
 				<div class="about-education">
-					<div class="education-title">Education / University of Pisa</div>
 					<div class="degree">
 						<div class="degree-bar"></div>
 						<div>
@@ -369,7 +317,6 @@
 		<section class="contact-section" id="contact" aria-labelledby="contact-title">
 			<div class="contact">
 				<div class="contact-copy">
-					<span class="section-index">Contact</span>
 					<h2 id="contact-title">Let's get in touch.</h2>
 					<p>
 						For software engineering opportunities or technical conversations, feel free to get in
@@ -391,7 +338,6 @@
 
 		<section class="cv-section" id="cv" aria-labelledby="cv-title">
 			<div>
-				<span class="section-index">Curriculum vitae</span>
 				<h2 id="cv-title">Download my CV.</h2>
 			</div>
 			<div class="cv-links" aria-label="CV downloads">
@@ -551,25 +497,6 @@
 		min-height: 616px;
 		padding-block: 82px 74px;
 	}
-	.eyebrow {
-		display: inline-flex;
-		align-items: center;
-		gap: 10px;
-		font-size: 11px;
-		line-height: 1.4;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		color: var(--accent);
-		font-weight: 800;
-	}
-	.dot {
-		width: 8px;
-		height: 8px;
-		flex: 0 0 auto;
-		border-radius: 100%;
-		background: #7d7d7d;
-		box-shadow: 0 0 0 5px #eaeaea;
-	}
 	h1,
 	h2,
 	h3,
@@ -628,11 +555,8 @@
 	.portrait {
 		position: relative;
 		overflow: hidden;
-		border-radius: 18px;
 		aspect-ratio: 0.94;
 		background: linear-gradient(143deg, #e2e2e2, #d1d1d1 45%, #b0b0b0);
-		border: 1px solid #d6d6d6;
-		box-shadow: 0 34px 55px -36px rgba(59, 59, 59, 0.3);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -673,15 +597,6 @@
 		gap: 32px;
 		margin-bottom: 36px;
 	}
-	.section-index {
-		display: block;
-		color: var(--accent);
-		text-transform: uppercase;
-		font-size: 11px;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		margin-bottom: 10px;
-	}
 	.section-title {
 		font-size: clamp(32px, 3.7vw, 49px);
 		line-height: 1.18;
@@ -693,6 +608,10 @@
 		color: var(--muted);
 		font-size: 14px;
 		line-height: 1.8;
+	}
+	#work .section-intro {
+		margin-top: 14px;
+		max-width: 650px;
 	}
 	.text-link {
 		font-size: 12px;
@@ -708,34 +627,31 @@
 	.text-link:hover {
 		gap: 13px;
 	}
-	.pill-row {
+	.tech-list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
+		gap: 4px 0;
+		color: #646464;
+		font-size: 12px;
+		font-weight: 400;
+		line-height: 1.6;
 	}
-	.pill {
-		background: rgba(255, 255, 255, 0.75);
-		color: #535353;
-		border: 1px solid rgba(93, 93, 93, 0.12);
-		padding: 6px 10px;
-		font-size: 10px;
-		font-weight: 700;
-		border-radius: 7px;
-		white-space: nowrap;
+	.tech-list span + span::before {
+		content: '·';
+		margin-inline: 8px;
 	}
 
 	/* Featured work */
 	.featured {
 		display: grid;
-		grid-template-columns: 1.03fr 0.97fr;
-		min-height: 417px;
-		border-radius: var(--radius);
+		grid-template-columns: 1fr 1fr;
+		gap: 48px;
+		min-height: 360px;
+		align-items: center;
 		overflow: hidden;
-		background: #e8e8e8;
-		border: 1px solid #e0e0e0;
 	}
 	.feature-content {
-		padding: 43px 43px 41px 45px;
+		padding: 24px 0;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -761,14 +677,14 @@
 		font-size: 14px;
 		line-height: 1.85;
 	}
-	.feature-content .pill-row {
+	.feature-content .tech-list {
 		margin-top: 23px;
 	}
 	.feature-content .text-link {
-		margin-top: auto;
-		padding-top: 30px;
+		margin-top: 28px;
 	}
 	.feature-visual {
+		min-height: 360px;
 		position: relative;
 		min-width: 0;
 		overflow: hidden;
@@ -785,29 +701,29 @@
 
 	.project-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 20px;
-		margin-top: 20px;
+		grid-template-columns: 1fr;
+		gap: 80px;
+		margin-top: 80px;
 	}
 	.project-card {
-		border: 1px solid var(--line);
-		border-radius: var(--radius);
-		overflow: hidden;
-		background: #ffffff;
 		min-width: 0;
-		display: flex;
-		flex-direction: column;
-		transition:
-			transform 0.2s,
-			box-shadow 0.2s;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 48px;
+		align-items: center;
+		min-height: 360px;
 	}
-	.project-card:hover {
-		transform: translateY(-3px);
-		box-shadow: var(--shadow);
+	.project-card:nth-child(even) .project-illustration {
+		grid-column: 2;
+		grid-row: 1;
+	}
+	.project-card:nth-child(even) .card-content {
+		grid-column: 1;
+		grid-row: 1;
 	}
 	.project-illustration {
-		min-height: 225px;
-		height: 225px;
+		min-height: 360px;
+		height: 360px;
 		overflow: hidden;
 		position: relative;
 		display: grid;
@@ -937,7 +853,7 @@
 		overflow: visible;
 	}
 	.card-content {
-		padding: 28px 30px 27px;
+		padding: 24px 0;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
@@ -945,80 +861,28 @@
 	}
 	.card-content h3 {
 		font-weight: 760;
-		font-size: 23px;
+		font-size: 39px;
 		letter-spacing: -0.05em;
 		line-height: 1.23;
 		margin: 12px 0 10px;
 	}
 	.card-content p {
-		font-size: 13px;
+		font-size: 14px;
 		color: var(--muted);
 		line-height: 1.8;
 		margin-bottom: 21px;
 	}
-	.card-content .pill-row {
-		margin-top: auto;
+	.project-context {
+		color: var(--muted);
+		font-size: 12px;
+		line-height: 1.7;
+		margin-bottom: 14px;
+	}
+	.card-content .tech-list {
+		margin-top: 2px;
 	}
 	.card-content .text-link {
 		margin-top: 24px;
-	}
-
-	/* Experience */
-	.experience-section {
-		padding-top: 115px;
-	}
-	.split {
-		display: grid;
-		grid-template-columns: 0.65fr 1.35fr;
-		gap: 80px;
-	}
-	.split .section-intro {
-		margin-top: 18px;
-	}
-	.exp-timeline {
-		border-top: 1px solid var(--line);
-	}
-	.exp-item {
-		padding-block: 29px;
-		border-bottom: 1px solid var(--line);
-	}
-	.exp-item-top {
-		display: flex;
-		justify-content: space-between;
-		align-items: start;
-		gap: 20px;
-	}
-	.exp-position {
-		font-size: 21px;
-		font-weight: 770;
-		letter-spacing: -0.04em;
-		line-height: 1.35;
-	}
-	.exp-company {
-		margin-top: 5px;
-		font-size: 13px;
-		color: var(--muted);
-	}
-	.exp-dates {
-		color: var(--muted);
-		font-size: 11px;
-		font-weight: 740;
-		white-space: nowrap;
-		padding-top: 5px;
-	}
-	.exp-item ul {
-		padding-left: 19px;
-		margin: 24px 0 0;
-		font-size: 13px;
-		line-height: 1.95;
-		color: #626262;
-	}
-	.exp-item li {
-		padding-left: 4px;
-		margin-bottom: 7px;
-	}
-	.exp-tags {
-		margin-top: 22px;
 	}
 
 	/* More projects. Restore these styles when enabling the section.
@@ -1076,16 +940,15 @@
 		padding-top: 113px;
 	}
 	.about-wrap {
-		background: #ededed;
-		border: 1px solid #e4e4e4;
-		border-radius: var(--radius);
 		display: grid;
 		grid-template-columns: 1.08fr 0.92fr;
-		gap: 0;
+		gap: 64px;
+		padding-top: 48px;
+		border-top: 1px solid var(--line);
 		overflow: hidden;
 	}
 	.about-main {
-		padding: 49px 51px 53px;
+		padding: 0;
 	}
 	.about-main h2 {
 		margin-bottom: 21px;
@@ -1098,17 +961,10 @@
 		max-width: 540px;
 	}
 	.about-education {
-		background: #e6e6e6;
-		padding: 47px 40px 43px;
-		border-left: 1px solid #dddddd;
-	}
-	.education-title {
-		text-transform: uppercase;
-		letter-spacing: 0.14em;
-		font-size: 10px;
-		font-weight: 810;
-		color: var(--accent);
-		margin-bottom: 25px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 0;
 	}
 	.degree {
 		display: flex;
@@ -1231,11 +1087,11 @@
 	}
 	footer {
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
+		text-align: center;
 		gap: 20px;
 		padding-block: 25px 36px;
-		border-top: 1px solid var(--line);
 		color: var(--quiet);
 		font-size: 11px;
 	}
@@ -1254,10 +1110,7 @@
 			font-size: clamp(50px, 5.7vw, 66px);
 		}
 		.feature-content {
-			padding: 39px 35px;
-		}
-		.split {
-			gap: 48px;
+			padding: 24px 0;
 		}
 	}
 	@media (max-width: 760px) {
@@ -1282,7 +1135,6 @@
 		.nav-link {
 			font-size: 12px;
 		}
-		.nav a[href='#experience'],
 		.nav a[href='#about'] {
 			display: none;
 		}
@@ -1318,11 +1170,13 @@
 			gap: 17px;
 			margin-bottom: 28px;
 		}
-		.featured {
+		.featured,
+		.project-card {
 			grid-template-columns: 1fr;
+			gap: 28px;
 		}
 		.feature-content {
-			min-height: 300px;
+			min-height: unset;
 		}
 		.feature-content .text-link {
 			margin-top: 15px;
@@ -1332,35 +1186,33 @@
 		}
 
 		.project-grid {
-			gap: 16px;
+			gap: 56px;
+			margin-top: 56px;
 		}
 		.project-illustration {
-			height: 175px;
-			min-height: 175px;
+			height: 290px;
+			min-height: 290px;
+		}
+		.project-card:nth-child(even) .project-illustration,
+		.project-card:nth-child(even) .card-content {
+			grid-column: auto;
+			grid-row: auto;
 		}
 		.card-content {
-			padding: 24px;
+			padding: 0;
 		}
 		.card-content h3 {
-			font-size: 20px;
-		}
-		.split {
-			grid-template-columns: 1fr;
-			gap: 30px;
-		}
-		.exp-item {
-			padding-top: 21px;
+			font-size: 34px;
 		}
 		.about-wrap {
 			grid-template-columns: 1fr;
+			gap: 36px;
 		}
 		.about-main {
-			padding: 38px 33px;
+			padding: 0;
 		}
 		.about-education {
-			padding: 34px 33px;
-			border-left: 0;
-			border-top: 1px solid #dddddd;
+			padding: 0;
 		}
 		.contact {
 			align-items: start;
@@ -1414,7 +1266,7 @@
 			font-size: 34px;
 		}
 		.feature-content {
-			padding: 32px 27px;
+			padding: 0;
 		}
 		.feature-visual {
 			min-height: 255px;
@@ -1428,14 +1280,7 @@
 			min-height: 205px;
 		}
 		.card-content h3 {
-			font-size: 22px;
-		}
-		.exp-item-top {
-			flex-direction: column;
-			gap: 8px;
-		}
-		.exp-dates {
-			padding: 0;
+			font-size: 34px;
 		}
 		/*
 		.other-item summary {
@@ -1469,7 +1314,7 @@
 		*/
 		.about-main,
 		.about-education {
-			padding-inline: 27px;
+			padding-inline: 0;
 		}
 		.contact {
 			padding-block: 38px 46px;
@@ -1486,7 +1331,7 @@
 		}
 		footer {
 			flex-direction: column;
-			align-items: start;
+			align-items: center;
 			gap: 8px;
 		}
 	}
