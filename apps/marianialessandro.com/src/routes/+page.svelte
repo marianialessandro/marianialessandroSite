@@ -1130,12 +1130,6 @@
 			font-size: 13px;
 		}
 		.nav {
-			gap: 15px;
-		}
-		.nav-link {
-			font-size: 12px;
-		}
-		.nav a[href='#about'] {
 			display: none;
 		}
 		.hero {
@@ -1182,6 +1176,7 @@
 			margin-top: 15px;
 		}
 		.feature-visual {
+			grid-row: 1;
 			min-height: 290px;
 		}
 
